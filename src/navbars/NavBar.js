@@ -10,7 +10,7 @@ const NavBar = () => {
     <>
       <Box
         className="nav-bar"
-        bgcolor="#111111"
+        bgcolor="#222222"
         width="100%"
         height="8vh"
         position="fixed"
