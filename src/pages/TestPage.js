@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { css } from "@emotion/react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useMediaQuery } from "@mui/material";
-import { BREAKPOINT } from "../constants";
+import { BACKEND_URL, BREAKPOINT } from "../constants";
 import { useTestContext } from "../contexts/TestContext";
 import { useForm } from "react-hook-form";
 import { Box } from "@mui/material";
@@ -11,6 +11,7 @@ import { Box } from "@mui/material";
 const TestPage = (props) => {
   // useState always right at the top
   const [someState, setSomeState] = useState("state");
+  const [cssState, setCssState] = useState("yellow");
 
   // destructure props next, if any
   const {} = props;
@@ -67,7 +68,7 @@ const TestPage = (props) => {
         className="hover-after-before-css-test"
         color="black"
         css={css`
-          --custom-color: red;
+          --custom-color: ${cssState};
           :hover {
             color: var(--custom-color);
           }
@@ -89,7 +90,7 @@ const TestPage = (props) => {
       >
         Can also do custom CSS variables with css prop
       </Box>
-      <Box className="image-container" width="100px">
+      <Box className="image-container" width="500px">
         <img src="https://picsum.photos/200/300" alt="picsum" width="100%" />
       </Box>
     </Box>

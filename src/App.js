@@ -8,8 +8,8 @@ const App = () => {
   return (
     <BrowserRouter>
       <TestContextProvider>
-        <NavBar />
         <Router />
+        <NavBar />
       </TestContextProvider>
     </BrowserRouter>
   );

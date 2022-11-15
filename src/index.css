@@ -7,6 +7,8 @@
 * {
   margin: 0;
   padding: 0;
+  color: white;
+  font-family: "Roboto", "GFS Didot", serif;
 }
 
 body {
@@ -17,6 +19,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
+  background-color: #313131;
   /* background-image: url("enter bg img path");
   background-repeat: no-repeat;
   background-size: cover;
@@ -32,8 +35,3 @@ img {
   body {
     background-image: url("enter bg img path");
   } */
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
-}
