@@ -5,7 +5,6 @@ import { css } from "@emotion/react";
 import AnimatedWords from "../components/AnimatedWords";
 
 const LandingPage = () => {
-  //testing
   return (
     <Box
       width="100%"
