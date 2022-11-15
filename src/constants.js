@@ -1,6 +1,9 @@
 import { Box, createTheme } from "@mui/material";
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
+import PersonIcon from "@mui/icons-material/Person";
+import HomeIcon from "@mui/icons-material/Home";
+import MenuPopover from "./components/MenuPopover";
 
 /* eslint-disable default-case */
 const backendURL = (devEnv) => {
@@ -29,9 +32,16 @@ export const BREAKPOINT = createTheme({
 
 // for nav bar
 export const NAV_ITEMS = [
-  { name: "test", path: "/test" },
-  { name: "test1", path: "/test1" },
-  { name: "test2", path: "/test2" },
+  { name: "menu", icon: <MenuPopover />, path: "/test" },
+  { name: "home", icon: <HomeIcon />, path: "/home" },
+  { name: "account", icon: <PersonIcon />, path: "/account" },
+];
+
+// for menu popover
+export const POPOVER_ITEMS = [
+  { name: "something1" },
+  { name: "something2" },
+  { name: "something3" },
 ];
 
 // for image upload preview
