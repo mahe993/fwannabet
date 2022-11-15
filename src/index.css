@@ -1,0 +1,39 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  /* background-image: url("enter bg img path");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center; */
+}
+
+/* https://www.w3schools.com/css/css3_object-fit.asp */
+img {
+  object-fit: contain;
+}
+
+/* @media only screen and (max-width: "enter breakpoint") {
+  body {
+    background-image: url("enter bg img path");
+  } */
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
