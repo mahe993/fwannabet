@@ -15,7 +15,7 @@ const LandingPage = () => {
       alignItems="center"
     >
       <Box
-        fontSize={24}
+        fontSize={34}
         fontWeight="bold"
         css={css`
           font-family: "Courgette", cursive;
