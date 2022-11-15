@@ -5,6 +5,7 @@ import { css } from "@emotion/react";
 import AnimatedWords from "../components/AnimatedWords";
 
 const LandingPage = () => {
+  //testing
   return (
     <Box
       width="100%"
@@ -15,7 +16,7 @@ const LandingPage = () => {
       alignItems="center"
     >
       <Box
-        fontSize={24}
+        fontSize={34}
         fontWeight="bold"
         css={css`
           font-family: "Courgette", cursive;
