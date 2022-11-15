@@ -1,8 +1,7 @@
 import { Box } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { NAV_ITEMS } from "../constants";
-import Popover from "@mui/material/Popover";
 
 const NavBar = () => {
   const navigate = useNavigate();
@@ -11,7 +10,7 @@ const NavBar = () => {
     <>
       <Box
         className="nav-bar"
-        bgcolor="#111111"
+        bgcolor="#222222"
         width="100%"
         height="8vh"
         position="fixed"
