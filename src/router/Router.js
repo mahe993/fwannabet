@@ -5,14 +5,18 @@ import LandingPage from "../pages/LandingPage";
 import TestPage from "../pages/TestPage";
 import HomePage from "../pages/HomePage";
 import AccountPage from "../pages/AccountPage";
+import ProtectedRoute from "./ProtectedRoute";
 
 const Router = () => {
   // All routes to be siblings. No child routes unless neccessary to prevent unneccessary use of <Outlet />
   return (
     <Routes>
       <Route path="/" element=<LandingPage /> />
-      <Route path="/home" element=<HomePage /> />
-      <Route path="/account" element=<AccountPage /> />
+      <Route path="/home" element=<ProtectedRoute component={HomePage} /> />
+      <Route
+        path="/account"
+        element=<ProtectedRoute component={AccountPage} />
+      />
 
       <Route path="/test" element=<TestPage /> />
       <Route

@@ -7,10 +7,12 @@ import { Box } from "@mui/material";
 
 const AnimatedWords = () => {
   return (
-    <Box display="flex" flexWrap="wrap">
+    <Box>
       <AnimateWords
         color="yellow"
         fontSize={20}
+        bottom="37%"
+        left="5%"
         css={css`
           animation: ${fade} 3s steps(50, jump-both) infinite;
         `}
@@ -20,6 +22,8 @@ const AnimatedWords = () => {
       <AnimateWords
         color="red"
         fontSize={50}
+        top="30%"
+        left="5%"
         css={css`
           animation: ${fade1} 2.5s steps(50, jump-both) infinite alternate;
         `}
@@ -29,6 +33,8 @@ const AnimatedWords = () => {
       <AnimateWords
         color="teal"
         fontSize={20}
+        left="45%"
+        top="46%"
         css={css`
           animation: ${fade2} 2s steps(50, jump-both) infinite;
         `}
@@ -38,6 +44,8 @@ const AnimatedWords = () => {
       <AnimateWords
         color="darkolivegreen"
         fontSize={22}
+        right="10%"
+        top="35%"
         css={css`
           animation: ${fade3} 4s steps(80, jump-both) infinite;
         `}
@@ -47,9 +55,9 @@ const AnimatedWords = () => {
       <AnimateWords
         color="pink"
         fontSize={15}
+        right="10%"
         css={css`
-          transform: translate(15px, -50px) rotate(-30deg);
-          animation: ${fade4} 3s steps(50, jump-both) infinite;
+          animation: ${fade4} 3s steps(60, jump-both) infinite;
         `}
       >
         Rain at 1pm!!
@@ -62,19 +70,19 @@ export default AnimatedWords;
 
 const fade = keyframes`
 0% {
-  transform: scale(.75) translate(40px, -55px) rotate(45deg);
+  transform: scale(.75)  translate(10%, 20%) rotate(45deg);
   opacity: .3;
 }
 
 100%{
-  transform: scale(1) translate(40px, -55px) rotate(45deg);
+  transform: scale(1)  translate(25%, 0%) rotate(45deg);
   opacity: 0;
 }
 `;
 
 const fade1 = keyframes`
 0% {
-  transform: scale(.95) translate(-10px, -250px) rotate(-30deg);
+  transform: scale(.95) translate(-10%, 0%) rotate(-30deg);
   opacity: 0;
 }
 
@@ -87,48 +95,49 @@ const fade1 = keyframes`
 }
 
 100%{
-  transform: scale(1) translate(-10px, -250px) rotate(-30deg);
+  transform: scale(1) translate(0%, 10%) rotate(-30deg);
   opacity: .15;
 }
 `;
 
 const fade2 = keyframes`
 0% {
-  transform: scale(.95) translate(-65px, -140px) rotate(-5deg);
+  transform: scale(.95) translate(-35%, 0%) rotate(-5deg);
   opacity: .5;
 }
 
 100%{
-  transform: scale(1) translate(-70px, -140px) rotate(-5deg);
+  transform: scale(1) translate(-40%, 10%) rotate(-5deg);
   opacity: 0;
 }
 `;
 
 const fade3 = keyframes`
 0% {
-  transform: scale(.8) translate(170px, -350px) rotate(30deg);
+  transform: scale(.8) translate(15%, -35%) rotate(30deg);
   opacity: .5;
 }
 
 100%{
-  transform: scale(1) translate(170px, -300px) rotate(0deg);
+  transform: scale(1) translate(15%, -30%) rotate(0deg);
   opacity: 0;
 }
 `;
 
 const fade4 = keyframes`
 0% {
-  transform: scale(.9) translate(60px, -120px) rotate(-40deg);
+  transform: scale(.9) translate(10%, -190%) rotate(-40deg);
   opacity: .3;
 }
 
 100%{
-  transform: scale(1) translate(80px, -130px) rotate(-10deg);
+  transform: scale(1) translate(20%, -200%) rotate(-20deg);
   opacity: 0;
 }
 `;
 
 const AnimateWords = styled(Box)`
+  position: absolute;
   z-index: -1;
   font-weight: bold;
   width: min-content;
