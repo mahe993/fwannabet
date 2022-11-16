@@ -12,11 +12,8 @@ const Router = () => {
   return (
     <Routes>
       <Route path="/" element=<LandingPage /> />
-      <Route path="/home" element=<ProtectedRoute component={HomePage} /> />
-      <Route
-        path="/account"
-        element=<ProtectedRoute component={AccountPage} />
-      />
+      <Route path="/home" element=<HomePage /> />
+      <Route path="/account" element=<AccountPage /> />
 
       <Route path="/test" element=<TestPage /> />
       <Route
