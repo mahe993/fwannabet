@@ -2,6 +2,8 @@ import { Box } from "@mui/material";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { NAV_ITEMS } from "../constants";
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
 
 const NavBar = () => {
   const navigate = useNavigate();
@@ -32,6 +34,9 @@ const NavBar = () => {
                     }
                   : null
               }
+              css={css`
+                cursor: pointer;
+              `}
             >
               {item.icon}
             </Box>
