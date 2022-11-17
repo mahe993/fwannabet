@@ -3,8 +3,11 @@ import { Box, Button } from "@mui/material";
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import AnimatedWords from "../components/AnimatedWords";
+import { useNavigate } from "react-router-dom";
 
 const LandingPage = () => {
+  const navigate = useNavigate();
+
   return (
     <Box
       width="100%"
@@ -19,6 +22,8 @@ const LandingPage = () => {
         fontWeight="bold"
         css={css`
           font-family: "Courgette", cursive;
+          transform: translateX(7.5%);
+          text-shadow: -10px 5px 10px black;
         `}
       >
         WannaBet™
@@ -41,7 +46,7 @@ const LandingPage = () => {
             variant="contained"
             sx={{ height: "30px" }}
             onClick={() => {
-              console.log("auth0 login");
+              navigate("/home");
             }}
           >
             ENTER
