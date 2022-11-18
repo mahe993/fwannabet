@@ -5,6 +5,9 @@ import PersonIcon from "@mui/icons-material/Person";
 import HomeIcon from "@mui/icons-material/Home";
 import MenuPopover from "./components/MenuPopover";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
+import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
+import PeopleIcon from "@mui/icons-material/People";
+import CreateBetPopover from "./components/CreateBetPopover";
 
 /* eslint-disable default-case */
 const backendURL = (devEnv) => {
@@ -34,7 +37,9 @@ export const BREAKPOINT = createTheme({
 // for nav bar
 export const NAV_ITEMS = [
   { name: "home", icon: <HomeIcon />, path: "/home" },
-  { name: "addBet", icon: <AddCircleIcon />, path: "/bet" },
+  { name: "friends", icon: <PeopleIcon />, path: "/friends" },
+  { name: "addBet", icon: <CreateBetPopover />, path: "/test" },
+  { name: "wallet", icon: <MonetizationOnIcon />, path: "/wallet" },
   { name: "account", icon: <MenuPopover />, path: "/test" },
 ];
 
