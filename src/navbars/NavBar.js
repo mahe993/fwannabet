@@ -32,7 +32,7 @@ const NavBar = () => {
               <Box
                 key={item.name}
                 onClick={
-                  item.name !== "account" && item.name !== "addBet"
+                  item.name !== "menu" && item.name !== "addBet"
                     ? () => {
                         navigate(item.path);
                       }
