@@ -1,4 +1,3 @@
-import FormLabel from "./FormLabel";
 import { Box } from "@mui/system";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -29,9 +28,9 @@ const CreateBetForms = () => {
           color="warning"
           // sx={{ color: "white" }}
         />
-        <div className="validation-error">{errors.value1?.message}</div>
+        <Box className="validation-error">{errors.value1?.message}</Box>
         <TextField
-          {...register("value1", {})}
+          {...register("value2", {})}
           label="Label2"
           variant="outlined"
           margin="normal"
@@ -39,7 +38,7 @@ const CreateBetForms = () => {
           color="warning"
           // sx={{ color: "white" }}
         />
-        <div className="validation-error">{errors.value2?.message}</div>
+        <Box className="validation-error">{errors.value2?.message}</Box>
         <Button variant="contained" type="submit" disabled={!isValid}>
           Save
         </Button>

@@ -6,16 +6,16 @@ import CloseIcon from "@mui/icons-material/Close";
 import CreateBetForms from "../components/CreateBetForms";
 
 const CreateBetPage = (props) => {
+  const { setOpenBetDialog } = props;
   return (
-    <Box textAlign="right">
+    <Box backgroundColor="#313131" textAlign="right">
       <CloseIcon
         onClick={() => {
-          props.setOpen(null);
+          setOpenBetDialog(false);
         }}
       />
       <Box
         color="white"
-        backgroundColor="#313131"
         display="flex"
         flexDirection="column"
         alignItems="center"
@@ -27,9 +27,7 @@ const CreateBetPage = (props) => {
         {/* <Box className="date-time-row" width="95vw">
           <DateAndTime />
         </Box> */}
-        <Box
-          color="orange" // orange to indicate TBD. remove when you start developing
-        >
+        <Box>
           <CreateBetForms />
         </Box>
       </Box>
