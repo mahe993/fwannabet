@@ -12,6 +12,7 @@ const NavBar = () => {
 
   return (
     <>
+      {/* To change to "isAuthenticated" once Auth0 is done */}
       {!isAuthenticated && (
         <Box
           className="nav-bar"
@@ -31,7 +32,7 @@ const NavBar = () => {
               <Box
                 key={item.name}
                 onClick={
-                  item.name !== "account"
+                  item.name !== "account" && item.name !== "addBet"
                     ? () => {
                         navigate(item.path);
                       }
