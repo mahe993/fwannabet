@@ -8,6 +8,7 @@ import AccountPage from "../pages/AccountPage";
 import ProtectedRoute from "./ProtectedRoute";
 import FriendsPage from "../pages/FriendsPage";
 import CreateBetPage from "../pages/CreateBetPage";
+import WalletPage from "../pages/WalletPage";
 
 const Router = () => {
   // All routes to be siblings. No child routes unless neccessary to prevent unneccessary use of <Outlet />
@@ -16,6 +17,7 @@ const Router = () => {
       <Route path="/" element=<LandingPage /> />
       <Route path="/home" element=<HomePage /> />
       <Route path="/account" element=<AccountPage /> />
+      <Route path="/wallet" element=<WalletPage /> />
       <Route path="/friends" element=<FriendsPage /> />
       <Route path="/createbet" element=<CreateBetPage /> />
 
