@@ -17,7 +17,7 @@ const Router = () => {
       <Route path="/home" element=<HomePage /> />
       <Route path="/account" element=<AccountPage /> />
       <Route path="/friends" element=<FriendsPage /> />
-      <Route path="/bet" element=<CreateBetPage /> />
+      <Route path="/createbet" element=<CreateBetPage /> />
 
       <Route path="/test" element=<TestPage /> />
       <Route

@@ -35,7 +35,7 @@ export const BREAKPOINT = createTheme({
 export const NAV_ITEMS = [
   { name: "home", icon: <HomeIcon />, path: "/home" },
   { name: "addBet", icon: <AddCircleIcon />, path: "/bet" },
-  { name: "account", icon: <MenuPopover />, path: "/test" },
+  { name: "menu", icon: <MenuPopover />, path: "/test" },
 ];
 
 // for menu popover

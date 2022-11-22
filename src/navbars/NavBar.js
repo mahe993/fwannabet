@@ -31,7 +31,7 @@ const NavBar = () => {
               <Box
                 key={item.name}
                 onClick={
-                  item.name !== "account"
+                  item.name !== "menu"
                     ? () => {
                         navigate(item.path);
                       }
