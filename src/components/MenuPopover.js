@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import PersonIcon from "@mui/icons-material/Person";
+import MenuIcon from "@mui/icons-material/Menu";
 import { Box, Popover } from "@mui/material";
 import { POPOVER_ITEMS } from "../constants";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -15,7 +15,7 @@ const MenuPopover = () => {
 
   return (
     <>
-      <PersonIcon onClick={(e) => setPopoverAnchor(e.currentTarget)} />
+      <MenuIcon onClick={(e) => setPopoverAnchor(e.currentTarget)} />
       <Popover
         open={!!popoverAnchor}
         anchorEl={popoverAnchor}
