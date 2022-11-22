@@ -2,34 +2,18 @@ import { Box } from "@mui/material";
 import React from "react";
 import DateAndTime from "../components/DateAndTime";
 import PageHeader from "../components/PageHeader";
-import CloseIcon from "@mui/icons-material/Close";
-import CreateBetForms from "../components/CreateBetForms";
 
 const CreateBetPage = () => {
-  //revert
   return (
-    <Box backgroundColor="#313131" textAlign="right">
-      <CloseIcon
-        onClick={() => {
-          setOpenBetDialog(false);
-        }}
-      />
+    <Box display="flex" flexDirection="column" alignItems="center" gap={2}>
+      <PageHeader header="Create" />
+      <Box className="date-time-row" width="95vw">
+        <DateAndTime />
+      </Box>
       <Box
-        color="white"
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        gap={2}
-        width="80vw"
-        height="75vh"
+        color="orange" // orange to indicate TBD. remove when you start developing
       >
-        <PageHeader header="Create Bet" />
-        {/* <Box className="date-time-row" width="95vw">
-          <DateAndTime />
-        </Box> */}
-        <Box>
-          <CreateBetForms />
-        </Box>
+        Insert ultra complicated CreateBetForm here
       </Box>
     </Box>
   );
