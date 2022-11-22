@@ -5,8 +5,8 @@ import PageHeader from "../components/PageHeader";
 import CloseIcon from "@mui/icons-material/Close";
 import CreateBetForms from "../components/CreateBetForms";
 
-const CreateBetPage = (props) => {
-  const { setOpenBetDialog } = props;
+const CreateBetPage = () => {
+  //revert
   return (
     <Box backgroundColor="#313131" textAlign="right">
       <CloseIcon
