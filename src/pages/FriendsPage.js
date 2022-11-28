@@ -33,6 +33,7 @@ const FriendsPage = () => {
         ) : (
           <FriendsList />
         )}
+        <FriendCard />
       </Box>
     </Box>
   );
