@@ -6,6 +6,7 @@ const FriendsList = () => {
   const [data, setData] = useState([]);
 
   //on mount axios get all your friends and set to data
+  // API Call: getFriends
 
   return (
     <Box display="flex" flexDirection="column" alignItems="center" gap={1}>
@@ -28,7 +29,7 @@ const FriendsList = () => {
       <Box
         color="orange" // orange to indicate TBD. remove when you start developing
       >
-        Insert Pending friend acceptance users
+        Insert pending friend acceptance users
         {data?.pending?.map((user) => (
           <FriendCard user={user} />
         ))}
