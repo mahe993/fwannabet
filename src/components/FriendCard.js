@@ -5,6 +5,40 @@ import { Button } from "@mui/material";
 const FriendCard = (props) => {
   const { user } = props;
 
+  // 2 different status - pending, accepted
+  // Pending can be pending acceptance or inviting
+
+  //for testing
+  const status = "accepted";
+
+  const ReflectStatus = (status) => {
+    if (status === "pending") {
+      return (
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Box
+            component="button"
+            color="black"
+            sx={{ bgcolor: "green", mt: 1, p: 0.5 }}
+          >
+            Accept Friend Request
+          </Box>
+          <Box component="button" sx={{ bgcolor: "red", mt: 1, ml: 1, p: 0.5 }}>
+            Decline
+          </Box>
+        </Box>
+      );
+    } else if (status === "accepted") {
+      return (
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Box component="typography">We're friends!</Box>
+          <Box component="button" sx={{ bgcolor: "red", mt: 1, ml: 1, p: 0.5 }}>
+            Unfriend
+          </Box>
+        </Box>
+      );
+    }
+  };
+
   return (
     <Box
       color="orange" // orange to indicate TBD. remove when you start developing
@@ -22,18 +56,7 @@ const FriendCard = (props) => {
       </Box>
       <Box sx={{ m: 1 }}>
         <Box component="typography">Name: John Doe</Box>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Box
-            component="button"
-            color="black"
-            sx={{ bgcolor: "green", mt: 1, p: 0.5 }}
-          >
-            Accept Friend Request
-          </Box>
-          <Box component="button" sx={{ bgcolor: "red", mt: 1, ml: 1, p: 0.5 }}>
-            Decline
-          </Box>
-        </Box>
+        {ReflectStatus(status)}
       </Box>
     </Box>
   );
