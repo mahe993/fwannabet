@@ -6,7 +6,8 @@ const FriendsList = () => {
   const [data, setData] = useState([]);
 
   //on mount axios get all your friends and set to data
-  // API Call: getFriends
+  // API Call: data = {invites: [{id, name, status: invited}], pendingAccept: [{id, name, status: pending}], approved: [{id, name, status: approved}]}
+
 
   return (
     <Box display="flex" flexDirection="column" alignItems="center" gap={1}>
