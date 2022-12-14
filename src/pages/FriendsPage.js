@@ -62,7 +62,7 @@ const FriendsPage = () => {
         ) : (
           <FriendsList />
         )}
-        {/* <FriendCard /> */}
+        <FriendCard />
       </Box>
     </Box>
   );

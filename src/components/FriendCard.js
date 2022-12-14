@@ -4,63 +4,55 @@ import { Button } from "@mui/material";
 
 const FriendCard = (props) => {
   const { user } = props;
-  const name = user.name;
-  const status = user.status;
+  // const name = user.name;
+  // const status = user.status;
+  const status = "pending";
 
-  //for testing
-  const status = "accepted";
-
-  const friendRequestButtons = (
-    <Box sx={{ display: "flex", alignItems: "center" }}>
-      <Box
-        component="button"
-        color="black"
-        sx={{ bgcolor: "green", mt: 1, p: 0.5 }}
-      >
-        Accept Friend Request
+  const FriendRequestButtons = () => {
+    return (
+      <Box sx={{ display: "flex", alignItems: "center" }}>
+        <Box
+          component="button"
+          color="black"
+          sx={{ bgcolor: "green", mt: 1, p: 0.5 }}
+        >
+          Accept Friend Request
+        </Box>
+        <Box component="button" sx={{ bgcolor: "red", mt: 1, ml: 1, p: 0.5 }}>
+          Decline
+        </Box>
       </Box>
-      <Box component="button" sx={{ bgcolor: "red", mt: 1, ml: 1, p: 0.5 }}>
-        Decline
-      </Box>
-    </Box>
-  );
+    );
+  };
 
-  const unfriendButton = (
-    <Box sx={{ display: "flex", alignItems: "center" }}>
-      <Box component="typography">We're friends!</Box>
-      <Box component="button" sx={{ bgcolor: "red", mt: 1, ml: 1, p: 0.5 }}>
-        Unfriend
+  const UnfriendButton = () => {
+    return (
+      <Box sx={{ display: "flex", alignItems: "center" }}>
+        <Box component="typography">We're friends!</Box>
+        <Box component="button" sx={{ bgcolor: "red", mt: 1, ml: 1, p: 0.5 }}>
+          Unfriend
+        </Box>
       </Box>
-    </Box>
-  );
+    );
+  };
 
-  // const ReflectStatus = (status) => {
-  //   if (status === "pending") {
-  //     return (
-  //       <Box sx={{ display: "flex", alignItems: "center" }}>
-  //         <Box
-  //           component="button"
-  //           color="black"
-  //           sx={{ bgcolor: "green", mt: 1, p: 0.5 }}
-  //         >
-  //           Accept Friend Request
-  //         </Box>
-  //         <Box component="button" sx={{ bgcolor: "red", mt: 1, ml: 1, p: 0.5 }}>
-  //           Decline
-  //         </Box>
-  //       </Box>
-  //     );
-  //   } else if (status === "accepted") {
-  //     return (
-  //       <Box sx={{ display: "flex", alignItems: "center" }}>
-  //         <Box component="typography">We're friends!</Box>
-  //         <Box component="button" sx={{ bgcolor: "red", mt: 1, ml: 1, p: 0.5 }}>
-  //           Unfriend
-  //         </Box>
-  //       </Box>
-  //     );
-  //   }
-  // };
+  const AddFriend = () => {
+    return (
+      <Box sx={{ display: "flex", alignItems: "center" }}>
+        <Box component="button" sx={{ bgcolor: "green", mt: 1, ml: 1, p: 0.5 }}>
+          Add friend
+        </Box>
+      </Box>
+    );
+  };
+
+  const PendingAcceptance = () => {
+    return (
+      <Box sx={{ display: "flex", alignItems: "center" }}>
+        <Box component="typography">Friend request sent! Pending...</Box>
+      </Box>
+    );
+  };
 
   return (
     <Box
@@ -78,10 +70,12 @@ const FriendCard = (props) => {
         />
       </Box>
       <Box sx={{ m: 1 }}>
-        <Box component="typography">Name: {name}</Box>
-        {/* {ReflectStatus(status)} */}
-        {status === "invited" && <friendRequestButtons />}
-        {status === "approved" && <unfriendButton />}
+        <Box component="typography">Name: John Doe</Box>
+        {/* <Box component="typography">Name: {name}</Box> */}
+        {status === "invited" && <FriendRequestButtons />}
+        {status === "approved" && <UnfriendButton />}
+        {status === "pending" && <PendingAcceptance />}
+        {status === null && <AddFriend />}
       </Box>
     </Box>
   );
