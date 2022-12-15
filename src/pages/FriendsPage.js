@@ -11,8 +11,6 @@ const FriendsPage = () => {
 
   // do a axios get request using search value and update searchResults
 
-  // Debounce the search so it only runs after a certain amount of time has passed
-  // without any new input (to avoid making unnecessary network requests)
   const debouncedSearch = debounce(() => {
     // Make a GET request to the server to search for users
     //   fetch(`/search?q=${query}`)

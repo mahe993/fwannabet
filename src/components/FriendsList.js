@@ -1,13 +1,18 @@
 import { Box } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FriendCard from "./FriendCard";
+import { useAuth0 } from "@auth0/auth0-react";
+import { BACKEND_URL } from "../constants";
+import axios from "axios";
 
 const FriendsList = () => {
   const [data, setData] = useState([]);
 
-  //on mount axios get all your friends and set to data
-  // API Call: data = {invites: [{id, name, status: invited}], pendingAccept: [{id, name, status: pending}], approved: [{id, name, status: approved}]}
-
+  useEffect(() => {
+    // make api call here
+    // API Call: data = {invited: [{id:XXX, username:XXX, profile_picture:XXX, status: invited}], pendingAccept: [{id, name, status: pending}], approved: [{id, name, status: approved}]}
+    // setData
+  }, []);
 
   return (
     <Box display="flex" flexDirection="column" alignItems="center" gap={1}>

@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import React from "react";
-import { Button } from "@mui/material";
+
 
 const FriendCard = (props) => {
   const { user } = props;
@@ -64,6 +64,7 @@ const FriendCard = (props) => {
       }}
     >
       <Box>
+        // to be replaced with getPicture
         <img
           src={`https://picsum.photos/100
           `}
