@@ -9,9 +9,12 @@ import AccountForm from "../forms/AccountForm";
 import { useAuth0 } from "@auth0/auth0-react";
 import { BACKEND_URL } from "../constants.js";
 import { useUserContext } from "../contexts/UserContext";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const AccountPage = () => {
   const [snackBarOpen, setSnackBarOpen] = useState(false);
+  const [backDropOpen, setBackDropOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
 
   const { userDetails, setUserDetails } = useUserContext();
@@ -75,6 +78,7 @@ const AccountPage = () => {
           <AccountForm
             setSnackBarOpen={setSnackBarOpen}
             setAlertMessage={setAlertMessage}
+            setBackDropOpen={setBackDropOpen}
           />
         </Box>
       </Box>
@@ -88,6 +92,12 @@ const AccountPage = () => {
           {alertMessage}
         </Alert>
       </Snackbar>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={backDropOpen}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </>
   );
 };

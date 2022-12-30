@@ -1,5 +1,5 @@
 import { Box, Button } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
@@ -9,7 +9,7 @@ import { BACKEND_URL } from "../constants";
 import { useUserContext } from "../contexts/UserContext";
 
 const AccountForm = (props) => {
-  const { setSnackBarOpen, setAlertMessage } = props;
+  const { setSnackBarOpen, setAlertMessage, setBackDropOpen } = props;
   const { userDetails, setUserDetails } = useUserContext();
   const { getAccessTokenSilently, user } = useAuth0();
 
@@ -31,7 +31,6 @@ const AccountForm = (props) => {
   const formSubmit = async (values) => {
     //update DB users table username/phoneNumber col where userId = user.sub
     const updateFields = {};
-    console.log(values);
     Object.keys(touchedFields).forEach((key) => {
       if (key === "contactNumber" && values["contactNumber"] === "") {
         updateFields[key] = null;
@@ -40,6 +39,7 @@ const AccountForm = (props) => {
       }
     });
     try {
+      setBackDropOpen(true);
       const accessToken = await getAccessTokenSilently();
       const update = await axios({
         method: "PUT",
@@ -51,9 +51,11 @@ const AccountForm = (props) => {
       });
       console.log(update.data);
       setUserDetails(update.data);
+      setBackDropOpen(false);
       setAlertMessage("Account info updated!");
       setSnackBarOpen(true);
     } catch (err) {
+      setBackDropOpen(false);
       throw new Error(err);
     }
   };
