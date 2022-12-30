@@ -31,8 +31,13 @@ const AccountForm = (props) => {
   const formSubmit = async (values) => {
     //update DB users table username/phoneNumber col where userId = user.sub
     const updateFields = {};
+    console.log(values);
     Object.keys(touchedFields).forEach((key) => {
-      updateFields[key] = values[key];
+      if (key === "contactNumber" && values["contactNumber"] === "") {
+        updateFields[key] = null;
+      } else {
+        updateFields[key] = values[key];
+      }
     });
     try {
       const accessToken = await getAccessTokenSilently();
