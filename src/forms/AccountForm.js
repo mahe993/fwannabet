@@ -30,9 +30,12 @@ const AccountForm = (props) => {
   //form handleSubmit submit callback
   const formSubmit = async (values) => {
     //update DB users table username/phoneNumber col where userId = user.sub
-    const updateFields = Object.keys(touchedFields).map((key) => {
-      return { [key]: values[key] };
+    const updateFields = {};
+    Object.keys(touchedFields).forEach((key) => {
+      updateFields[key] = values[key];
     });
+    console.log(touchedFields);
+    console.log(updateFields);
     try {
       const accessToken = await getAccessTokenSilently();
       const update = await axios({
@@ -41,7 +44,7 @@ const AccountForm = (props) => {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
-        data: { ...updateFields[0], ...updateFields[1] },
+        data: updateFields,
       });
       console.log(update.data);
       setUserDetails(update.data);
