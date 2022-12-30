@@ -12,7 +12,7 @@ const NavBar = () => {
 
   return (
     <>
-      {!isAuthenticated && (
+      {isAuthenticated && (
         <Box
           className="nav-bar"
           bgcolor="#222222"
