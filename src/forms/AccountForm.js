@@ -34,8 +34,6 @@ const AccountForm = (props) => {
     Object.keys(touchedFields).forEach((key) => {
       updateFields[key] = values[key];
     });
-    console.log(touchedFields);
-    console.log(updateFields);
     try {
       const accessToken = await getAccessTokenSilently();
       const update = await axios({
@@ -60,11 +58,10 @@ const AccountForm = (props) => {
     throw new Error(err);
   };
 
-  //username and email field
   return (
     <form onSubmit={handleSubmit(formSubmit, formError)}>
       <Box display="flex" flexDirection="column" alignItems="center" gap={2}>
-        <Box className="registered-email" p={1} color="grey">
+        <Box className="registered-email" p={1} color="lightgrey">
           {user?.email}
         </Box>
         <Box
