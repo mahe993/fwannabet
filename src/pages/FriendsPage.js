@@ -1,52 +1,84 @@
 import { Box } from "@mui/material";
 import React, { useState, useEffect } from "react";
-import { debounce } from "lodash";
 import FriendsList from "../components/FriendsList";
 import PageHeader from "../components/PageHeader";
 import FriendCard from "../components/FriendCard";
+import { useForm } from "react-hook-form";
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
+import { useAuth0 } from "@auth0/auth0-react";
+import { BACKEND_URL } from "../constants.js";
+import axios from "axios";
 
 const FriendsPage = () => {
-  const [searchValue, setSearchValue] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [loadingData, setLoadingData] = useState(true);
+  const [friends, setFriends] = useState([]);
 
-  // do a axios get request using search value and update searchResults
+  const { user } = useAuth0();
 
-  // Debounce the search so it only runs after a certain amount of time has passed
-  // without any new input (to avoid making unnecessary network requests)
-  const debouncedSearch = debounce(() => {
-    // Make a GET request to the server to search for users
-    //   fetch(`/search?q=${query}`)
-    //    .then(response => response.json())
-    //    .then(data => setSearchResults(data.results));
-  }, 500);
+  // react-hook-form
+  const {
+    register,
+    formState: { touchedFields },
+  } = useForm({
+    mode: "onChange",
+  });
+
+  //on mount axios get all user's friend connections
+  const fetchFriends = async (signal) => {
+    try {
+      const res = await axios({
+        method: "GET",
+        url: `${BACKEND_URL}/friends/${user.sub}`,
+        signal,
+      });
+      setFriends(res.data);
+      setLoadingData(false);
+    } catch (err) {
+      if (err.name !== "AbortError") {
+        console.log("data fetch aborted");
+      } else {
+        throw new Error(err);
+      }
+    }
+  };
 
   useEffect(() => {
-    // Run the debounced search when the searchValue changes
-    debouncedSearch();
-  }, [searchValue]);
-
-  const handleChange = (event) => {
-    setSearchValue(event.target.value);
-  };
+    setLoadingData(true);
+    const controller = new AbortController();
+    const signal = controller.signal;
+    fetchFriends(signal);
+    return () => {
+      controller.abort();
+    };
+  }, []);
 
   return (
     <Box display="flex" flexDirection="column" alignItems="center" gap={2}>
       <PageHeader header="Friends" />
-      <Box
-        width="95vw"
-        color="orange" // orange to indicate TBD. remove when you start developing
-      >
-        {/* Insert search bar to search for users. Search value should be
-        debounced/throttled to make a get request. this is NOT a react hook form
-        input */}
+      <Box>
         <form>
-          <label htmlFor="search-box">Search:</label>
           <input
-            type="text"
-            id="search-box"
-            placeholder="Search for your friends"
-            value={searchValue}
-            onChange={handleChange}
+            autoComplete="off"
+            id="searchBox"
+            type="search"
+            placeholder="Search by username/email"
+            {...register("searchBox")}
+            css={css`
+              background-color: #313131;
+              padding: 3px;
+              outline-style: none;
+              width: 300px;
+              ::placeholder {
+                font-size: 12px;
+                font-style: italic;
+                text-align: center;
+              }
+              :focus {
+                outline-color: lightgrey;
+              }
+            `}
           />
         </form>
       </Box>
@@ -57,12 +89,15 @@ const FriendsPage = () => {
         minHeight="70vh"
         p={1}
       >
-        {searchValue ? (
+        {searchResults.length > 0 ? (
           searchResults.map((user) => <FriendCard users={user} />)
         ) : (
-          <FriendsList />
+          <FriendsList
+            friends={friends}
+            setFriends={setFriends}
+            loadingData={loadingData}
+          />
         )}
-        {/* <FriendCard /> */}
       </Box>
     </Box>
   );

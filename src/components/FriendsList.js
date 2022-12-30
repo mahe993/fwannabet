@@ -1,55 +1,61 @@
 import { Box } from "@mui/material";
-import React, { useState } from "react";
+import React from "react";
 import FriendCard from "./FriendCard";
+import CircularProgress from "@mui/material/CircularProgress";
 
-const FriendsList = () => {
-  const [data, setData] = useState([]);
-
-  //on mount axios get all your friends and set to data
-  // API Call: getFriends
+const FriendsList = (props) => {
+  const { friends, setFriends, loadingData } = props;
 
   return (
     <Box display="flex" flexDirection="column" alignItems="center" gap={1}>
       <Box
+        className="pending-friends-container"
+        width="100%"
+        minHeight="20vh"
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        gap={1}
+      >
+        <Box
+          className="pending-friends-title"
+          alignSelf="flex-start"
+          fontStyle="italic"
+          fontWeight="bold"
+          fontSize={18}
+        >
+          Pending:
+        </Box>
+        {loadingData ? (
+          <CircularProgress />
+        ) : (
+          <Box className="pending-friends-cards-container">
+            {friends?.pending?.requestee?.map((user) => (
+              <FriendCard key={user.id} user={user} />
+            ))}
+            {friends?.pending?.requestor?.map((user) => (
+              <FriendCard key={user.id} user={user} />
+            ))}
+          </Box>
+        )}
+      </Box>
+      <Box
         alignSelf="flex-start"
         fontStyle="italic"
         fontWeight="bold"
         fontSize={18}
       >
-        Pending:
+        Friends{!loadingData && `(${friends?.accepted?.length})`}:
       </Box>
-      <Box
-        color="orange" // orange to indicate TBD. remove when you start developing
-      >
-        Insert friend request invitations
-        {data?.invites?.map((user) => (
-          <FriendCard user={user} />
-        ))}
-      </Box>
-      <Box
-        color="orange" // orange to indicate TBD. remove when you start developing
-      >
-        Insert pending friend acceptance users
-        {data?.pending?.map((user) => (
-          <FriendCard user={user} />
-        ))}
-      </Box>
-      <Box
-        alignSelf="flex-start"
-        fontStyle="italic"
-        fontWeight="bold"
-        fontSize={18}
-      >
-        Friends({data?.accepted?.length || 0}):
-      </Box>
-      <Box
-        color="orange" // orange to indicate TBD. remove when you start developing
-      >
-        Insert friends
-        {data?.accepted?.map((user) => (
-          <FriendCard user={user} />
-        ))}
-      </Box>
+      {loadingData ? (
+        <CircularProgress />
+      ) : (
+        <Box>
+          {friends?.accepted?.map((user) => (
+            <FriendCard user={user} />
+          ))}
+        </Box>
+      )}
     </Box>
   );
 };

@@ -30,7 +30,7 @@ const FriendCard = (props) => {
     } else if (status === "accepted") {
       return (
         <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Box component="typography">We're friends!</Box>
+          <Box>We're friends!</Box>
           <Box component="button" sx={{ bgcolor: "red", mt: 1, ml: 1, p: 0.5 }}>
             Unfriend
           </Box>
@@ -52,10 +52,11 @@ const FriendCard = (props) => {
         <img
           src={`https://picsum.photos/100
           `}
+          alt="profile-pic"
         />
       </Box>
       <Box sx={{ m: 1 }}>
-        <Box component="typography">Name: John Doe</Box>
+        <Box>Name: John Doe</Box>
         {ReflectStatus(status)}
       </Box>
     </Box>
