@@ -7,7 +7,7 @@ const FriendsList = (props) => {
   const { friends, setFriends, loadingData } = props;
 
   return (
-    <Box display="flex" flexDirection="column" alignItems="center" gap={1}>
+    <Box display="flex" flexDirection="column" alignItems="center" gap={3}>
       <Box
         className="pending-friends-container"
         width="100%"
@@ -29,33 +29,57 @@ const FriendsList = (props) => {
         {loadingData ? (
           <CircularProgress />
         ) : (
-          <Box className="pending-friends-cards-container">
-            {friends?.pending?.requestee?.map((user) => (
-              <FriendCard key={user.id} user={user} />
+          <Box
+            className="pending-friend-cards-container"
+            width="100%"
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            gap={1}
+          >
+            {friends?.pending?.requestee?.map((connection) => (
+              <FriendCard key={connection.id} connection={connection} />
             ))}
-            {friends?.pending?.requestor?.map((user) => (
-              <FriendCard key={user.id} user={user} />
+            {friends?.pending?.requestor?.map((connection) => (
+              <FriendCard key={connection.id} connection={connection} />
             ))}
           </Box>
         )}
       </Box>
       <Box
-        alignSelf="flex-start"
-        fontStyle="italic"
-        fontWeight="bold"
-        fontSize={18}
+        className="accepted-friends-container"
+        width="100%"
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        gap={1}
       >
-        Friends{!loadingData && `(${friends?.accepted?.length})`}:
-      </Box>
-      {loadingData ? (
-        <CircularProgress />
-      ) : (
-        <Box>
-          {friends?.accepted?.map((user) => (
-            <FriendCard user={user} />
-          ))}
+        <Box
+          className="accepted-friends-title"
+          alignSelf="flex-start"
+          fontStyle="italic"
+          fontWeight="bold"
+          fontSize={18}
+        >
+          Friends{!loadingData && `(${friends?.accepted?.length})`}:
         </Box>
-      )}
+        {loadingData ? (
+          <CircularProgress />
+        ) : (
+          <Box
+            className="accepted-friend-cards-container"
+            width="100%"
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            gap={1}
+          >
+            {friends?.accepted?.map((connection) => (
+              <FriendCard key={connection.id} connection={connection} />
+            ))}
+          </Box>
+        )}
+      </Box>
     </Box>
   );
 };

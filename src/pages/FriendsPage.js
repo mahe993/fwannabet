@@ -88,9 +88,12 @@ const FriendsPage = () => {
         border={1}
         minHeight="70vh"
         p={1}
+        mb={2}
       >
         {searchResults.length > 0 ? (
-          searchResults.map((user) => <FriendCard users={user} />)
+          searchResults.map((connections) => (
+            <FriendCard connections={connections} />
+          ))
         ) : (
           <FriendsList
             friends={friends}

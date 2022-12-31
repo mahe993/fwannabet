@@ -1,63 +1,64 @@
 import { Box } from "@mui/material";
 import React from "react";
-import { Button } from "@mui/material";
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
+import noPFP from "../assets/images/noPFP.jpg";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const FriendCard = (props) => {
-  const { user } = props;
+  const { connection } = props;
 
-  // 2 different status - pending, accepted
-  // Pending can be pending acceptance or inviting
-
-  //for testing
-  const status = "accepted";
-
-  const ReflectStatus = (status) => {
-    if (status === "pending") {
-      return (
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Box
-            component="button"
-            color="black"
-            sx={{ bgcolor: "green", mt: 1, p: 0.5 }}
-          >
-            Accept Friend Request
-          </Box>
-          <Box component="button" sx={{ bgcolor: "red", mt: 1, ml: 1, p: 0.5 }}>
-            Decline
-          </Box>
-        </Box>
-      );
-    } else if (status === "accepted") {
-      return (
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Box>We're friends!</Box>
-          <Box component="button" sx={{ bgcolor: "red", mt: 1, ml: 1, p: 0.5 }}>
-            Unfriend
-          </Box>
-        </Box>
-      );
-    }
-  };
+  const { user } = useAuth0();
 
   return (
     <Box
-      color="orange" // orange to indicate TBD. remove when you start developing
-      sx={{
-        display: "flex",
-        flexWrap: "wrap",
-        boxShadow: 3,
-      }}
+      className="friend-card-container"
+      display="flex"
+      borderRadius="50px"
+      border={1}
+      alignItems="center"
+      width="95%"
+      gap={1}
+      fontSize={14}
     >
-      <Box>
+      <Box borderRadius="50px" height="100px" width="100px" overflow="hidden">
         <img
-          src={`https://picsum.photos/100
-          `}
+          src={connection?.profilePicture ? connection?.profilePicture : noPFP}
           alt="profile-pic"
+          width="100%"
+          css={css`
+            border-radius: 50px;
+          `}
         />
       </Box>
-      <Box sx={{ m: 1 }}>
-        <Box>Name: John Doe</Box>
-        {ReflectStatus(status)}
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="space-between"
+        width="180px"
+        height="60px"
+        overflow="hidden"
+      >
+        <Box className="friend-name-container" width="100%" textAlign="center">
+          {connection?.username ? connection?.username : connection?.email}
+        </Box>
+        <Box
+          className="buttons-container"
+          width="100%"
+          textOverflow="ellipsis"
+          whiteSpace="nowrap"
+          overflow="hidden"
+          textAlign="center"
+        >
+          {connection?.status === "accepted" && `Interactive/Unfriend buttons`}
+          {connection?.status === "pending" &&
+            connection?.requestee !== user.sub &&
+            `Awaiting acceptance.../cancel button`}
+          {connection?.status === "pending" &&
+            connection?.requestor !== user.sub &&
+            `Add/Reject buttons`}
+        </Box>
       </Box>
     </Box>
   );
