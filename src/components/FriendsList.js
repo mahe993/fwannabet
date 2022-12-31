@@ -1,60 +1,97 @@
 import { Box } from "@mui/material";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import FriendCard from "./FriendCard";
-import { useAuth0 } from "@auth0/auth0-react";
-import { BACKEND_URL } from "../constants";
-import axios from "axios";
+import CircularProgress from "@mui/material/CircularProgress";
 
-const FriendsList = () => {
-  const [data, setData] = useState([]);
+const FriendsList = (props) => {
+  const { friends, setFriends, loadingData, setLoadingFriendsPage } = props;
 
-  useEffect(() => {
-    // make api call here
-    // API Call: data = {invited: [{id:XXX, username:XXX, profile_picture:XXX, status: invited}], pendingAccept: [{id, name, status: pending}], approved: [{id, name, status: approved}]}
-    // setData
-  }, []);
 
   return (
-    <Box display="flex" flexDirection="column" alignItems="center" gap={1}>
+    <Box display="flex" flexDirection="column" alignItems="center" gap={3}>
       <Box
-        alignSelf="flex-start"
-        fontStyle="italic"
-        fontWeight="bold"
-        fontSize={18}
+        className="pending-friends-container"
+        width="100%"
+        minHeight="20vh"
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        gap={1}
       >
-        Pending:
+        <Box
+          className="pending-friends-title"
+          alignSelf="flex-start"
+          fontStyle="italic"
+          fontWeight="bold"
+          fontSize={18}
+        >
+          Pending:
+        </Box>
+        {loadingData ? (
+          <CircularProgress />
+        ) : (
+          <Box
+            className="pending-friend-cards-container"
+            width="100%"
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            gap={1}
+          >
+            {friends?.pending?.requestee?.map((connection) => (
+              <FriendCard
+                key={connection.id}
+                connection={connection}
+                setLoadingFriendsPage={setLoadingFriendsPage}
+              />
+            ))}
+            {friends?.pending?.requestor?.map((connection) => (
+              <FriendCard
+                key={connection.id}
+                connection={connection}
+                setLoadingFriendsPage={setLoadingFriendsPage}
+              />
+            ))}
+          </Box>
+        )}
       </Box>
       <Box
-        color="orange" // orange to indicate TBD. remove when you start developing
+        className="accepted-friends-container"
+        width="100%"
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        gap={1}
       >
-        Insert friend request invitations
-        {data?.invites?.map((user) => (
-          <FriendCard user={user} />
-        ))}
-      </Box>
-      <Box
-        color="orange" // orange to indicate TBD. remove when you start developing
-      >
-        Insert pending friend acceptance users
-        {data?.pending?.map((user) => (
-          <FriendCard user={user} />
-        ))}
-      </Box>
-      <Box
-        alignSelf="flex-start"
-        fontStyle="italic"
-        fontWeight="bold"
-        fontSize={18}
-      >
-        Friends({data?.accepted?.length || 0}):
-      </Box>
-      <Box
-        color="orange" // orange to indicate TBD. remove when you start developing
-      >
-        Insert friends
-        {data?.accepted?.map((user) => (
-          <FriendCard user={user} />
-        ))}
+        <Box
+          className="accepted-friends-title"
+          alignSelf="flex-start"
+          fontStyle="italic"
+          fontWeight="bold"
+          fontSize={18}
+        >
+          Friends{!loadingData && `(${friends?.accepted?.length})`}:
+        </Box>
+        {loadingData ? (
+          <CircularProgress />
+        ) : (
+          <Box
+            className="accepted-friend-cards-container"
+            width="100%"
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            gap={1}
+          >
+            {friends?.accepted?.map((connection) => (
+              <FriendCard
+                key={connection.id}
+                connection={connection}
+                setLoadingFriendsPage={setLoadingFriendsPage}
+              />
+            ))}
+          </Box>
+        )}
       </Box>
     </Box>
   );

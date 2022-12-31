@@ -1,3 +1,4 @@
+import { Box } from "@mui/material";
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import Auth0ProviderWithRedirectCallback from "./contexts/Auth0ProviderWithRedirectCallback";
@@ -10,8 +11,14 @@ const App = () => {
     <BrowserRouter>
       <Auth0ProviderWithRedirectCallback>
         <UserContextProvider>
-          <Router />
-          <NavBar />
+          <Box display="flex" flexDirection="column">
+            <Box height="92vh" overflow="scroll">
+              <Router />
+            </Box>
+            <Box>
+              <NavBar height="8vh" />
+            </Box>
+          </Box>
         </UserContextProvider>
       </Auth0ProviderWithRedirectCallback>
     </BrowserRouter>
