@@ -6,6 +6,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 const FriendsList = (props) => {
   const { friends, setFriends, loadingData, setLoadingFriendsPage } = props;
 
+
   return (
     <Box display="flex" flexDirection="column" alignItems="center" gap={3}>
       <Box
