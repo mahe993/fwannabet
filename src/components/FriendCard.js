@@ -3,11 +3,13 @@ import React from "react";
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import noPFP from "../assets/images/noPFP.jpg";
-
+import { useAuth0 } from "@auth0/auth0-react";
 import FriendCardButtons from "./FriendCardButtons";
 
 const FriendCard = (props) => {
-  const { connection } = props;
+  const { connection, setLoadingFriendsPage } = props;
+
+  const { user } = useAuth0();
 
   return (
     <Box
@@ -46,14 +48,22 @@ const FriendCard = (props) => {
         overflow="hidden"
         gap={1.5}
       >
-        <Box className="friend-name-container" width="100%" textAlign="center">
+        <Box
+          className="friend-name-container"
+          width="100%"
+          textAlign="center"
+          color="lightgrey"
+        >
           {connection?.username ? connection?.username : connection?.email}
         </Box>
         <Box className="buttons-container" textAlign="center">
           <FriendCardButtons
             connectionStatus={connection?.status}
-            requestee={connection?.requestee}
-            requestor={connection?.requestor}
+            requestee={
+              connection?.requestee ? connection?.requestee : connection?.id
+            }
+            requestor={connection?.requestor ? connection?.requestor : user.sub}
+            setLoadingFriendsPage={setLoadingFriendsPage}
           />
         </Box>
       </Box>

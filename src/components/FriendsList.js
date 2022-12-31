@@ -4,7 +4,7 @@ import FriendCard from "./FriendCard";
 import CircularProgress from "@mui/material/CircularProgress";
 
 const FriendsList = (props) => {
-  const { friends, setFriends, loadingData } = props;
+  const { friends, setFriends, loadingData, setLoadingFriendsPage } = props;
 
   return (
     <Box display="flex" flexDirection="column" alignItems="center" gap={3}>
@@ -38,10 +38,18 @@ const FriendsList = (props) => {
             gap={1}
           >
             {friends?.pending?.requestee?.map((connection) => (
-              <FriendCard key={connection.id} connection={connection} />
+              <FriendCard
+                key={connection.id}
+                connection={connection}
+                setLoadingFriendsPage={setLoadingFriendsPage}
+              />
             ))}
             {friends?.pending?.requestor?.map((connection) => (
-              <FriendCard key={connection.id} connection={connection} />
+              <FriendCard
+                key={connection.id}
+                connection={connection}
+                setLoadingFriendsPage={setLoadingFriendsPage}
+              />
             ))}
           </Box>
         )}
@@ -75,7 +83,11 @@ const FriendsList = (props) => {
             gap={1}
           >
             {friends?.accepted?.map((connection) => (
-              <FriendCard key={connection.id} connection={connection} />
+              <FriendCard
+                key={connection.id}
+                connection={connection}
+                setLoadingFriendsPage={setLoadingFriendsPage}
+              />
             ))}
           </Box>
         )}

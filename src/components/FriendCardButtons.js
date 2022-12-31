@@ -7,13 +7,89 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
 import MessageIcon from "@mui/icons-material/Message";
 import { useAuth0 } from "@auth0/auth0-react";
+import axios from "axios";
+import { BACKEND_URL } from "../constants";
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 
 const FriendCardButtons = (props) => {
-  const { connectionStatus, requestee, requestor } = props;
+  const { connectionStatus, requestee, requestor, setLoadingFriendsPage } =
+    props;
 
-  const { user } = useAuth0();
+  const { user, getAccessTokenSilently } = useAuth0();
+
+  // remove friend connection
+  const removeConnection = async () => {
+    try {
+      setLoadingFriendsPage(true);
+      const accessToken = await getAccessTokenSilently();
+      await axios({
+        method: "DELETE",
+        url: `${BACKEND_URL}/friends/`,
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        data: {
+          status: connectionStatus,
+          requestee: requestee,
+          requestor: requestor,
+        },
+      });
+      setLoadingFriendsPage(false);
+    } catch (err) {
+      setLoadingFriendsPage(false);
+      throw new Error(err);
+    }
+  };
+
+  // accept friend request
+  const acceptFriendRequest = async () => {
+    try {
+      setLoadingFriendsPage(true);
+      const accessToken = await getAccessTokenSilently();
+      await axios({
+        method: "PUT",
+        url: `${BACKEND_URL}/friends/`,
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        data: {
+          requestee: requestee,
+          requestor: requestor,
+        },
+      });
+      setLoadingFriendsPage(false);
+    } catch (err) {
+      setLoadingFriendsPage(false);
+      throw new Error(err);
+    }
+  };
+
+  // send friend invitation
+  const sendFriendRequest = async () => {
+    try {
+      if (requestee === user.sub) {
+        throw new Error({ msg: "Requestee cannot be yourself!" });
+      }
+      setLoadingFriendsPage(true);
+      const accessToken = await getAccessTokenSilently();
+      await axios({
+        method: "POST",
+        url: `${BACKEND_URL}/friends/`,
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        data: {
+          requestee: requestee,
+          requestor: requestor,
+        },
+      });
+      setLoadingFriendsPage(false);
+    } catch (err) {
+      setLoadingFriendsPage(false);
+      throw new Error(err);
+    }
+  };
 
   return (
     <>
@@ -24,10 +100,12 @@ const FriendCardButtons = (props) => {
           justifyContent="space-between"
           gap={2}
         >
-          <MessageIcon onClick={() => console.log("message action")} />
+          <MessageIcon onClick={() => alert("Feature in development!")} />
           <PersonRemoveIcon
             color="warning"
-            onClick={() => console.log("remove friend action")}
+            onClick={() => {
+              removeConnection();
+            }}
           />
         </Box>
       )}
@@ -38,10 +116,7 @@ const FriendCardButtons = (props) => {
           alignItems="center"
           justifyContent="center"
         >
-          <CancelIcon
-            color="warning"
-            onClick={() => console.log("cancel invite action")}
-          />
+          <CancelIcon color="warning" onClick={() => removeConnection()} />
           <Box color="orange" fontSize={10} fontStyle="italic">
             Cancel Invite
           </Box>
@@ -56,12 +131,9 @@ const FriendCardButtons = (props) => {
         >
           <CheckCircleIcon
             color="success"
-            onClick={() => console.log("accept friend request action")}
+            onClick={() => acceptFriendRequest()}
           />
-          <DoDisturbOnIcon
-            color="warning"
-            onClick={() => console.log("reject friend request action")}
-          />
+          <DoDisturbOnIcon color="warning" onClick={() => removeConnection()} />
         </Box>
       )}
       {!connectionStatus && (
@@ -71,10 +143,7 @@ const FriendCardButtons = (props) => {
           alignItems="center"
           justifyContent="center"
         >
-          <PersonAddIcon
-            color="success"
-            onClick={() => console.log("add friend action")}
-          />
+          <PersonAddIcon color="success" onClick={() => sendFriendRequest()} />
           <Box fontSize={10} fontStyle="italic" color="darkgreen">
             Add Friend
           </Box>

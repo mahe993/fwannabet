@@ -9,10 +9,12 @@ import { css } from "@emotion/react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { BACKEND_URL } from "../constants.js";
 import axios from "axios";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const FriendsPage = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [loadingData, setLoadingData] = useState(true);
+  const [loadingFriendsPage, setLoadingFriendsPage] = useState(false);
   const [friends, setFriends] = useState([]);
 
   const { user } = useAuth0();
@@ -90,15 +92,22 @@ const FriendsPage = () => {
         p={1}
         mb={2}
       >
-        {searchResults.length > 0 ? (
-          searchResults.map((connections) => (
-            <FriendCard connections={connections} />
+        {loadingFriendsPage ? (
+          <CircularProgress />
+        ) : searchResults.length > 0 ? (
+          searchResults.map((connection) => (
+            <FriendCard
+              key={connection.id}
+              connection={connection}
+              setLoadingFriendsPage={setLoadingFriendsPage}
+            />
           ))
         ) : (
           <FriendsList
             friends={friends}
             setFriends={setFriends}
             loadingData={loadingData}
+            setLoadingFriendsPage={setLoadingFriendsPage}
           />
         )}
       </Box>
