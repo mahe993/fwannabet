@@ -38,7 +38,7 @@ const FriendsPage = () => {
       setLoadingData(false);
     } catch (err) {
       if (err.name !== "AbortError") {
-        console.log("data fetch aborted");
+        console.log("friends data fetch aborted");
       } else {
         throw new Error(err);
       }
@@ -108,10 +108,16 @@ const FriendsPage = () => {
               setLoadingData={setLoadingData}
             />
           ))
+        ) : !friends.accepted && !friends.pending ? (
+          <Box textAlign="center" fontStyle="italic">
+            No friends added yet!
+            <br />
+            Use the search box to search for friends!
+          </Box>
         ) : (
           <FriendsList
             friends={friends}
-            setFriends={setFriends}
+            fetchFriends={fetchFriends}
             loadingData={loadingData}
             setLoadingData={setLoadingData}
           />

@@ -7,7 +7,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import FriendCardButtons from "./FriendCardButtons";
 
 const FriendCard = (props) => {
-  const { connection, setLoadingData } = props;
+  const { connection, setLoadingData, fetchFriends } = props;
 
   const { user } = useAuth0();
 
@@ -33,8 +33,10 @@ const FriendCard = (props) => {
           src={connection?.profilePicture ? connection?.profilePicture : noPFP}
           alt="profile-pic"
           width="100%"
+          height="100%"
           css={css`
             border-radius: 50px;
+            object-fit: fill;
           `}
         />
       </Box>
@@ -47,6 +49,7 @@ const FriendCard = (props) => {
         height="70px"
         overflow="hidden"
         gap={1.5}
+        borderRadius="0px 50px 50px 0px"
       >
         <Box
           className="friend-name-container"
@@ -64,6 +67,7 @@ const FriendCard = (props) => {
             }
             requestor={connection?.requestor ? connection?.requestor : user.sub}
             setLoadingData={setLoadingData}
+            fetchFriends={fetchFriends}
           />
         </Box>
       </Box>

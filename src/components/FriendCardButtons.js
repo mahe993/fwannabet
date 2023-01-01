@@ -17,7 +17,13 @@ const FriendCardButtons = (props) => {
     useState("");
   const [dialogButtonAction, setDialogButtonAction] = useState("");
 
-  const { connectionStatus, requestee, requestor, setLoadingData } = props;
+  const {
+    connectionStatus,
+    requestee,
+    requestor,
+    setLoadingData,
+    fetchFriends,
+  } = props;
 
   const { user, getAccessTokenSilently } = useAuth0();
 
@@ -38,7 +44,9 @@ const FriendCardButtons = (props) => {
           requestor: requestor,
         },
       });
-      setLoadingData(false);
+      if (del.data.msg === "success") {
+        fetchFriends();
+      }
     } catch (err) {
       setLoadingData(false);
       throw new Error(err);
@@ -134,7 +142,7 @@ const FriendCardButtons = (props) => {
               setDialogButtonAction({
                 confirm: removeConnection,
               });
-              setConfirmationDialogContent(`Confirm cancel friend invite?`);
+              setConfirmationDialogContent(`Cancel friend invite?`);
               setOpenConfirmationDialog(true);
             }}
           />
