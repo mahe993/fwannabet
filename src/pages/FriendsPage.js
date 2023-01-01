@@ -23,6 +23,14 @@ const FriendsPage = () => {
     debouncedSearch();
   }, [searchValue]);
 
+  useEffect(() => {
+    // friendlist update here (showing all existing friends and pendingAccept)
+    //api call here to get friends
+    // API Call: data = {invited: [{id:XXX, username:XXX, profile_picture:XXX, status: invited}], pendingAccept: [{id, name, status: pending}], approved: [{id, name, status: approved}]}
+    // setData
+  }, [searchResults]);
+
+
   const handleChange = (event) => {
     setSearchValue(event.target.value);
   };

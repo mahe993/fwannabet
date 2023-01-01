@@ -10,8 +10,7 @@ const FriendsList = () => {
 
   useEffect(() => {
     // make api call here
-    // API Call: data = {invited: [{id:XXX, username:XXX, profile_picture:XXX, status: invited}], pendingAccept: [{id, name, status: pending}], approved: [{id, name, status: approved}]}
-    // setData
+    
   }, []);
 
   return (
