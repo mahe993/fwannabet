@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import DoDisturbOnIcon from "@mui/icons-material/DoDisturbOn";
@@ -9,21 +9,24 @@ import MessageIcon from "@mui/icons-material/Message";
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import { BACKEND_URL } from "../constants";
-/** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
+import ErrorDialog from "./ConfirmationDialog";
 
 const FriendCardButtons = (props) => {
-  const { connectionStatus, requestee, requestor, setLoadingFriendsPage } =
-    props;
+  const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
+  const [confirmationDialogContent, setConfirmationDialogContent] =
+    useState("");
+  const [dialogButtonAction, setDialogButtonAction] = useState("");
+
+  const { connectionStatus, requestee, requestor, setLoadingData } = props;
 
   const { user, getAccessTokenSilently } = useAuth0();
 
   // remove friend connection
   const removeConnection = async () => {
     try {
-      setLoadingFriendsPage(true);
+      setLoadingData(true);
       const accessToken = await getAccessTokenSilently();
-      await axios({
+      const del = await axios({
         method: "DELETE",
         url: `${BACKEND_URL}/friends/`,
         headers: {
@@ -35,9 +38,9 @@ const FriendCardButtons = (props) => {
           requestor: requestor,
         },
       });
-      setLoadingFriendsPage(false);
+      setLoadingData(false);
     } catch (err) {
-      setLoadingFriendsPage(false);
+      setLoadingData(false);
       throw new Error(err);
     }
   };
@@ -45,7 +48,7 @@ const FriendCardButtons = (props) => {
   // accept friend request
   const acceptFriendRequest = async () => {
     try {
-      setLoadingFriendsPage(true);
+      setLoadingData(true);
       const accessToken = await getAccessTokenSilently();
       await axios({
         method: "PUT",
@@ -58,9 +61,9 @@ const FriendCardButtons = (props) => {
           requestor: requestor,
         },
       });
-      setLoadingFriendsPage(false);
+      setLoadingData(false);
     } catch (err) {
-      setLoadingFriendsPage(false);
+      setLoadingData(false);
       throw new Error(err);
     }
   };
@@ -71,7 +74,7 @@ const FriendCardButtons = (props) => {
       if (requestee === user.sub) {
         throw new Error({ msg: "Requestee cannot be yourself!" });
       }
-      setLoadingFriendsPage(true);
+      setLoadingData(true);
       const accessToken = await getAccessTokenSilently();
       await axios({
         method: "POST",
@@ -84,9 +87,9 @@ const FriendCardButtons = (props) => {
           requestor: requestor,
         },
       });
-      setLoadingFriendsPage(false);
+      setLoadingData(false);
     } catch (err) {
-      setLoadingFriendsPage(false);
+      setLoadingData(false);
       throw new Error(err);
     }
   };
@@ -100,11 +103,20 @@ const FriendCardButtons = (props) => {
           justifyContent="space-between"
           gap={2}
         >
-          <MessageIcon onClick={() => alert("Feature in development!")} />
+          <MessageIcon
+            onClick={() => {
+              setConfirmationDialogContent("Feature in development!");
+              setOpenConfirmationDialog(true);
+            }}
+          />
           <PersonRemoveIcon
             color="warning"
             onClick={() => {
-              removeConnection();
+              setDialogButtonAction({
+                confirm: removeConnection,
+              });
+              setConfirmationDialogContent(`Remove from friend list?`);
+              setOpenConfirmationDialog(true);
             }}
           />
         </Box>
@@ -116,7 +128,16 @@ const FriendCardButtons = (props) => {
           alignItems="center"
           justifyContent="center"
         >
-          <CancelIcon color="warning" onClick={() => removeConnection()} />
+          <CancelIcon
+            color="warning"
+            onClick={() => {
+              setDialogButtonAction({
+                confirm: removeConnection,
+              });
+              setConfirmationDialogContent(`Confirm cancel friend invite?`);
+              setOpenConfirmationDialog(true);
+            }}
+          />
           <Box color="orange" fontSize={10} fontStyle="italic">
             Cancel Invite
           </Box>
@@ -133,7 +154,16 @@ const FriendCardButtons = (props) => {
             color="success"
             onClick={() => acceptFriendRequest()}
           />
-          <DoDisturbOnIcon color="warning" onClick={() => removeConnection()} />
+          <DoDisturbOnIcon
+            color="warning"
+            onClick={() => {
+              setDialogButtonAction({
+                confirm: removeConnection,
+              });
+              setConfirmationDialogContent(`Reject friend request?`);
+              setOpenConfirmationDialog(true);
+            }}
+          />
         </Box>
       )}
       {!connectionStatus && (
@@ -149,6 +179,13 @@ const FriendCardButtons = (props) => {
           </Box>
         </Box>
       )}
+      <ErrorDialog
+        openConfirmationDialog={openConfirmationDialog}
+        setOpenConfirmationDialog={setOpenConfirmationDialog}
+        confirmationDialogContent={confirmationDialogContent}
+        dialogButtonAction={dialogButtonAction}
+        setDialogButtonAction={setDialogButtonAction}
+      />
     </>
   );
 };
