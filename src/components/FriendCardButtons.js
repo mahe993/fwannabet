@@ -9,7 +9,7 @@ import MessageIcon from "@mui/icons-material/Message";
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import { BACKEND_URL } from "../constants";
-import ErrorDialog from "./ConfirmationDialog";
+import ConfirmationDialog from "./ConfirmationDialog";
 
 const FriendCardButtons = (props) => {
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
@@ -58,7 +58,7 @@ const FriendCardButtons = (props) => {
     try {
       setLoadingData(true);
       const accessToken = await getAccessTokenSilently();
-      await axios({
+      const accept = await axios({
         method: "PUT",
         url: `${BACKEND_URL}/friends/`,
         headers: {
@@ -69,7 +69,9 @@ const FriendCardButtons = (props) => {
           requestor: requestor,
         },
       });
-      setLoadingData(false);
+      if (accept.data.msg === "success") {
+        fetchFriends();
+      }
     } catch (err) {
       setLoadingData(false);
       throw new Error(err);
@@ -96,6 +98,7 @@ const FriendCardButtons = (props) => {
         },
       });
       setLoadingData(false);
+      // after successful sending, clear search field and activate snackbar
     } catch (err) {
       setLoadingData(false);
       throw new Error(err);
@@ -187,7 +190,7 @@ const FriendCardButtons = (props) => {
           </Box>
         </Box>
       )}
-      <ErrorDialog
+      <ConfirmationDialog
         openConfirmationDialog={openConfirmationDialog}
         setOpenConfirmationDialog={setOpenConfirmationDialog}
         confirmationDialogContent={confirmationDialogContent}
