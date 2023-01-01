@@ -1,60 +1,95 @@
 import { Box } from "@mui/material";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import FriendCard from "./FriendCard";
-import { useAuth0 } from "@auth0/auth0-react";
-import { BACKEND_URL } from "../constants";
-import axios from "axios";
 
-const FriendsList = () => {
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    // make api call here
-    
-  }, []);
+const FriendsList = (props) => {
+  const { friends, fetchFriends, loadingData, setLoadingData } = props;
 
   return (
-    <Box display="flex" flexDirection="column" alignItems="center" gap={1}>
-      <Box
-        alignSelf="flex-start"
-        fontStyle="italic"
-        fontWeight="bold"
-        fontSize={18}
-      >
-        Pending:
-      </Box>
-      <Box
-        color="orange" // orange to indicate TBD. remove when you start developing
-      >
-        Insert friend request invitations
-        {data?.invites?.map((user) => (
-          <FriendCard user={user} />
-        ))}
-      </Box>
-      <Box
-        color="orange" // orange to indicate TBD. remove when you start developing
-      >
-        Insert pending friend acceptance users
-        {data?.pending?.map((user) => (
-          <FriendCard user={user} />
-        ))}
-      </Box>
-      <Box
-        alignSelf="flex-start"
-        fontStyle="italic"
-        fontWeight="bold"
-        fontSize={18}
-      >
-        Friends({data?.accepted?.length || 0}):
-      </Box>
-      <Box
-        color="orange" // orange to indicate TBD. remove when you start developing
-      >
-        Insert friends
-        {data?.accepted?.map((user) => (
-          <FriendCard user={user} />
-        ))}
-      </Box>
+    <Box display="flex" flexDirection="column" alignItems="center" gap={3}>
+      {friends?.pending && (
+        <Box
+          className="pending-friends-container"
+          width="100%"
+          minHeight="20vh"
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          gap={1}
+        >
+          <Box
+            className="pending-friends-title"
+            alignSelf="flex-start"
+            fontStyle="italic"
+            fontWeight="bold"
+            fontSize={18}
+          >
+            Pending:
+          </Box>
+          <Box
+            className="pending-friend-cards-container"
+            width="100%"
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            gap={1}
+          >
+            {friends?.pending?.requestee?.map((connection) => (
+              <FriendCard
+                fetchFriends={fetchFriends}
+                key={connection.id}
+                connection={connection}
+                setLoadingData={setLoadingData}
+              />
+            ))}
+            {friends?.pending?.requestor?.map((connection) => (
+              <FriendCard
+                fetchFriends={fetchFriends}
+                key={connection.id}
+                connection={connection}
+                setLoadingData={setLoadingData}
+              />
+            ))}
+          </Box>
+        </Box>
+      )}
+      {friends?.accepted && (
+        <Box
+          className="accepted-friends-container"
+          width="100%"
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          gap={1}
+        >
+          <Box
+            className="accepted-friends-title"
+            alignSelf="flex-start"
+            fontStyle="italic"
+            fontWeight="bold"
+            fontSize={18}
+          >
+            Friends{!loadingData && `(${friends?.accepted?.length})`}:
+          </Box>
+          <Box
+            className="accepted-friend-cards-container"
+            width="100%"
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            gap={1}
+          >
+            {friends?.accepted?.map((connection) => (
+              <FriendCard
+                fetchFriends={fetchFriends}
+                key={connection.id}
+                connection={connection}
+                setLoadingData={setLoadingData}
+              />
+            ))}
+          </Box>
+        </Box>
+      )}
     </Box>
   );
 };

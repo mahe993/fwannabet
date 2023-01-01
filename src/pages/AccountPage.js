@@ -8,11 +8,16 @@ import { css } from "@emotion/react";
 import AccountForm from "../forms/AccountForm";
 import { useAuth0 } from "@auth0/auth0-react";
 import { BACKEND_URL } from "../constants.js";
+import { useUserContext } from "../contexts/UserContext";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const AccountPage = () => {
   const [snackBarOpen, setSnackBarOpen] = useState(false);
+  const [backDropOpen, setBackDropOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
 
+  const { userDetails, setUserDetails } = useUserContext();
   const { user, getAccessTokenSilently } = useAuth0();
 
   // update profile pic
@@ -27,8 +32,8 @@ const AccountPage = () => {
         headers: { Authorization: `Bearer ${accessToken}` },
         data: formData,
       });
-      //get the setUserDetails from usercontext
-      // setUserDetails(postProfilePic.data);
+      // get the setUserDetails from usercontext
+      setUserDetails(postProfilePic.data);
       setAlertMessage("Profile picture successfully updated!");
       setSnackBarOpen(true);
     } catch (err) {
@@ -65,14 +70,15 @@ const AccountPage = () => {
         >
           <Avatar
             alt="profile"
-            src={"get this source from userContext"}
+            src={userDetails?.profilePicture?.downloadUrl}
             sx={{ width: "150px", height: "150px" }}
           />
         </Badge>
-        <Box bgcolor="rgba(0, 0, 0, 0.4)" borderRadius="15px" pt={1} pb={1}>
+        <Box>
           <AccountForm
             setSnackBarOpen={setSnackBarOpen}
             setAlertMessage={setAlertMessage}
+            setBackDropOpen={setBackDropOpen}
           />
         </Box>
       </Box>
@@ -86,6 +92,12 @@ const AccountPage = () => {
           {alertMessage}
         </Alert>
       </Snackbar>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={backDropOpen}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </>
   );
 };

@@ -1,82 +1,75 @@
 import { Box } from "@mui/material";
 import React from "react";
-
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
+import noPFP from "../assets/images/noPFP.jpg";
+import { useAuth0 } from "@auth0/auth0-react";
+import FriendCardButtons from "./FriendCardButtons";
 
 const FriendCard = (props) => {
-  const { user } = props;
-  // const name = user.name;
-  // const status = user.status;
-  const status = "pending";
+  const { connection, setLoadingData, fetchFriends } = props;
 
-  const FriendRequestButtons = () => {
-    return (
-      <Box sx={{ display: "flex", alignItems: "center" }}>
-        <Box
-          component="button"
-          color="black"
-          sx={{ bgcolor: "green", mt: 1, p: 0.5 }}
-        >
-          Accept Friend Request
-        </Box>
-        <Box component="button" sx={{ bgcolor: "red", mt: 1, ml: 1, p: 0.5 }}>
-          Decline
-        </Box>
-      </Box>
-    );
-  };
-
-  const UnfriendButton = () => {
-    return (
-      <Box sx={{ display: "flex", alignItems: "center" }}>
-        <Box component="typography">We're friends!</Box>
-        <Box component="button" sx={{ bgcolor: "red", mt: 1, ml: 1, p: 0.5 }}>
-          Unfriend
-        </Box>
-      </Box>
-    );
-  };
-
-  const AddFriend = () => {
-    return (
-      <Box sx={{ display: "flex", alignItems: "center" }}>
-        <Box component="button" sx={{ bgcolor: "green", mt: 1, ml: 1, p: 0.5 }}>
-          Add friend
-        </Box>
-      </Box>
-    );
-  };
-
-  const PendingAcceptance = () => {
-    return (
-      <Box sx={{ display: "flex", alignItems: "center" }}>
-        <Box component="typography">Friend request sent! Pending...</Box>
-      </Box>
-    );
-  };
+  const { user } = useAuth0();
 
   return (
     <Box
-      color="orange" // orange to indicate TBD. remove when you start developing
-      sx={{
-        display: "flex",
-        flexWrap: "wrap",
-        boxShadow: 3,
-      }}
+      className="friend-card-container"
+      display="flex"
+      borderRadius="50px"
+      border={1}
+      alignItems="center"
+      width="95%"
+      gap={1}
+      fontSize={14}
     >
-      <Box>
-        // to be replaced with getPicture
+      <Box
+        className="profile-pic-container"
+        borderRadius="50px"
+        height="100px"
+        width="100px"
+        overflow="hidden"
+      >
         <img
-          src={`https://picsum.photos/100
+          src={connection?.profilePicture ? connection?.profilePicture : noPFP}
+          alt="profile-pic"
+          width="100%"
+          height="100%"
+          css={css`
+            border-radius: 50px;
+            object-fit: fill;
           `}
         />
       </Box>
-      <Box sx={{ m: 1 }}>
-        <Box component="typography">Name: John Doe</Box>
-        {/* <Box component="typography">Name: {name}</Box> */}
-        {status === "invited" && <FriendRequestButtons />}
-        {status === "approved" && <UnfriendButton />}
-        {status === "pending" && <PendingAcceptance />}
-        {status === null && <AddFriend />}
+      <Box
+        className="friend-details-container"
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        width="180px"
+        height="70px"
+        overflow="hidden"
+        gap={1.5}
+        borderRadius="0px 50px 50px 0px"
+      >
+        <Box
+          className="friend-name-container"
+          width="100%"
+          textAlign="center"
+          color="lightgrey"
+        >
+          {connection?.username ? connection?.username : connection?.email}
+        </Box>
+        <Box className="buttons-container" textAlign="center">
+          <FriendCardButtons
+            connectionStatus={connection?.status}
+            requestee={
+              connection?.requestee ? connection?.requestee : connection?.id
+            }
+            requestor={connection?.requestor ? connection?.requestor : user.sub}
+            setLoadingData={setLoadingData}
+            fetchFriends={fetchFriends}
+          />
+        </Box>
       </Box>
     </Box>
   );

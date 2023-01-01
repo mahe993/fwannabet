@@ -1,58 +1,85 @@
 import { Box } from "@mui/material";
 import React, { useState, useEffect } from "react";
-import { debounce } from "lodash";
 import FriendsList from "../components/FriendsList";
 import PageHeader from "../components/PageHeader";
 import FriendCard from "../components/FriendCard";
+import { useForm } from "react-hook-form";
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
+import { useAuth0 } from "@auth0/auth0-react";
+import { BACKEND_URL } from "../constants.js";
+import axios from "axios";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const FriendsPage = () => {
-  const [searchValue, setSearchValue] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [loadingData, setLoadingData] = useState(true);
+  const [friends, setFriends] = useState([]);
 
-  // do a axios get request using search value and update searchResults
+  const { user } = useAuth0();
 
-  const debouncedSearch = debounce(() => {
-    // Make a GET request to the server to search for users
-    //   fetch(`/search?q=${query}`)
-    //    .then(response => response.json())
-    //    .then(data => setSearchResults(data.results));
-  }, 500);
+  // react-hook-form
+  const {
+    register,
+    formState: { touchedFields },
+  } = useForm({
+    mode: "onChange",
+  });
 
-  useEffect(() => {
-    // Run the debounced search when the searchValue changes
-    debouncedSearch();
-  }, [searchValue]);
-
-  useEffect(() => {
-    // friendlist update here (showing all existing friends and pendingAccept)
-    //api call here to get friends
-    // API Call: data = {invited: [{id:XXX, username:XXX, profile_picture:XXX, status: invited}], pendingAccept: [{id, name, status: pending}], approved: [{id, name, status: approved}]}
-    // setData
-  }, [searchResults]);
-
-
-  const handleChange = (event) => {
-    setSearchValue(event.target.value);
+  //on mount axios get all user's friend connections
+  const fetchFriends = async (signal) => {
+    try {
+      const res = await axios({
+        method: "GET",
+        url: `${BACKEND_URL}/friends/${user.sub}`,
+        signal,
+      });
+      setFriends(res.data);
+      setLoadingData(false);
+    } catch (err) {
+      if (err.name !== "AbortError") {
+        console.log("friends data fetch aborted");
+      } else {
+        throw new Error(err);
+      }
+    }
   };
+
+  useEffect(() => {
+    setLoadingData(true);
+    const controller = new AbortController();
+    const signal = controller.signal;
+    fetchFriends(signal);
+    return () => {
+      controller.abort();
+    };
+  }, []);
 
   return (
     <Box display="flex" flexDirection="column" alignItems="center" gap={2}>
       <PageHeader header="Friends" />
-      <Box
-        width="95vw"
-        color="orange" // orange to indicate TBD. remove when you start developing
-      >
-        {/* Insert search bar to search for users. Search value should be
-        debounced/throttled to make a get request. this is NOT a react hook form
-        input */}
+      <Box>
         <form>
-          <label htmlFor="search-box">Search:</label>
           <input
-            type="text"
-            id="search-box"
-            placeholder="Search for your friends"
-            value={searchValue}
-            onChange={handleChange}
+            autoComplete="off"
+            id="searchBox"
+            type="search"
+            placeholder="Search by username/email"
+            {...register("searchBox")}
+            css={css`
+              background-color: #313131;
+              padding: 3px;
+              outline-style: none;
+              width: 300px;
+              ::placeholder {
+                font-size: 12px;
+                font-style: italic;
+                text-align: center;
+              }
+              :focus {
+                outline-color: lightgrey;
+              }
+            `}
           />
         </form>
       </Box>
@@ -62,13 +89,39 @@ const FriendsPage = () => {
         border={1}
         minHeight="70vh"
         p={1}
+        mb={2}
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
       >
-        {searchValue ? (
-          searchResults.map((user) => <FriendCard users={user} />)
+        {loadingData ? (
+          <CircularProgress
+            css={css`
+              justify-self: center;
+            `}
+          />
+        ) : searchResults.length > 0 ? (
+          searchResults.map((connection) => (
+            <FriendCard
+              key={connection.id}
+              connection={connection}
+              setLoadingData={setLoadingData}
+            />
+          ))
+        ) : !friends.accepted && !friends.pending ? (
+          <Box textAlign="center" fontStyle="italic">
+            No friends added yet!
+            <br />
+            Use the search box to search for friends!
+          </Box>
         ) : (
-          <FriendsList />
+          <FriendsList
+            friends={friends}
+            fetchFriends={fetchFriends}
+            loadingData={loadingData}
+            setLoadingData={setLoadingData}
+          />
         )}
-        <FriendCard />
       </Box>
     </Box>
   );
