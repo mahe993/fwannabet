@@ -7,10 +7,9 @@ import { useAuth0 } from "@auth0/auth0-react";
 import FriendCardButtons from "./FriendCardButtons";
 
 const FriendCard = (props) => {
-  const { connection, setLoadingFriendsPage } = props;
+  const { connection, setLoadingData } = props;
 
   const { user } = useAuth0();
-
 
   return (
     <Box
@@ -64,7 +63,7 @@ const FriendCard = (props) => {
               connection?.requestee ? connection?.requestee : connection?.id
             }
             requestor={connection?.requestor ? connection?.requestor : user.sub}
-            setLoadingFriendsPage={setLoadingFriendsPage}
+            setLoadingData={setLoadingData}
           />
         </Box>
       </Box>

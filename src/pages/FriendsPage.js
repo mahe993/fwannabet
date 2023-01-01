@@ -14,7 +14,6 @@ import CircularProgress from "@mui/material/CircularProgress";
 const FriendsPage = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [loadingData, setLoadingData] = useState(true);
-  const [loadingFriendsPage, setLoadingFriendsPage] = useState(false);
   const [friends, setFriends] = useState([]);
 
   const { user } = useAuth0();
@@ -91,15 +90,22 @@ const FriendsPage = () => {
         minHeight="70vh"
         p={1}
         mb={2}
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
       >
-        {loadingFriendsPage ? (
-          <CircularProgress />
+        {loadingData ? (
+          <CircularProgress
+            css={css`
+              justify-self: center;
+            `}
+          />
         ) : searchResults.length > 0 ? (
           searchResults.map((connection) => (
             <FriendCard
               key={connection.id}
               connection={connection}
-              setLoadingFriendsPage={setLoadingFriendsPage}
+              setLoadingData={setLoadingData}
             />
           ))
         ) : (
@@ -107,7 +113,7 @@ const FriendsPage = () => {
             friends={friends}
             setFriends={setFriends}
             loadingData={loadingData}
-            setLoadingFriendsPage={setLoadingFriendsPage}
+            setLoadingData={setLoadingData}
           />
         )}
       </Box>
