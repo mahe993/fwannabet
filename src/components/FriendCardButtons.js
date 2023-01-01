@@ -58,7 +58,7 @@ const FriendCardButtons = (props) => {
     try {
       setLoadingData(true);
       const accessToken = await getAccessTokenSilently();
-      await axios({
+      const accept = await axios({
         method: "PUT",
         url: `${BACKEND_URL}/friends/`,
         headers: {
@@ -69,7 +69,10 @@ const FriendCardButtons = (props) => {
           requestor: requestor,
         },
       });
-      setLoadingData(false);
+      console.log(accept.data);
+      if (accept.data.msg === "success") {
+        fetchFriends();
+      }
     } catch (err) {
       setLoadingData(false);
       throw new Error(err);
