@@ -1,12 +1,9 @@
 import { Box } from "@mui/material";
 import React from "react";
 import FriendCard from "./FriendCard";
-import CircularProgress from "@mui/material/CircularProgress";
-/** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
 
 const FriendsList = (props) => {
-  const { friends, setFriends, loadingData, setLoadingData } = props;
+  const { friends, fetchFriends, loadingData, setLoadingData } = props;
 
   return (
     <Box display="flex" flexDirection="column" alignItems="center" gap={3}>
@@ -39,6 +36,7 @@ const FriendsList = (props) => {
           >
             {friends?.pending?.requestee?.map((connection) => (
               <FriendCard
+                fetchFriends={fetchFriends}
                 key={connection.id}
                 connection={connection}
                 setLoadingData={setLoadingData}
@@ -46,6 +44,7 @@ const FriendsList = (props) => {
             ))}
             {friends?.pending?.requestor?.map((connection) => (
               <FriendCard
+                fetchFriends={fetchFriends}
                 key={connection.id}
                 connection={connection}
                 setLoadingData={setLoadingData}
@@ -54,40 +53,43 @@ const FriendsList = (props) => {
           </Box>
         </Box>
       )}
-      <Box
-        className="accepted-friends-container"
-        width="100%"
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        gap={1}
-      >
+      {friends?.accepted && (
         <Box
-          className="accepted-friends-title"
-          alignSelf="flex-start"
-          fontStyle="italic"
-          fontWeight="bold"
-          fontSize={18}
-        >
-          Friends{!loadingData && `(${friends?.accepted?.length})`}:
-        </Box>
-        <Box
-          className="accepted-friend-cards-container"
+          className="accepted-friends-container"
           width="100%"
           display="flex"
           flexDirection="column"
           alignItems="center"
           gap={1}
         >
-          {friends?.accepted?.map((connection) => (
-            <FriendCard
-              key={connection.id}
-              connection={connection}
-              setLoadingData={setLoadingData}
-            />
-          ))}
+          <Box
+            className="accepted-friends-title"
+            alignSelf="flex-start"
+            fontStyle="italic"
+            fontWeight="bold"
+            fontSize={18}
+          >
+            Friends{!loadingData && `(${friends?.accepted?.length})`}:
+          </Box>
+          <Box
+            className="accepted-friend-cards-container"
+            width="100%"
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            gap={1}
+          >
+            {friends?.accepted?.map((connection) => (
+              <FriendCard
+                fetchFriends={fetchFriends}
+                key={connection.id}
+                connection={connection}
+                setLoadingData={setLoadingData}
+              />
+            ))}
+          </Box>
         </Box>
-      </Box>
+      )}
     </Box>
   );
 };
