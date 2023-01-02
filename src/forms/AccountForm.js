@@ -89,6 +89,10 @@ const AccountForm = (props) => {
                 value: 15,
                 message: "Maximum username length is 15 chars!",
               },
+              minLength: {
+                value: 3,
+                message: "Minimum username length is 3 chars!",
+              },
             })}
             css={css`
               background-color: #313131;

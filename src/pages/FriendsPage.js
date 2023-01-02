@@ -3,35 +3,31 @@ import React, { useState, useEffect } from "react";
 import FriendsList from "../components/FriendsList";
 import PageHeader from "../components/PageHeader";
 import FriendCard from "../components/FriendCard";
-import { useForm } from "react-hook-form";
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { BACKEND_URL } from "../constants.js";
 import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
+import UserSearchBar from "../components/UserSearchBar";
 
 const FriendsPage = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [loadingData, setLoadingData] = useState(true);
   const [friends, setFriends] = useState([]);
 
-  const { user } = useAuth0();
+  const { user, getAccessTokenSilently } = useAuth0();
 
-  // react-hook-form
-  const {
-    register,
-    formState: { touchedFields },
-  } = useForm({
-    mode: "onChange",
-  });
-
-  //on mount axios get all user's friend connections
+  //get all user's friend connections
   const fetchFriends = async (signal) => {
     try {
+      const accessToken = getAccessTokenSilently();
       const res = await axios({
         method: "GET",
         url: `${BACKEND_URL}/friends/${user.sub}`,
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
         signal,
       });
       setFriends(res.data);
@@ -45,6 +41,7 @@ const FriendsPage = () => {
     }
   };
 
+  //on mount get all user's friend connections
   useEffect(() => {
     setLoadingData(true);
     const controller = new AbortController();
@@ -59,29 +56,10 @@ const FriendsPage = () => {
     <Box display="flex" flexDirection="column" alignItems="center" gap={2}>
       <PageHeader header="Friends" />
       <Box>
-        <form>
-          <input
-            autoComplete="off"
-            id="searchBox"
-            type="search"
-            placeholder="Search by username/email"
-            {...register("searchBox")}
-            css={css`
-              background-color: #313131;
-              padding: 3px;
-              outline-style: none;
-              width: 300px;
-              ::placeholder {
-                font-size: 12px;
-                font-style: italic;
-                text-align: center;
-              }
-              :focus {
-                outline-color: lightgrey;
-              }
-            `}
-          />
-        </form>
+        <UserSearchBar
+          setSearchResults={setSearchResults}
+          setLoadingData={setLoadingData}
+        />
       </Box>
       <Box
         className="friends-page-content"
