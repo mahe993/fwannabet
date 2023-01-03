@@ -46,7 +46,7 @@ const UserSearchBar = (props) => {
       setLoadingData(false);
       return;
     }
-    // no reuqests to be made when less than 3 letters typed to prevent returning large number of matches
+    // no requests to be made when less than 3 letters typed to prevent returning large number of matches
     if (query.length < 3) {
       return;
     }
@@ -90,6 +90,7 @@ const UserSearchBar = (props) => {
     if (controllerRef.current) {
       controllerRef.current.abort();
     }
+    // if there is something in the searchBar, start the loading animation
     if (watch("searchBar")) {
       setLoadingData(true);
     }
