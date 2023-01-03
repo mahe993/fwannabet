@@ -32,7 +32,7 @@ const AccountForm = (props) => {
     //update DB users table username/phoneNumber col where userId = user.sub
     const updateFields = {};
     Object.keys(touchedFields).forEach((key) => {
-      if (key === "contactNumber" && values["contactNumber"] === "") {
+      if (values[key] === "") {
         updateFields[key] = null;
       } else {
         updateFields[key] = values[key];
@@ -49,7 +49,6 @@ const AccountForm = (props) => {
         },
         data: updateFields,
       });
-      console.log(update.data);
       setUserDetails(update.data);
       setBackDropOpen(false);
       setAlertMessage("Account info updated!");
