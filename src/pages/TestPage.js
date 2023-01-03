@@ -4,9 +4,9 @@ import { css } from "@emotion/react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useMediaQuery } from "@mui/material";
 import { BACKEND_URL, BREAKPOINT } from "../constants";
-import { useTestContext } from "../contexts/TestContext";
 import { useForm } from "react-hook-form";
 import { Box } from "@mui/material";
+import { useUserContext } from "../contexts/UserContext";
 
 const TestPage = (props) => {
   // useState always right at the top
@@ -17,7 +17,7 @@ const TestPage = (props) => {
   const {} = props;
 
   // any other hooks goes here, if any
-  const { testState } = useTestContext(); // put this at the highest level of hooks group as close to state as possible
+  const { userDetails, setUserDetails } = useUserContext(); // put this at the highest level of hooks group as close to state as possible
   const mediaQuery = useMediaQuery(BREAKPOINT.breakpoints.down("tablet")); // anything with width below "tablet" breakpoint, mediaQuery = true, otherwise false
   const { state } = useLocation();
   const navigation = useNavigate();

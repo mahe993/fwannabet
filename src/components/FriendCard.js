@@ -1,15 +1,76 @@
 import { Box } from "@mui/material";
 import React from "react";
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
+import noPFP from "../assets/images/noPFP.jpg";
+import { useAuth0 } from "@auth0/auth0-react";
+import FriendCardButtons from "./FriendCardButtons";
 
 const FriendCard = (props) => {
-  const { user } = props;
+  const { connection, setLoadingData, fetchFriends } = props;
+
+  const { user } = useAuth0();
 
   return (
     <Box
-      color="orange" // orange to indicate TBD. remove when you start developing
+      className="friend-card-container"
+      display="flex"
+      borderRadius="50px"
+      border={1}
+      alignItems="center"
+      width="95%"
+      gap={1}
+      fontSize={14}
     >
-      this component takes in user prop which we can use to render a card with
-      the user info with the appropriate buttons
+      <Box
+        className="profile-pic-container"
+        borderRadius="50px"
+        height="100px"
+        width="100px"
+        overflow="hidden"
+      >
+        <img
+          src={connection?.profilePicture ? connection?.profilePicture : noPFP}
+          alt="profile-pic"
+          width="100%"
+          height="100%"
+          css={css`
+            border-radius: 50px;
+            object-fit: fill;
+          `}
+        />
+      </Box>
+      <Box
+        className="friend-details-container"
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        width="180px"
+        height="70px"
+        overflow="hidden"
+        gap={1.5}
+        borderRadius="0px 50px 50px 0px"
+      >
+        <Box
+          className="friend-name-container"
+          width="100%"
+          textAlign="center"
+          color="lightgrey"
+        >
+          {connection?.username ? connection?.username : connection?.email}
+        </Box>
+        <Box className="buttons-container" textAlign="center">
+          <FriendCardButtons
+            connectionStatus={connection?.status}
+            requestee={
+              connection?.requestee ? connection?.requestee : connection?.id
+            }
+            requestor={connection?.requestor ? connection?.requestor : user.sub}
+            setLoadingData={setLoadingData}
+            fetchFriends={fetchFriends}
+          />
+        </Box>
+      </Box>
     </Box>
   );
 };
