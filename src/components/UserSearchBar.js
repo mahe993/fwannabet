@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -6,10 +6,28 @@ import { BACKEND_URL } from "../constants.js";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 
-const UserSearchBar = (props) => {
-  const [abortController, setAbortController] = useState("");
+// create debounce hook
+function useDebounce(value, delay) {
+  const [debouncedValue, setDebouncedValue] = useState("");
 
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
+}
+
+const UserSearchBar = (props) => {
   const { setSearchResults, setLoadingData } = props;
+
+  // to keep track of current network request
+  const controllerRef = useRef(null);
 
   const { getAccessTokenSilently, user } = useAuth0();
 
@@ -18,33 +36,25 @@ const UserSearchBar = (props) => {
     mode: "onChange",
   });
 
-  // debounce fn
-  const debounce = (cb, delay) => {
-    let timeOut;
+  // queryValue updates 1000ms after user input
+  const queryValue = useDebounce(watch("searchBar"), 1000);
 
-    return (query) => {
-      clearTimeout(timeOut);
-      timeOut = setTimeout(() => {
-        cb(query);
-      }, delay);
-    };
-  };
-
-  // using debounce with 500ms delay
-  const searchUser = debounce(async (query) => {
+  // searchUser request fn
+  const searchUser = async (query) => {
+    // when user types something and backspace delete all, to remove loading animation
     if (query === "" || query === null) {
       setLoadingData(false);
       return;
     }
+    // no reuqests to be made when less than 3 letters typed to prevent returning large number of matches
     if (query.length < 3) {
       return;
     }
-    const controller = new AbortController();
-    setAbortController(controller);
-    //fetch users
     try {
-      console.log(query);
+      const controller = new AbortController();
+      controllerRef.current = controller;
       const accessToken = await getAccessTokenSilently();
+      console.log("calling");
       const users = await axios({
         method: "GET",
         url: `${BACKEND_URL}/users/search/${user.sub}/${query}`,
@@ -56,22 +66,33 @@ const UserSearchBar = (props) => {
       setSearchResults(users);
       setLoadingData(false);
     } catch (err) {
-      if (err.name === "AbortError") {
-        console.log("User search request cancelled");
+      if (axios.isCancel(err)) {
+        console.log("Search users request aborted", err.message);
       } else {
         setLoadingData(false);
         throw new Error(err);
       }
     }
-  }, 2000);
+  };
 
-  // when searchBar value changes, call debounce
+  // when queryValue is updated (every 1000ms), make a network request
   useEffect(() => {
-    if (abortController) {
-      abortController.abort();
+    searchUser(queryValue);
+    return () => {
+      if (controllerRef.current) {
+        controllerRef.current.abort();
+      }
+    };
+  }, [queryValue]);
+
+  // when searchBar value changes (user types input), abort any current network request
+  useEffect(() => {
+    if (controllerRef.current) {
+      controllerRef.current.abort();
     }
-    setLoadingData(true);
-    searchUser(watch("searchBar"));
+    if (watch("searchBar")) {
+      setLoadingData(true);
+    }
   }, [watch("searchBar")]);
 
   return (
