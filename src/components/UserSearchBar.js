@@ -21,6 +21,7 @@ const UserSearchBar = (props) => {
   // debounce fn
   const debounce = (cb, delay) => {
     let timeOut;
+
     return (query) => {
       clearTimeout(timeOut);
       timeOut = setTimeout(() => {
@@ -42,11 +43,11 @@ const UserSearchBar = (props) => {
     setAbortController(controller);
     //fetch users
     try {
-      const accessToken = getAccessTokenSilently();
+      console.log(query);
+      const accessToken = await getAccessTokenSilently();
       const users = await axios({
         method: "GET",
-        url: `${BACKEND_URL}/users/search/${user.sub}`,
-        data: { query: query },
+        url: `${BACKEND_URL}/users/search/${user.sub}/${query}`,
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -56,13 +57,13 @@ const UserSearchBar = (props) => {
       setLoadingData(false);
     } catch (err) {
       if (err.name === "AbortError") {
-        console.log("The search request was cancelled");
+        console.log("User search request cancelled");
       } else {
         setLoadingData(false);
         throw new Error(err);
       }
     }
-  }, 500);
+  }, 2000);
 
   // when searchBar value changes, call debounce
   useEffect(() => {

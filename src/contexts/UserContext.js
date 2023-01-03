@@ -20,7 +20,7 @@ export const UserContextProvider = ({ children }) => {
     try {
       const accessToken = await getAccessTokenSilently();
       const getUser = await axios({
-        url: `${BACKEND_URL}/users/${user.sub}/${user.email}`,
+        url: `${BACKEND_URL}/users/getuser/${user.sub}/${user.email}`,
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
