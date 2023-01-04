@@ -7,7 +7,13 @@ import { useAuth0 } from "@auth0/auth0-react";
 import FriendCardButtons from "./FriendCardButtons";
 
 const FriendCard = (props) => {
-  const { connection, setLoadingData, fetchFriends } = props;
+  const {
+    connection,
+    setLoadingData,
+    fetchFriends,
+    getValues,
+    setSearchResults,
+  } = props;
 
   const { user } = useAuth0();
 
@@ -30,7 +36,11 @@ const FriendCard = (props) => {
         overflow="hidden"
       >
         <img
-          src={connection?.profilePicture ? connection?.profilePicture : noPFP}
+          src={
+            connection?.profilePicture
+              ? connection?.profilePicture?.downloadUrl
+              : noPFP
+          }
           alt="profile-pic"
           width="100%"
           height="100%"
@@ -57,10 +67,15 @@ const FriendCard = (props) => {
           textAlign="center"
           color="lightgrey"
         >
-          {connection?.username ? connection?.username : connection?.email}
+          {connection?.username
+            ? connection?.username
+            : connection?.email.length > 15
+            ? `${connection?.email.slice(0, 15)}...`
+            : connection?.email}
         </Box>
         <Box className="buttons-container" textAlign="center">
           <FriendCardButtons
+            requesteeId={connection?.id}
             connectionStatus={connection?.status}
             requestee={
               connection?.requestee ? connection?.requestee : connection?.id
@@ -68,6 +83,8 @@ const FriendCard = (props) => {
             requestor={connection?.requestor ? connection?.requestor : user.sub}
             setLoadingData={setLoadingData}
             fetchFriends={fetchFriends}
+            getValues={getValues}
+            setSearchResults={setSearchResults}
           />
         </Box>
       </Box>
