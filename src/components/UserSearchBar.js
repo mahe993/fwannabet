@@ -4,7 +4,6 @@ import { css } from "@emotion/react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { BACKEND_URL } from "../constants.js";
 import axios from "axios";
-import { useForm } from "react-hook-form";
 
 // create debounce hook
 function useDebounce(value, delay) {
@@ -24,32 +23,18 @@ function useDebounce(value, delay) {
 }
 
 const UserSearchBar = (props) => {
-  const { setSearchResults, setLoadingData } = props;
+  const { setSearchResults, setLoadingData, register, watch } = props;
 
   // to keep track of current network request
   const controllerRef = useRef(null);
 
   const { getAccessTokenSilently, user } = useAuth0();
 
-  // react-hook-form
-  const { register, watch } = useForm({
-    mode: "onChange",
-  });
-
   // queryValue updates 1000ms after user input
   const queryValue = useDebounce(watch("searchBar"), 1000);
 
   // searchUser request fn
   const searchUser = async (query) => {
-    // when user types something and backspace delete all, to remove loading animation
-    if (query === "" || query === null) {
-      setLoadingData(false);
-      return;
-    }
-    // no requests to be made when less than 3 letters typed to prevent returning large number of matches
-    if (query.length < 3) {
-      return;
-    }
     try {
       const controller = new AbortController();
       controllerRef.current = controller;
@@ -63,7 +48,7 @@ const UserSearchBar = (props) => {
         },
         signal: controller.signal,
       });
-      setSearchResults(users);
+      setSearchResults(users.data);
       setLoadingData(false);
     } catch (err) {
       if (axios.isCancel(err)) {
@@ -77,7 +62,18 @@ const UserSearchBar = (props) => {
 
   // when queryValue is updated (every 1000ms), make a network request
   useEffect(() => {
-    searchUser(queryValue);
+    // no requests to be made when less than 3 letters typed to prevent returning large number of matches
+    if (queryValue && queryValue.length > 2) {
+      searchUser(queryValue);
+    } else if (queryValue) {
+      // when queryValue is 2 characters or less, to show loading animation only
+      setSearchResults("");
+      setLoadingData(true);
+    } else {
+      // when user types something and backspace delete all, to remove loading animation and clear results
+      setSearchResults("");
+      setLoadingData(false);
+    }
     return () => {
       if (controllerRef.current) {
         controllerRef.current.abort();

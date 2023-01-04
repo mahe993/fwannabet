@@ -23,9 +23,33 @@ const FriendCardButtons = (props) => {
     requestor,
     setLoadingData,
     fetchFriends,
+    requesteeId, // only valid when there is no connectionStatus, otherwise this value is the friend connectionId
+    getValues,
+    setSearchResults,
   } = props;
 
   const { user, getAccessTokenSilently } = useAuth0();
+
+  // searchUser request fn
+  const searchUser = async () => {
+    try {
+      const accessToken = await getAccessTokenSilently();
+      const users = await axios({
+        method: "GET",
+        url: `${BACKEND_URL}/users/search/${user.sub}/${getValues(
+          "searchBar"
+        )}`,
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      setSearchResults(users.data);
+      setLoadingData(false);
+    } catch (err) {
+      setLoadingData(false);
+      throw new Error(err);
+    }
+  };
 
   // remove friend connection
   const removeConnection = async () => {
@@ -45,6 +69,11 @@ const FriendCardButtons = (props) => {
         },
       });
       if (del.data.msg === "success") {
+        // if there is value on searchBar, it means user is using the buttons while on search functionality
+        if (getValues("searchBar")) {
+          searchUser();
+        }
+        // refresh friend list
         fetchFriends();
       }
     } catch (err) {
@@ -70,6 +99,11 @@ const FriendCardButtons = (props) => {
         },
       });
       if (accept.data.msg === "success") {
+        // if there is value on searchBar, it means user is using the buttons while on search functionality
+        if (getValues("searchBar")) {
+          searchUser();
+        }
+        // refresh friend list
         fetchFriends();
       }
     } catch (err) {
@@ -78,27 +112,31 @@ const FriendCardButtons = (props) => {
     }
   };
 
-  // send friend invitation
+  // send friend invitation (only possible by using searchbar, thus related)
   const sendFriendRequest = async () => {
     try {
-      if (requestee === user.sub) {
-        throw new Error({ msg: "Requestee cannot be yourself!" });
-      }
       setLoadingData(true);
       const accessToken = await getAccessTokenSilently();
-      await axios({
+      const req = await axios({
         method: "POST",
         url: `${BACKEND_URL}/friends/`,
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
         data: {
-          requestee: requestee,
-          requestor: requestor,
+          requestee: requesteeId,
+          requestor: user.sub,
         },
       });
-      setLoadingData(false);
-      // after successful sending, clear search field and activate snackbar
+      // after successful sending, re-search searchbar value
+      if (req.data.msg === "success") {
+        // if there is value on searchBar, it means user is using the buttons while on search functionality
+        if (getValues("searchBar")) {
+          searchUser();
+        }
+        // refresh friend list
+        fetchFriends();
+      }
     } catch (err) {
       setLoadingData(false);
       throw new Error(err);
@@ -185,7 +223,7 @@ const FriendCardButtons = (props) => {
           justifyContent="center"
         >
           <PersonAddIcon color="success" onClick={() => sendFriendRequest()} />
-          <Box fontSize={10} fontStyle="italic" color="darkgreen">
+          <Box fontSize={10} fontStyle="italic" color="lightgreen">
             Add Friend
           </Box>
         </Box>
