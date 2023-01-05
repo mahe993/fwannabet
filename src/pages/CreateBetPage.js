@@ -1,9 +1,11 @@
 import { Box } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import DateAndTime from "../components/DateAndTime";
 import PageHeader from "../components/PageHeader";
 
 const CreateBetPage = () => {
+  const [page, setPage] = useState(0);
+
   return (
     <Box display="flex" flexDirection="column" alignItems="center" gap={2}>
       <PageHeader header="Create" />
@@ -11,9 +13,17 @@ const CreateBetPage = () => {
         <DateAndTime />
       </Box>
       <Box
-        color="orange" // orange to indicate TBD. remove when you start developing
+        className="page-container"
+        width="100%"
+        height="55vh"
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="space-between"
       >
-        Insert ultra complicated CreateBetForm here
+        <Box className="page-instructions">Instructions</Box>
+        <Box className="page-form">input</Box>
+        <Box className="">back button/submit button</Box>
       </Box>
     </Box>
   );

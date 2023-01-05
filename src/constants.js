@@ -1,7 +1,6 @@
 import { Box, createTheme } from "@mui/material";
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import PersonIcon from "@mui/icons-material/Person";
 import HomeIcon from "@mui/icons-material/Home";
 import MenuPopover from "./components/MenuPopover";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
@@ -53,47 +52,4 @@ const FILE_TYPES = ["image/jpeg", "image/png", "image/jpg"];
 
 export const validateFileType = (file) => {
   return FILE_TYPES.includes(file.type);
-};
-
-export const returnFileSize = (number) => {
-  if (number < 1024) {
-    return `${number} bytes`;
-  } else if (number >= 1024 && number < 1048576) {
-    return `${(number / 1024).toFixed(1)} KB`;
-  } else if (number >= 1048576) {
-    return `${(number / 1048576).toFixed(1)} MB`;
-  }
-};
-
-// for image clipping
-export const createClippedImage = (numberOfImages, imgSource) => {
-  const images = [];
-  const totalImages = Math.ceil(numberOfImages);
-  let clipping = "0%";
-  for (let i = 0; i < totalImages; i++) {
-    if (i === totalImages - 1) {
-      clipping = `${(totalImages - numberOfImages) * 100}%`;
-    }
-    images.push(
-      <Box
-        height={25}
-        width={25}
-        display="flex"
-        key={i}
-        css={css`
-          clip-path: inset(0% ${clipping} 0% 0%);
-        `}
-      >
-        <img
-          src={imgSource}
-          alt="clipped"
-          css={css`
-            width: 100%;
-            height: 100%;
-          `}
-        />
-      </Box>
-    );
-  }
-  return images;
 };

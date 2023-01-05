@@ -7,7 +7,7 @@ import axios from "axios";
 import { css } from "@emotion/react";
 import AccountForm from "../forms/AccountForm";
 import { useAuth0 } from "@auth0/auth0-react";
-import { BACKEND_URL } from "../constants.js";
+import { BACKEND_URL, validateFileType } from "../constants.js";
 import { useUserContext } from "../contexts/UserContext";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -22,6 +22,8 @@ const AccountPage = () => {
 
   // update profile pic
   const handleProfilePic = async (e) => {
+    const validFile = validateFileType(e.target.files[0]);
+    if (!validFile) return alert("Please upload a valid image file");
     const formData = new FormData();
     formData.append("picture", e.target.files[0]);
     try {
