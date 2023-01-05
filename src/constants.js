@@ -53,3 +53,22 @@ const FILE_TYPES = ["image/jpeg", "image/png", "image/jpg"];
 export const validateFileType = (file) => {
   return FILE_TYPES.includes(file.type);
 };
+
+// for create bet pagination
+export const PAGE_STEPS = ["Bet Type", "Bet Details", "Odds & Max Bet"];
+
+// for create bet page instructions
+export const PAGE_INSTRUCTIONS = [
+  "Select the type of bet you want to create",
+  "Enter a description that you and your friends understand",
+  "Set the odds and the max bet you are willing to take",
+];
+
+// for create bet type options
+export const BET_TYPES = [
+  "Custom",
+  "Weather (feature coming soon)",
+  "Basketball (feature coming soon)",
+  "Soccer (feature coming soon)",
+  "Tennis (feature coming soon)",
+];
