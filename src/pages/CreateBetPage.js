@@ -10,12 +10,18 @@ import { PAGE_INSTRUCTIONS, PAGE_STEPS } from "../constants";
 import { css } from "@emotion/react";
 import NewBetForm from "../forms/NewBetForm";
 import { useForm } from "react-hook-form";
+import CreateBetPageButtons from "../components/CreateBetPageButtons";
 
 const CreateBetPage = () => {
   const [page, setPage] = useState(0);
   const [formValues, setFormValues] = useState({ betType: "" });
 
   const { register, watch, getValues } = useForm();
+
+  // submit formValues to create betline
+  const createBet = async () => {
+    console.log("handle submit createBet");
+  };
 
   // when bet type changes, update overall form
   useEffect(() => {
@@ -80,30 +86,11 @@ const CreateBetPage = () => {
           />
         </Box>
         <Box className="page-buttons" display="flex" gap={1}>
-          {page !== 0 && (
-            <Button
-              variant="contained"
-              onClick={() => setPage((currPage) => currPage - 1)}
-            >
-              Back
-            </Button>
-          )}
-          {page !== 2 && (
-            <Button
-              variant="contained"
-              onClick={() => setPage((currPage) => currPage + 1)}
-            >
-              Next
-            </Button>
-          )}
-          {page === 2 && (
-            <Button
-              variant="contained"
-              // disabled={condition} truthy if any formValueKey == ""
-            >
-              Submit
-            </Button>
-          )}
+          <CreateBetPageButtons
+            page={page}
+            setPage={setPage}
+            createBet={createBet}
+          />
         </Box>
       </Box>
     </Box>
