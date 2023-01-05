@@ -55,13 +55,21 @@ export const validateFileType = (file) => {
 };
 
 // for create bet pagination
-export const PAGE_STEPS = ["Bet Type", "Bet Details", "Odds & Max Bet"];
+export const PAGE_STEPS = [
+  "Bet Type",
+  "Bet Details",
+  "Odds",
+  "Min/Max Bet",
+  "Expiry",
+];
 
 // for create bet page instructions
 export const PAGE_INSTRUCTIONS = [
   "Select the type of bet you want to create",
   "Enter a description that you and your friends understand",
-  "Set the odds and the max bet you are willing to take",
+  "Set the payout odds for this bet line\nOdds can only be to 1 decimal point, minimum 1.1",
+  "Set the min and max bet you are willing to take\nMax bet cannot exceed your (wallet balance) / (bet odds)\n e.g. wallet balance = $100, bet odds = 3.0, max bet = $33",
+  "Set when this betline will close and\nwhen the results will be verified",
 ];
 
 // for create bet type options

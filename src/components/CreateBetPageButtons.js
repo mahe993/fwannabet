@@ -2,7 +2,7 @@ import { Button } from "@mui/material";
 import React from "react";
 
 const CreateBetPageButtons = (props) => {
-  const { page, setPage, createBet } = props;
+  const { page, setPage, createBet, isValid } = props;
   return (
     <>
       {page !== 0 && (
@@ -13,18 +13,19 @@ const CreateBetPageButtons = (props) => {
           Back
         </Button>
       )}
-      {page !== 2 && (
+      {page !== 4 && (
         <Button
           variant="contained"
           onClick={() => setPage((currPage) => currPage + 1)}
+          disabled={!isValid}
         >
           Next
         </Button>
       )}
-      {page === 2 && (
+      {page === 4 && (
         <Button
           variant="contained"
-          // disabled={condition} truthy if any formValueKey == ""
+          disabled={!isValid}
           onClick={() => {
             createBet();
           }}
