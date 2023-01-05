@@ -28,7 +28,7 @@ const FriendsPage = () => {
   //get all user's friend connections
   const fetchFriends = async (signal) => {
     try {
-      const accessToken = getAccessTokenSilently();
+      const accessToken = await getAccessTokenSilently();
       const res = await axios({
         method: "GET",
         url: `${BACKEND_URL}/friends/${user.sub}`,
