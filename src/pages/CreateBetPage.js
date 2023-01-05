@@ -1,4 +1,5 @@
-import { Box, Button } from "@mui/material";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { Box } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import DateAndTime from "../components/DateAndTime";
 import PageHeader from "../components/PageHeader";
@@ -6,10 +7,8 @@ import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import { PAGE_INSTRUCTIONS, PAGE_STEPS } from "../constants";
-/** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
 import NewBetForm from "../forms/NewBetForm";
-import { get, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import CreateBetPageButtons from "../components/CreateBetPageButtons";
 
 const CreateBetPage = () => {

@@ -1,6 +1,4 @@
-import { Box, createTheme } from "@mui/material";
-/** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
+import { createTheme } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import MenuPopover from "./components/MenuPopover";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
