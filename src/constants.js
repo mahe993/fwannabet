@@ -1,13 +1,11 @@
-import { Box, createTheme } from "@mui/material";
-/** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
-import PersonIcon from "@mui/icons-material/Person";
+import { createTheme } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import MenuPopover from "./components/MenuPopover";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import PeopleIcon from "@mui/icons-material/People";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import PropTypes from "prop-types";
+import { Box } from "@mui/system";
 
 /* eslint-disable default-case */
 const backendURL = (devEnv) => {
@@ -56,48 +54,48 @@ export const validateFileType = (file) => {
   return FILE_TYPES.includes(file.type);
 };
 
-export const returnFileSize = (number) => {
-  if (number < 1024) {
-    return `${number} bytes`;
-  } else if (number >= 1024 && number < 1048576) {
-    return `${(number / 1024).toFixed(1)} KB`;
-  } else if (number >= 1048576) {
-    return `${(number / 1048576).toFixed(1)} MB`;
-  }
-};
+// for create bet pagination
+export const PAGE_STEPS = [
+  "Bet Type",
+  "Bet Details",
+  "Bet Odds",
+  "Max Bet",
+  "Min Bet",
+  "Expiry",
+];
 
 // for image clipping
-export const createClippedImage = (numberOfImages, imgSource) => {
-  const images = [];
-  const totalImages = Math.ceil(numberOfImages);
-  let clipping = "0%";
-  for (let i = 0; i < totalImages; i++) {
-    if (i === totalImages - 1) {
-      clipping = `${(totalImages - numberOfImages) * 100}%`;
-    }
-    images.push(
-      <Box
-        height={25}
-        width={25}
-        display="flex"
-        key={i}
-        css={css`
-          clip-path: inset(0% ${clipping} 0% 0%);
-        `}
-      >
-        <img
-          src={imgSource}
-          alt="clipped"
-          css={css`
-            width: 100%;
-            height: 100%;
-          `}
-        />
-      </Box>
-    );
-  }
-  return images;
-};
+// export const createClippedImage = (numberOfImages, imgSource) => {
+//   const images = [];
+//   const totalImages = Math.ceil(numberOfImages);
+//   let clipping = "0%";
+//   for (let i = 0; i < totalImages; i++) {
+//     if (i === totalImages - 1) {
+//       clipping = `${(totalImages - numberOfImages) * 100}%`;
+//     }
+//     images.push(
+//       <Box
+//         height={25}
+//         width={25}
+//         display="flex"
+//         key={i}
+//         css={css`
+//           clip-path: inset(0% ${clipping} 0% 0%);
+//         `}
+//       >
+//         <img
+//           src={imgSource}
+//           alt="clipped"
+//           css={css`
+//             width: 100%;
+//             height: 100%;
+//           `}
+//         />
+//       </Box>
+//     );
+//   }
+//   return images;
+// };
 
 export const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
@@ -127,3 +125,21 @@ export const a11yProps = (index) => {
     "aria-controls": `simple-tabpanel-${index}`,
   };
 };
+// for create bet page instructions
+export const PAGE_INSTRUCTIONS = [
+  "Select the type of bet you want to create",
+  "Enter a description that you and your friends understand",
+  "Set the payout odds for this bet line\nOdds can only be to 1 decimal point, minimum 1.1",
+  "Set the TOTAL bet amount you are willing to take\nMax Bet cannot exceed your (wallet balance) / (bet odds)\n e.g. wallet balance = $100, bet odds = 3.0, max bet = $33",
+  "Set the minimum bet amount each player can play\nMin Bet must be at least $1 and cannot exceed Max bet\n e.g. Max Bet = $100, Min Bet = $1 - $100 inclusive ",
+  "Set when this betline will close and\nwhen the results will be verified",
+];
+
+// for create bet type options
+export const BET_TYPES = [
+  "Custom",
+  "Weather (feature coming soon)",
+  "Basketball (feature coming soon)",
+  "Soccer (feature coming soon)",
+  "Tennis (feature coming soon)",
+];

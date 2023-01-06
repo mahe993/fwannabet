@@ -10,18 +10,25 @@ import { BACKEND_URL } from "../constants.js";
 import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
 import UserSearchBar from "../components/UserSearchBar";
+import SearchResults from "../components/SearchResults";
+import { useForm } from "react-hook-form";
 
 const FriendsPage = () => {
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState("");
   const [loadingData, setLoadingData] = useState(true);
-  const [friends, setFriends] = useState([]);
+  const [friends, setFriends] = useState({});
 
   const { user, getAccessTokenSilently } = useAuth0();
+
+  // react-hook-form
+  const { register, watch, getValues } = useForm({
+    mode: "onChange",
+  });
 
   //get all user's friend connections
   const fetchFriends = async (signal) => {
     try {
-      const accessToken = getAccessTokenSilently();
+      const accessToken = await getAccessTokenSilently();
       const res = await axios({
         method: "GET",
         url: `${BACKEND_URL}/friends/${user.sub}`,
@@ -59,6 +66,8 @@ const FriendsPage = () => {
         <UserSearchBar
           setSearchResults={setSearchResults}
           setLoadingData={setLoadingData}
+          register={register}
+          watch={watch}
         />
       </Box>
       <Box
@@ -78,15 +87,19 @@ const FriendsPage = () => {
               justify-self: center;
             `}
           />
-        ) : searchResults.length > 0 ? (
-          searchResults.map((connection) => (
-            <FriendCard
-              key={connection.id}
-              connection={connection}
-              setLoadingData={setLoadingData}
-            />
-          ))
-        ) : !friends.accepted && !friends.pending ? (
+        ) : Array.isArray(searchResults) ? (
+          <Box textAlign="center" fontStyle="italic">
+            No results
+          </Box>
+        ) : typeof searchResults === "object" ? (
+          <SearchResults
+            setLoadingData={setLoadingData}
+            searchResults={searchResults}
+            fetchFriends={fetchFriends}
+            getValues={getValues}
+            setSearchResults={setSearchResults}
+          />
+        ) : !friends?.accepted && !friends?.pending ? (
           <Box textAlign="center" fontStyle="italic">
             No friends added yet!
             <br />
@@ -98,6 +111,7 @@ const FriendsPage = () => {
             fetchFriends={fetchFriends}
             loadingData={loadingData}
             setLoadingData={setLoadingData}
+            getValues={getValues}
           />
         )}
       </Box>

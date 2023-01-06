@@ -3,7 +3,8 @@ import React from "react";
 import FriendCard from "./FriendCard";
 
 const FriendsList = (props) => {
-  const { friends, fetchFriends, loadingData, setLoadingData } = props;
+  const { friends, fetchFriends, loadingData, setLoadingData, getValues } =
+    props;
 
   return (
     <Box display="flex" flexDirection="column" alignItems="center" gap={3}>
@@ -40,6 +41,7 @@ const FriendsList = (props) => {
                 key={connection.id}
                 connection={connection}
                 setLoadingData={setLoadingData}
+                getValues={getValues}
               />
             ))}
             {friends?.pending?.requestor?.map((connection) => (
@@ -48,6 +50,7 @@ const FriendsList = (props) => {
                 key={connection.id}
                 connection={connection}
                 setLoadingData={setLoadingData}
+                getValues={getValues}
               />
             ))}
           </Box>
@@ -85,6 +88,7 @@ const FriendsList = (props) => {
                 key={connection.id}
                 connection={connection}
                 setLoadingData={setLoadingData}
+                getValues={getValues}
               />
             ))}
           </Box>
