@@ -13,7 +13,7 @@ const CreateBetPageButtons = (props) => {
           Back
         </Button>
       )}
-      {page !== 4 && (
+      {page !== 5 && (
         <Button
           variant="contained"
           onClick={() => setPage((currPage) => currPage + 1)}
@@ -22,7 +22,7 @@ const CreateBetPageButtons = (props) => {
           Next
         </Button>
       )}
-      {page === 4 && (
+      {page === 5 && (
         <Button
           variant="contained"
           disabled={!isValid}

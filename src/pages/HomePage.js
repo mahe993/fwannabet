@@ -10,13 +10,14 @@ import BetlinesTab from "../tabs/BetlinesTab";
 import DateAndTime from "../components/DateAndTime";
 
 const HomePage = () => {
+  const [clock, setClock] = useState(new Date().toString());
   const [pageValue, setPageValue] = useState(0);
 
   return (
     <Box display="flex" flexDirection="column" alignItems="center" gap={2}>
       <PageHeader header="WannaBet™" />
       <Box className="date-time-row" width="95vw" mb={-2}>
-        <DateAndTime />
+        <DateAndTime clock={clock} setClock={setClock} />
       </Box>
       <Box width="100%" bgcolor="transparent">
         <Tabs
