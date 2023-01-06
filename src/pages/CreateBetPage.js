@@ -13,7 +13,7 @@ import CreateBetPageButtons from "../components/CreateBetPageButtons";
 
 const CreateBetPage = () => {
   const [clock, setClock] = useState(new Date().toString());
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(5);
   const [formValues, setFormValues] = useState({
     betType: "",
     betDescription: "",
@@ -122,6 +122,20 @@ const CreateBetPage = () => {
       });
     }
   }, [watch("minBet")]);
+
+  // when bet closing time changes, update overall form
+  useEffect(() => {
+    setFormValues((prev) => {
+      return { ...prev, closingTime: getValues("closingTime") };
+    });
+  }, [watch("closingTime")]);
+
+  // when bet verification time changes, update overall form
+  useEffect(() => {
+    setFormValues((prev) => {
+      return { ...prev, verificationTime: getValues("verificationTime") };
+    });
+  }, [watch("verificationTime")]);
 
   useEffect(() => {
     console.log(formValues);

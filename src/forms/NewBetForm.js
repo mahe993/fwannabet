@@ -194,20 +194,37 @@ const NewBetForm = (props) => {
         </Box>
       )}
       {page === 5 && (
-        <input
-          autoComplete="off"
-          id="bet-closing-time"
-          type="datetime-local"
-          autoFocus
-          {...register("closingTime", {
-            required: "Field is required",
-          })}
-          css={css`
-            background-color: #313131;
-            outline: none;
-            text-align: center;
-          `}
-        />
+        <Box
+          className="bet-expiry-container"
+          display="flex"
+          flexDirection="colummn"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Box
+            className="bet-closing-time-input-container"
+            display="flex"
+            flexDirection="colummn"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <label htmlFor="bet-closing-time">Bet Closing Time</label>
+            <input
+              autoComplete="off"
+              id="bet-closing-time"
+              type="datetime-local"
+              autoFocus
+              {...register("closingTime", {
+                required: "Field is required",
+              })}
+              css={css`
+                background-color: #313131;
+                outline: none;
+                text-align: center;
+              `}
+            />
+          </Box>
+        </Box>
       )}
     </>
   );
