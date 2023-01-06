@@ -9,6 +9,7 @@ const CreateBetPageButtons = (props) => {
     createBet,
     isValid,
     formValues: { closingTime, verificationTime },
+    setBackDropOpen,
   } = props;
 
   // extra check to make sure closingTime and verificationTime fields are not ""
@@ -44,6 +45,7 @@ const CreateBetPageButtons = (props) => {
           variant="contained"
           disabled={!isValid || disable}
           onClick={() => {
+            setBackDropOpen(true);
             createBet();
           }}
         >

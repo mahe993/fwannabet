@@ -36,6 +36,7 @@ const MenuPopover = () => {
                 border={1}
                 color="black"
                 p={1}
+                textAlign="center"
                 onClick={
                   item.path === ""
                     ? () => logout({ returnTo: window.location.origin })

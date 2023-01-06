@@ -3,12 +3,7 @@ import React from "react";
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { BET_TYPES } from "../constants";
-import {
-  differenceInHours,
-  differenceInMinutes,
-  differenceInSeconds,
-  isValid,
-} from "date-fns";
+import { differenceInHours, differenceInMinutes } from "date-fns";
 
 const NewBetForm = (props) => {
   const {
@@ -66,27 +61,41 @@ const NewBetForm = (props) => {
         </Box>
       )}
       {page === 2 && (
-        <input
-          autoComplete="off"
-          id="bet-odds"
-          type="text"
-          autoFocus
-          {...register("betOdds", {
-            required: "Field is required",
-            pattern: {
-              value: /^[-+]?\d*\.?(?!0)\d+$/,
-              message: "Please only enter numbers!",
-            },
-            validate: (value) =>
-              Number(value) >= 1.1 || "Number must be greater than 1",
-          })}
-          css={css`
-            background-color: #313131;
-            outline: none;
-            width: 60px;
-            text-align: center;
-          `}
-        />
+        <Box
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          justifyContent="center"
+          gap={1}
+        >
+          <input
+            autoComplete="off"
+            id="bet-odds"
+            type="text"
+            autoFocus
+            {...register("betOdds", {
+              required: "Field is required",
+              pattern: {
+                value: /^[-+]?\d*\.?(?!0)\d+$/,
+                message:
+                  "Please only enter numbers above 0 to 1 decimal point!",
+              },
+              validate: (value) =>
+                Number(value) >= 1.1 || "Number must be greater than 1",
+            })}
+            css={css`
+              background-color: #313131;
+              outline: none;
+              width: 60px;
+              text-align: center;
+            `}
+          />
+          {errors?.betOdds && (
+            <Box color="red" fontSize={10}>
+              {errors?.betOdds?.message}
+            </Box>
+          )}
+        </Box>
       )}
       {page === 3 && (
         <Box
@@ -124,9 +133,11 @@ const NewBetForm = (props) => {
                 required: "Field is required",
                 pattern: {
                   value: /^[1-9]\d*$/,
-                  message: "Please only enter whole numbers!",
+                  message: "Please only enter whole numbers above 0!",
                 },
-                validate: (value) => Number(value) > 0, // validate number greater than 0 and lower than walletBalance/betOdds
+                validate: (value) =>
+                  Number(value) > 0 ||
+                  "Max Bet must be lower than (walletBalance/betOdds)!", // validate number greater than 0 and lower than walletBalance/betOdds
               })}
               css={css`
                 background-color: #313131;
@@ -135,6 +146,11 @@ const NewBetForm = (props) => {
                 text-align: center;
               `}
             />
+            {errors?.maxBet && (
+              <Box color="red" fontSize={10}>
+                {errors?.maxBet?.message}
+              </Box>
+            )}
           </Box>
         </Box>
       )}
@@ -186,10 +202,13 @@ const NewBetForm = (props) => {
                   required: "Field is required",
                   pattern: {
                     value: /^[1-9]\d*$/,
-                    message: "Please only enter whole numbers!",
+                    message: "Please only enter whole numbers above 0!",
                   },
                   validate: (value) => {
-                    return Number(value) > 0 && Number(value) <= maxBet;
+                    return (
+                      (Number(value) > 0 && Number(value) <= maxBet) ||
+                      "Min Bet cannot exceed Max Bet!"
+                    );
                   },
                 })}
                 css={css`
@@ -199,6 +218,11 @@ const NewBetForm = (props) => {
                   text-align: center;
                 `}
               />
+              {errors?.minBet && (
+                <Box color="red" fontSize={10}>
+                  {errors?.minBet?.message}
+                </Box>
+              )}
             </Box>
           </Box>
         </Box>
