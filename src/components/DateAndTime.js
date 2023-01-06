@@ -7,7 +7,7 @@ const DateAndTime = (props) => {
   // show clock on mount.
   useEffect(() => {
     const time = setInterval(() => {
-      setClock(new Date().toString());
+      setClock(new Date());
     }, 1000);
     //unsubscribe on dismount
     return () => clearInterval(time);
@@ -20,8 +20,8 @@ const DateAndTime = (props) => {
       width="inherit"
       fontSize={12}
     >
-      <Box color="lightgrey">{clock.slice(0, 16)}</Box>
-      <Box color="lightgrey">{clock.slice(16, 24)}</Box>
+      <Box color="lightgrey">{clock.toString().slice(0, 16)}</Box>
+      <Box color="lightgrey">{clock.toString().slice(16, 24)}</Box>
     </Box>
   );
 };
