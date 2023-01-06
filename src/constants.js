@@ -42,6 +42,7 @@ export const NAV_ITEMS = [
 // for menu popover
 export const POPOVER_ITEMS = [
   { name: "Account", path: "/account" },
+  { name: "Transactions", path: "/transactions" },
   { name: "Logout", path: "" },
 ];
 
