@@ -1,6 +1,4 @@
 import { Box } from "@mui/material";
-/** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
 import React, { useState } from "react";
 import PageHeader from "../components/PageHeader";
 import Tabs from "@mui/material/Tabs";

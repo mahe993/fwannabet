@@ -2,7 +2,6 @@ import { Box } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import FriendsList from "../components/FriendsList";
 import PageHeader from "../components/PageHeader";
-import FriendCard from "../components/FriendCard";
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { useAuth0 } from "@auth0/auth0-react";

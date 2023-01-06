@@ -59,7 +59,7 @@ const CreateBetPage = () => {
   const createBet = async () => {
     try {
       const accessToken = await getAccessTokenSilently();
-      const betline = await axios({
+      await axios({
         method: "POST",
         url: `${BACKEND_URL}/betlines/${user.sub}`,
         data: formValues,
