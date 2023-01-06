@@ -10,7 +10,7 @@ import BetlinesTab from "../tabs/BetlinesTab";
 import DateAndTime from "../components/DateAndTime";
 
 const HomePage = () => {
-  const [clock, setClock] = useState(new Date().toString());
+  const [clock, setClock] = useState(new Date());
   const [pageValue, setPageValue] = useState(0);
 
   return (

@@ -10,10 +10,11 @@ import { PAGE_INSTRUCTIONS, PAGE_STEPS } from "../constants";
 import NewBetForm from "../forms/NewBetForm";
 import { useForm } from "react-hook-form";
 import CreateBetPageButtons from "../components/CreateBetPageButtons";
+import { differenceInHours } from "date-fns";
 
 const CreateBetPage = () => {
-  const [clock, setClock] = useState(new Date().toString());
-  const [page, setPage] = useState(5);
+  const [clock, setClock] = useState(new Date());
+  const [page, setPage] = useState(0);
   const [formValues, setFormValues] = useState({
     betType: "",
     betDescription: "",
@@ -29,7 +30,7 @@ const CreateBetPage = () => {
     register,
     watch,
     getValues,
-    formState: { isValid },
+    formState: { isValid, errors },
   } = useForm({
     mode: "onChange",
     defaultValues: {
@@ -123,15 +124,34 @@ const CreateBetPage = () => {
     }
   }, [watch("minBet")]);
 
-  // when bet closing time changes, update overall form
+  // when bet closing time changes, update overall form and reset verification time
   useEffect(() => {
-    setFormValues((prev) => {
-      return { ...prev, closingTime: getValues("closingTime") };
-    });
+    const diffInHours = differenceInHours(
+      new Date(getValues("closingTime")),
+      clock
+    );
+    if (diffInHours < 1) {
+      setFormValues((prev) => {
+        return {
+          ...prev,
+          closingTime: "",
+          verificationTime: "",
+        };
+      });
+    } else {
+      setFormValues((prev) => {
+        return {
+          ...prev,
+          closingTime: getValues("closingTime"),
+          verificationTime: "",
+        };
+      });
+    }
   }, [watch("closingTime")]);
 
   // when bet verification time changes, update overall form
   useEffect(() => {
+    // find a way to validate verificationTime >= closingTime
     setFormValues((prev) => {
       return { ...prev, verificationTime: getValues("verificationTime") };
     });
@@ -217,6 +237,9 @@ const CreateBetPage = () => {
             setPage={setPage}
             register={register}
             formValues={formValues}
+            clock={clock}
+            errors={errors}
+            isValid={isValid}
           />
         </Box>
         <Box className="bet-buttons" display="flex" gap={1}>
@@ -225,6 +248,7 @@ const CreateBetPage = () => {
             setPage={setPage}
             createBet={createBet}
             isValid={isValid}
+            formValues={formValues}
           />
         </Box>
       </Box>

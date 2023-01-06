@@ -3,13 +3,22 @@ import React from "react";
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { BET_TYPES } from "../constants";
+import {
+  differenceInHours,
+  differenceInMinutes,
+  differenceInSeconds,
+  isValid,
+} from "date-fns";
 
 const NewBetForm = (props) => {
   const {
     page,
     register,
-    formValues: { betOdds, maxBet, minBet },
+    formValues: { betOdds, maxBet, minBet, closingTime },
+    clock,
+    errors,
   } = props;
+
   return (
     <>
       {page === 0 && (
@@ -147,7 +156,8 @@ const NewBetForm = (props) => {
           >
             <Box color="lightgrey">Max Number of players</Box>
             <Box color="lightgrey">
-              {Math.floor(maxBet / minBet) === Infinity
+              {Math.floor(maxBet / minBet) === Infinity ||
+              isNaN(Math.floor(maxBet / minBet))
                 ? "N.A"
                 : Math.floor(maxBet / minBet)}
             </Box>
@@ -197,25 +207,32 @@ const NewBetForm = (props) => {
         <Box
           className="bet-expiry-container"
           display="flex"
-          flexDirection="colummn"
+          flexDirection="column"
           alignItems="center"
           justifyContent="center"
+          gap={5}
         >
           <Box
             className="bet-closing-time-input-container"
             display="flex"
-            flexDirection="colummn"
+            flexDirection="column"
             alignItems="center"
             justifyContent="center"
           >
-            <label htmlFor="bet-closing-time">Bet Closing Time</label>
+            <label htmlFor="bet-closing-time">Closing Time</label>
             <input
               autoComplete="off"
               id="bet-closing-time"
               type="datetime-local"
-              autoFocus
               {...register("closingTime", {
                 required: "Field is required",
+                validate: (value) => {
+                  const diffInHours = differenceInHours(new Date(value), clock);
+                  if (diffInHours < 1) {
+                    return "Date/Time must be at least one hour from the current time";
+                  }
+                  return null;
+                },
               })}
               css={css`
                 background-color: #313131;
@@ -223,6 +240,48 @@ const NewBetForm = (props) => {
                 text-align: center;
               `}
             />
+            {errors?.closingTime && (
+              <Box color="red" fontSize={10}>
+                {errors?.closingTime?.message}
+              </Box>
+            )}
+          </Box>
+          <Box
+            className="bet-verification-time-input-container"
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <label htmlFor="bet-closing-time">Verification Time</label>
+            <input
+              autoComplete="off"
+              id="bet-closing-time"
+              type="datetime-local"
+              min={closingTime}
+              disabled={!closingTime || !!errors?.closingTime}
+              {...register("verificationTime", {
+                required: "Field is required",
+                validate: (value) => {
+                  const diffInMins = differenceInMinutes(
+                    new Date(value),
+                    clock
+                  );
+                  if (diffInMins < 0) {
+                    return "Date/Time must be after closing time";
+                  }
+                  return null;
+                },
+              })}
+              css={css`
+                background-color: #313131;
+                outline: none;
+                text-align: center;
+              `}
+            />
+            <Box color="red" fontSize={10}>
+              {errors?.verificationTime?.message}
+            </Box>
           </Box>
         </Box>
       )}
