@@ -1,8 +1,8 @@
 import { Box } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
-const DateAndTime = () => {
-  const [clock, setClock] = useState(new Date().toString());
+const DateAndTime = (props) => {
+  const { clock, setClock } = props;
 
   // show clock on mount.
   useEffect(() => {

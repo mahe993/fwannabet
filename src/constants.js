@@ -56,8 +56,9 @@ export const validateFileType = (file) => {
 export const PAGE_STEPS = [
   "Bet Type",
   "Bet Details",
-  "Odds",
-  "Min/Max Bet",
+  "Bet Odds",
+  "Max Bet",
+  "Min Bet",
   "Expiry",
 ];
 
@@ -66,7 +67,8 @@ export const PAGE_INSTRUCTIONS = [
   "Select the type of bet you want to create",
   "Enter a description that you and your friends understand",
   "Set the payout odds for this bet line\nOdds can only be to 1 decimal point, minimum 1.1",
-  "Set the min and max bet you are willing to take\nMax bet cannot exceed your (wallet balance) / (bet odds)\n e.g. wallet balance = $100, bet odds = 3.0, max bet = $33",
+  "Set the TOTAL bet amount you are willing to take\nMax Bet cannot exceed your (wallet balance) / (bet odds)\n e.g. wallet balance = $100, bet odds = 3.0, max bet = $33",
+  "Set the minimum bet amount each player can play\nMin Bet must be at least $1 and cannot exceed Max bet\n e.g. Max Bet = $100, Min Bet = $1 - $100 inclusive ",
   "Set when this betline will close and\nwhen the results will be verified",
 ];
 
