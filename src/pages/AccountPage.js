@@ -1,5 +1,5 @@
 import PageHeader from "../components/PageHeader";
-import { Alert, Avatar, Badge, Box, Snackbar } from "@mui/material";
+import { Avatar, Badge, Box } from "@mui/material";
 import React, { useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import axios from "axios";
@@ -9,14 +9,14 @@ import AccountForm from "../forms/AccountForm";
 import { useAuth0 } from "@auth0/auth0-react";
 import { BACKEND_URL, validateFileType } from "../constants.js";
 import { useUserContext } from "../contexts/UserContext";
-import Backdrop from "@mui/material/Backdrop";
-import CircularProgress from "@mui/material/CircularProgress";
+
+import CustomSnackBar from "../components/CustomSnackBar";
+import BackdropLoading from "../components/BackdropLoading";
 
 const AccountPage = () => {
   const [snackBarOpen, setSnackBarOpen] = useState(false);
   const [backDropOpen, setBackDropOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
-
   const { userDetails, setUserDetails } = useUserContext();
   const { user, getAccessTokenSilently } = useAuth0();
 
@@ -64,7 +64,9 @@ const AccountPage = () => {
                 css={css`
                   display: none;
                 `}
-                onChange={handleProfilePic}
+                onChange={() => {
+                  handleProfilePic();
+                }}
               />
               <EditIcon fontSize="large" />
             </label>
@@ -84,22 +86,12 @@ const AccountPage = () => {
           />
         </Box>
       </Box>
-      <Snackbar
-        open={snackBarOpen}
-        autoHideDuration={2000}
-        onClose={() => setSnackBarOpen(false)}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-      >
-        <Alert variant="filled" severity="success" sx={{ width: "100%" }}>
-          {alertMessage}
-        </Alert>
-      </Snackbar>
-      <Backdrop
-        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={backDropOpen}
-      >
-        <CircularProgress color="inherit" />
-      </Backdrop>
+      <CustomSnackBar
+        snackBarOpen={snackBarOpen}
+        setSnackBarOpen={setSnackBarOpen}
+        alertMessage={alertMessage}
+      />
+      <BackdropLoading backDropOpen={backDropOpen} />
     </>
   );
 };
