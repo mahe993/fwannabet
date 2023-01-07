@@ -1,19 +1,40 @@
 import { Box } from "@mui/system";
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import { Button } from "@mui/material";
+import { useAuth0 } from "@auth0/auth0-react";
+import { useWalletContext } from "../contexts/WalletContext";
+import { BACKEND_URL } from "../constants.js";
+import axios from "axios";
 
 const TopUpTab = () => {
+  const { user, getAccessTokenSilently } = useAuth0();
+  const { setWallet } = useWalletContext();
+
   const {
     register,
     handleSubmit,
     formState: { errors, isDirty, isValid },
   } = useForm({ mode: "onTouched" });
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    console.log(data.amount);
+    try {
+      // Retrieve access token
+      const accessToken = await getAccessTokenSilently();
+      const postWallet = await axios({
+        method: "POST",
+        url: `${BACKEND_URL}/wallets/${user.sub}/topup`,
+        headers: { Authorization: `Bearer ${accessToken}` },
+        data: { balance: data.amount },
+      });
+      // get the setUserDetails from usercontext
+      setWallet(postWallet.data);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
@@ -73,6 +94,7 @@ const TopUpTab = () => {
             margin="normal"
             fullWidth
             color="warning"
+            type="number"
             // sx={{ color: "white" }}
           />
         </Box>

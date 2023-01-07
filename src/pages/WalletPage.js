@@ -6,19 +6,13 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import WithdrawTab from "../tabs/WithdrawTab";
 import TopUpTab from "../tabs/TopUpTab";
+import { useWalletContext } from "../contexts/WalletContext";
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 
-//to be put into constant
-const WALLET_ITEMS = [
-  { name: "Top Up", path: "/topup" },
-  { name: "Pay", path: "/futureworks" },
-  { name: "Request", path: "/futureworks" },
-  { name: "Withdraw", path: "/withdraw" },
-];
-
 const WalletPage = () => {
   const [value, setValue] = useState(0);
+  const { wallet, setWallet } = useWalletContext();
 
   const handleChange = (e, newValue) => {
     setValue(newValue);
@@ -43,7 +37,7 @@ const WalletPage = () => {
             alignItems: "center",
           }}
         >
-          Balance: $$
+          Balance: S${wallet.balance}
         </Box>
         <TabPanel value={value} index={0}>
           <TopUpTab />

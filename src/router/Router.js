@@ -20,7 +20,7 @@ const Router = () => {
         path="/account"
         element=<ProtectedRoute component={AccountPage} />
       />
-      <Route path="/wallet" element=<WalletPage /> />
+      <Route path="/wallet" element=<ProtectedRoute component={WalletPage} /> />
       <Route
         path="/friends"
         element=<ProtectedRoute component={FriendsPage} />
