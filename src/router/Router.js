@@ -15,7 +15,7 @@ const Router = () => {
   return (
     <Routes>
       <Route path="/" element=<LandingPage /> />
-      <Route path="/home" element=<HomePage /> />
+      <Route path="/home" element=<ProtectedRoute component={HomePage} /> />
       <Route
         path="/account"
         element=<ProtectedRoute component={AccountPage} />
@@ -25,8 +25,14 @@ const Router = () => {
         path="/friends"
         element=<ProtectedRoute component={FriendsPage} />
       />
-      <Route path="/createbet" element=<CreateBetPage /> />
-      <Route path="/user/betlines" element=<MyBetlinesPage /> />
+      <Route
+        path="/createbet"
+        element=<ProtectedRoute component={CreateBetPage} />
+      />
+      <Route
+        path="/user/betlines"
+        element=<ProtectedRoute component={MyBetlinesPage} />
+      />
       <Route
         path="*"
         element={
