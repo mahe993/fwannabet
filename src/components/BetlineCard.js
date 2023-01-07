@@ -15,9 +15,10 @@ const BetlineCard = (props) => {
       betOdds,
       minBet,
       maxBet,
-      closingTime,
-      verificationTime,
+      closingTime, // use this to automatically close open bets on mount
+      verificationTime, // use this to notify user to verify bets on mount
       betStatus,
+      user,
     },
   } = props;
 
@@ -42,6 +43,20 @@ const BetlineCard = (props) => {
       flexDirection="column"
       alignItems="center"
     >
+      <Box
+        className="bet-owner"
+        color="lightgrey"
+        textAlign="center"
+        fontSize={12}
+        p={1}
+      >
+        {user?.username ? user?.username : user?.email}
+      </Box>
+      <hr
+        css={css`
+          width: 100%;
+        `}
+      />
       <Box
         className="bet-description"
         color={
@@ -70,7 +85,7 @@ const BetlineCard = (props) => {
       >
         <Box
           width="65px"
-          color={(betStatus !== "open" || betStatus === "verified") && "grey"}
+          color={betStatus !== "open" ? "grey" : "lightgrey"}
           ml={1}
           display="flex"
           flexDirection="column"
@@ -150,11 +165,11 @@ const BetlineCard = (props) => {
           width="100%"
           justifyContent="center"
         >
-          <Box width="60%" textAlign="right" pb={0.5}>
+          <Box width="59%" textAlign="right" pb={0.5} color="lightgrey">
             Potential Winnings:
           </Box>
-          <Box width="40%" pb={0.5}>
-            ${betAmount * betOdds}
+          <Box width="41%" pb={0.5} color="lightgrey">
+            ${(betAmount * betOdds).toFixed(2)}
           </Box>
         </Box>
       )}
