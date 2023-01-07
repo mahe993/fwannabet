@@ -19,7 +19,6 @@ const UserSearchBar = (props) => {
       const controller = new AbortController();
       controllerRef.current = controller;
       const accessToken = await getAccessTokenSilently();
-      console.log(query);
       const users = await axios({
         method: "GET",
         url: `${BACKEND_URL}/users/search/${user.sub}/${query}`,
