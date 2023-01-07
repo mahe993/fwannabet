@@ -43,6 +43,7 @@ export const NAV_ITEMS = [
 
 // for menu popover
 export const POPOVER_ITEMS = [
+  { name: "My Betlines", path: "/user/betlines" },
   { name: "Account", path: "/account" },
   { name: "Logout", path: "" },
 ];
@@ -132,7 +133,7 @@ export const PAGE_INSTRUCTIONS = [
   "Set the payout odds for this bet line\nOdds can only be to 1 decimal point, minimum 1.1",
   "Set the TOTAL bet amount you are willing to take\nMax Bet cannot exceed your (wallet balance) / (bet odds)\n e.g. wallet balance = $100, bet odds = 3.0, max bet = $33",
   "Set the minimum bet amount each player can play\nMin Bet must be at least $1 and cannot exceed Max bet\n e.g. Max Bet = $100, Min Bet = $1 - $100 inclusive ",
-  "Set when this betline will close and\nwhen the results will be verified",
+  "Set cut off time for this betline and\nwhen the results will be verified",
 ];
 
 // for create bet type options

@@ -3,13 +3,17 @@ import React from "react";
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { BET_TYPES } from "../constants";
+import { differenceInHours, differenceInMinutes } from "date-fns";
 
 const NewBetForm = (props) => {
   const {
     page,
     register,
-    formValues: { betOdds, maxBet, minBet },
+    formValues: { betOdds, maxBet, minBet, closingTime },
+    clock,
+    errors,
   } = props;
+
   return (
     <>
       {page === 0 && (
@@ -57,27 +61,41 @@ const NewBetForm = (props) => {
         </Box>
       )}
       {page === 2 && (
-        <input
-          autoComplete="off"
-          id="bet-odds"
-          type="text"
-          autoFocus
-          {...register("betOdds", {
-            required: "Field is required",
-            pattern: {
-              value: /^[-+]?\d*\.?(?!0)\d+$/,
-              message: "Please only enter numbers!",
-            },
-            validate: (value) =>
-              Number(value) >= 1.1 || "Number must be greater than 1",
-          })}
-          css={css`
-            background-color: #313131;
-            outline: none;
-            width: 60px;
-            text-align: center;
-          `}
-        />
+        <Box
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          justifyContent="center"
+          gap={1}
+        >
+          <input
+            autoComplete="off"
+            id="bet-odds"
+            type="text"
+            autoFocus
+            {...register("betOdds", {
+              required: "Field is required",
+              pattern: {
+                value: /^[-+]?\d*\.?(?!0)\d+$/,
+                message:
+                  "Please only enter numbers above 0 to 1 decimal point!",
+              },
+              validate: (value) =>
+                Number(value) >= 1.1 || "Number must be greater than 1",
+            })}
+            css={css`
+              background-color: #313131;
+              outline: none;
+              width: 60px;
+              text-align: center;
+            `}
+          />
+          {errors?.betOdds && (
+            <Box color="red" fontSize={10}>
+              {errors?.betOdds?.message}
+            </Box>
+          )}
+        </Box>
       )}
       {page === 3 && (
         <Box
@@ -115,9 +133,11 @@ const NewBetForm = (props) => {
                 required: "Field is required",
                 pattern: {
                   value: /^[1-9]\d*$/,
-                  message: "Please only enter whole numbers!",
+                  message: "Please only enter whole numbers above 0!",
                 },
-                validate: (value) => Number(value) > 0, // validate number greater than 0 and lower than walletBalance/betOdds
+                validate: (value) =>
+                  Number(value) > 0 ||
+                  "Max Bet must be lower than (walletBalance/betOdds)!", // validate number greater than 0 and lower than walletBalance/betOdds
               })}
               css={css`
                 background-color: #313131;
@@ -126,6 +146,11 @@ const NewBetForm = (props) => {
                 text-align: center;
               `}
             />
+            {errors?.maxBet && (
+              <Box color="red" fontSize={10}>
+                {errors?.maxBet?.message}
+              </Box>
+            )}
           </Box>
         </Box>
       )}
@@ -147,7 +172,8 @@ const NewBetForm = (props) => {
           >
             <Box color="lightgrey">Max Number of players</Box>
             <Box color="lightgrey">
-              {Math.floor(maxBet / minBet) === Infinity
+              {Math.floor(maxBet / minBet) === Infinity ||
+              isNaN(Math.floor(maxBet / minBet))
                 ? "N.A"
                 : Math.floor(maxBet / minBet)}
             </Box>
@@ -176,10 +202,13 @@ const NewBetForm = (props) => {
                   required: "Field is required",
                   pattern: {
                     value: /^[1-9]\d*$/,
-                    message: "Please only enter whole numbers!",
+                    message: "Please only enter whole numbers above 0!",
                   },
                   validate: (value) => {
-                    return Number(value) > 0 && Number(value) <= maxBet;
+                    return (
+                      (Number(value) > 0 && Number(value) <= maxBet) ||
+                      "Min Bet cannot exceed Max Bet!"
+                    );
                   },
                 })}
                 css={css`
@@ -189,6 +218,11 @@ const NewBetForm = (props) => {
                   text-align: center;
                 `}
               />
+              {errors?.minBet && (
+                <Box color="red" fontSize={10}>
+                  {errors?.minBet?.message}
+                </Box>
+              )}
             </Box>
           </Box>
         </Box>
@@ -197,25 +231,32 @@ const NewBetForm = (props) => {
         <Box
           className="bet-expiry-container"
           display="flex"
-          flexDirection="colummn"
+          flexDirection="column"
           alignItems="center"
           justifyContent="center"
+          gap={5}
         >
           <Box
             className="bet-closing-time-input-container"
             display="flex"
-            flexDirection="colummn"
+            flexDirection="column"
             alignItems="center"
             justifyContent="center"
           >
-            <label htmlFor="bet-closing-time">Bet Closing Time</label>
+            <label htmlFor="bet-closing-time">Closing Time</label>
             <input
               autoComplete="off"
               id="bet-closing-time"
               type="datetime-local"
-              autoFocus
               {...register("closingTime", {
                 required: "Field is required",
+                validate: (value) => {
+                  const diffInHours = differenceInHours(new Date(value), clock);
+                  if (diffInHours < 1) {
+                    return "Date/Time must be at least one hour from the current time";
+                  }
+                  return null;
+                },
               })}
               css={css`
                 background-color: #313131;
@@ -223,6 +264,48 @@ const NewBetForm = (props) => {
                 text-align: center;
               `}
             />
+            {errors?.closingTime && (
+              <Box color="red" fontSize={10}>
+                {errors?.closingTime?.message}
+              </Box>
+            )}
+          </Box>
+          <Box
+            className="bet-verification-time-input-container"
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <label htmlFor="bet-closing-time">Verification Time</label>
+            <input
+              autoComplete="off"
+              id="bet-closing-time"
+              type="datetime-local"
+              min={closingTime}
+              disabled={!closingTime || !!errors?.closingTime}
+              {...register("verificationTime", {
+                required: "Field is required",
+                validate: (value) => {
+                  const diffInMins = differenceInMinutes(
+                    new Date(value),
+                    clock
+                  );
+                  if (diffInMins < 0) {
+                    return "Date/Time must be after closing time";
+                  }
+                  return null;
+                },
+              })}
+              css={css`
+                background-color: #313131;
+                outline: none;
+                text-align: center;
+              `}
+            />
+            <Box color="red" fontSize={10}>
+              {errors?.verificationTime?.message}
+            </Box>
           </Box>
         </Box>
       )}

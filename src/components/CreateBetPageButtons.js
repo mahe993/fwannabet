@@ -1,8 +1,26 @@
 import { Button } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const CreateBetPageButtons = (props) => {
-  const { page, setPage, createBet, isValid } = props;
+  const [disable, setDisable] = useState(false);
+  const {
+    page,
+    setPage,
+    createBet,
+    isValid,
+    formValues: { closingTime, verificationTime },
+    setBackDropOpen,
+  } = props;
+
+  // extra check to make sure closingTime and verificationTime fields are not ""
+  useEffect(() => {
+    if (!closingTime || !verificationTime) {
+      setDisable(true);
+    } else if (!!closingTime && !!verificationTime) {
+      setDisable(false);
+    }
+  }, [closingTime, verificationTime]);
+
   return (
     <>
       {page !== 0 && (
@@ -25,8 +43,9 @@ const CreateBetPageButtons = (props) => {
       {page === 5 && (
         <Button
           variant="contained"
-          disabled={!isValid}
+          disabled={!isValid || disable}
           onClick={() => {
+            setBackDropOpen(true);
             createBet();
           }}
         >

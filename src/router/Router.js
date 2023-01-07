@@ -2,13 +2,13 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { Box } from "@mui/material";
 import LandingPage from "../pages/LandingPage";
-import TestPage from "../pages/TestPage";
 import HomePage from "../pages/HomePage";
 import AccountPage from "../pages/AccountPage";
 import ProtectedRoute from "./ProtectedRoute";
 import FriendsPage from "../pages/FriendsPage";
 import CreateBetPage from "../pages/CreateBetPage";
 import WalletPage from "../pages/WalletPage";
+import MyBetlinesPage from "../pages/MyBetlinesPage";
 
 const Router = () => {
   // All routes to be siblings. No child routes unless neccessary to prevent unneccessary use of <Outlet />
@@ -26,8 +26,7 @@ const Router = () => {
         element=<ProtectedRoute component={FriendsPage} />
       />
       <Route path="/createbet" element=<CreateBetPage /> />
-
-      <Route path="/test" element=<TestPage /> />
+      <Route path="/user/betlines" element=<MyBetlinesPage /> />
       <Route
         path="*"
         element={

@@ -6,14 +6,23 @@ import PageHeader from "../components/PageHeader";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
-import { PAGE_INSTRUCTIONS, PAGE_STEPS } from "../constants";
+import { BACKEND_URL, PAGE_INSTRUCTIONS, PAGE_STEPS } from "../constants";
 import NewBetForm from "../forms/NewBetForm";
 import { useForm } from "react-hook-form";
 import CreateBetPageButtons from "../components/CreateBetPageButtons";
+import { differenceInHours } from "date-fns";
+import { useAuth0 } from "@auth0/auth0-react";
+import axios from "axios";
+import CustomSnackBar from "../components/CustomSnackBar";
+import BackdropLoading from "../components/BackdropLoading";
 
 const CreateBetPage = () => {
-  const [clock, setClock] = useState(new Date().toString());
-  const [page, setPage] = useState(5);
+  const [clock, setClock] = useState(new Date());
+  const [page, setPage] = useState(0);
+  const [backDropOpen, setBackDropOpen] = useState(false);
+  const [snackBarOpen, setSnackBarOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+
   const [formValues, setFormValues] = useState({
     betType: "",
     betDescription: "",
@@ -24,12 +33,15 @@ const CreateBetPage = () => {
     verificationTime: "",
   });
 
+  const { user, getAccessTokenSilently } = useAuth0();
+
   // react hook form
   const {
     register,
     watch,
     getValues,
-    formState: { isValid },
+    reset,
+    formState: { isValid, errors },
   } = useForm({
     mode: "onChange",
     defaultValues: {
@@ -45,7 +57,29 @@ const CreateBetPage = () => {
 
   // submit formValues to create betline
   const createBet = async () => {
-    console.log("handle submit createBet");
+    try {
+      const accessToken = await getAccessTokenSilently();
+      await axios({
+        method: "POST",
+        url: `${BACKEND_URL}/betlines/${user.sub}`,
+        data: formValues,
+        header: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      // on success refresh findall betlines data
+      // reset page to 0
+      setPage(0);
+      // reset form
+      reset();
+      // stop loading animation
+      setBackDropOpen(false);
+      // set snackbar message and open snackbar
+      setAlertMessage("Betline created!");
+      setSnackBarOpen(true);
+    } catch (err) {
+      throw new Error(err);
+    }
   };
 
   // when bet type changes, update overall form
@@ -123,23 +157,38 @@ const CreateBetPage = () => {
     }
   }, [watch("minBet")]);
 
-  // when bet closing time changes, update overall form
+  // when bet closing time changes, update overall form and reset verification time
   useEffect(() => {
-    setFormValues((prev) => {
-      return { ...prev, closingTime: getValues("closingTime") };
-    });
+    const diffInHours = differenceInHours(
+      new Date(getValues("closingTime")),
+      clock
+    );
+    if (diffInHours < 1) {
+      setFormValues((prev) => {
+        return {
+          ...prev,
+          closingTime: "",
+          verificationTime: "",
+        };
+      });
+    } else {
+      setFormValues((prev) => {
+        return {
+          ...prev,
+          closingTime: getValues("closingTime"),
+          verificationTime: "",
+        };
+      });
+    }
   }, [watch("closingTime")]);
 
   // when bet verification time changes, update overall form
   useEffect(() => {
+    // find a way to validate verificationTime >= closingTime
     setFormValues((prev) => {
       return { ...prev, verificationTime: getValues("verificationTime") };
     });
   }, [watch("verificationTime")]);
-
-  useEffect(() => {
-    console.log(formValues);
-  }, [formValues]);
 
   return (
     <Box display="flex" flexDirection="column" alignItems="center" gap={2}>
@@ -217,6 +266,9 @@ const CreateBetPage = () => {
             setPage={setPage}
             register={register}
             formValues={formValues}
+            clock={clock}
+            errors={errors}
+            isValid={isValid}
           />
         </Box>
         <Box className="bet-buttons" display="flex" gap={1}>
@@ -225,9 +277,17 @@ const CreateBetPage = () => {
             setPage={setPage}
             createBet={createBet}
             isValid={isValid}
+            formValues={formValues}
+            setBackDropOpen={setBackDropOpen}
           />
         </Box>
       </Box>
+      <CustomSnackBar
+        snackBarOpen={snackBarOpen}
+        setSnackBarOpen={setSnackBarOpen}
+        alertMessage={alertMessage}
+      />
+      <BackdropLoading backDropOpen={backDropOpen} />
     </Box>
   );
 };
