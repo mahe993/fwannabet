@@ -12,11 +12,15 @@ import { css } from "@emotion/react";
 
 const WalletPage = () => {
   const [value, setValue] = useState(0);
-  const { wallet, setWallet } = useWalletContext();
+  const { wallet } = useWalletContext();
 
   const handleChange = (e, newValue) => {
     setValue(newValue);
   };
+  if (!wallet) {
+    return;
+  }
+
   return (
     <Box display="flex" flexDirection="column" alignItems="center" gap={2}>
       <PageHeader header="Wallet" />
