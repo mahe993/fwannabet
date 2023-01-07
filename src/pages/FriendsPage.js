@@ -55,6 +55,7 @@ const FriendsPage = () => {
     fetchFriends(signal);
     return () => {
       controller.abort();
+      setLoadingData(false);
     };
   }, []);
 
