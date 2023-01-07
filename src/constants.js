@@ -98,34 +98,6 @@ export const PAGE_STEPS = [
 //   return images;
 // };
 
-export const TabPanel = (props) => {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <Box
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box sx={{ p: 0 }}>{children}</Box>}
-    </Box>
-  );
-};
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.number.isRequired,
-  value: PropTypes.number.isRequired,
-};
-
-export const a11yProps = (index) => {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-};
 // for create bet page instructions
 export const PAGE_INSTRUCTIONS = [
   "Select the type of bet you want to create",
@@ -143,4 +115,11 @@ export const BET_TYPES = [
   "Basketball (feature coming soon)",
   "Soccer (feature coming soon)",
   "Tennis (feature coming soon)",
+];
+
+// for wallet transfer method type options
+export const TRANSFER_METHODS = [
+  { value: "bankTransfer", label: "Bank Transfer" },
+  { value: "qRCode", label: "PayNow/PayLah" },
+  { value: "swiftCode", label: "Telegraphic Transfer" },
 ];

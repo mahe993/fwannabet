@@ -25,7 +25,6 @@ export const WalletContextProvider = ({ children }) => {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      console.log(getWallet.data);
       setWallet(getWallet.data);
     } catch (err) {
       throw new Error(err);

@@ -6,34 +6,43 @@ import MenuItem from "@mui/material/MenuItem";
 import { Button } from "@mui/material";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useWalletContext } from "../contexts/WalletContext";
-import { BACKEND_URL } from "../constants.js";
+import { BACKEND_URL, TRANSFER_METHODS } from "../constants.js";
 import axios from "axios";
+import WalletBalanceDisplay from "../components/WalletBalanceDisplay";
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
 
-const TopUpTab = () => {
+const TopUpTab = (props) => {
   const { user, getAccessTokenSilently } = useAuth0();
   const { setWallet } = useWalletContext();
+
+  const { setBackDropOpen } = props;
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isDirty, isValid },
-  } = useForm({ mode: "onTouched" });
+    formState: { isValid, errors },
+    reset,
+  } = useForm({ mode: "onChange" });
 
   const onSubmit = async (data) => {
-    console.log(data.amount);
     try {
       // Retrieve access token
       const accessToken = await getAccessTokenSilently();
       const postWallet = await axios({
         method: "POST",
-        url: `${BACKEND_URL}/wallets/${user.sub}/topup`,
+        url: `${BACKEND_URL}/wallets/topup/${user.sub}`,
         headers: { Authorization: `Bearer ${accessToken}` },
-        data: { balance: data.amount },
+        data: { balance: Number(data.topUpAmount) },
       });
-      // get the setUserDetails from usercontext
+      // set wallet details to updated details
       setWallet(postWallet.data);
+      // close back drop loading animation
+      setBackDropOpen(false);
+      // reset form
+      reset();
     } catch (e) {
-      console.log(e);
+      throw new Error(e);
     }
   };
 
@@ -45,64 +54,185 @@ const TopUpTab = () => {
       gap={2}
       width="90vw"
     >
+      <WalletBalanceDisplay />
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Box>
-          1. Transfer from account
-          <TextField
-            required
-            {...register("accountNumber")}
-            label="Account Number"
-            variant="outlined"
-            margin="normal"
-            fullWidth
-            color="warning"
-            // sx={{ color: "white" }}
-          />
-        </Box>
-        <Box>
-          2. Select a transfer method
-          <Box gap={1}>
-            <TextField
-              fullWidth
-              select
-              defaultValue="Internet Banking"
-              {...register("transferMethod")}
+        <Box
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          justifyContent="center"
+          gap={2}
+        >
+          <Box
+            className="account-number-input-container"
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            justifyContent="center"
+            gap={1}
+          >
+            <label
+              htmlFor="account-number"
+              css={css`
+                font-size: 14px;
+              `}
             >
-              <MenuItem value={"Internet Banking"}>Internet Banking</MenuItem>
-              <MenuItem value={"Telegraphic Transfer"}>
-                Telegraphic Transfer
-              </MenuItem>
-            </TextField>
+              1. Transfer from account
+            </label>
+            <input
+              type="text"
+              autoComplete="off"
+              id="account-number"
+              placeholder="0012345566789"
+              {...register("accountNumber", {
+                required: "Field is required!",
+                pattern: {
+                  value: /^[0-9]+$/,
+                  message: "Please only enter numbers!",
+                },
+              })}
+              css={css`
+                background-color: #313131;
+                padding: 3px;
+                outline: none;
+                text-align: center;
+                ::placeholder {
+                  font-size: 12px;
+                  font-style: italic;
+                }
+              `}
+            />
+            {errors?.accountNumber && (
+              <Box color="red" fontSize={10}>
+                {errors?.accountNumber?.message}
+              </Box>
+            )}
           </Box>
-        </Box>
-
-        <Box>
-          3. Make a transfer to WannaBet
-          <Box>
-            <p>Bank XXX</p>
-            <p>Name WannaBet Pte Ltd</p>
-            <p>Account Number XXXXXX-XXX</p>
+          <Box
+            className="transfer-method-input-container"
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            justifyContent="center"
+            gap={1}
+          >
+            <label
+              htmlFor="transfer-method"
+              css={css`
+                font-size: 14px;
+              `}
+            >
+              2. Select a transfer method
+            </label>
+            <select
+              id="transfer-method"
+              defaultValue="bankTransfer"
+              {...register("transferMethod", {
+                required: "Field is required!",
+              })}
+              css={css`
+                background-color: #313131;
+                padding: 3px;
+                outline: none;
+                text-align: center;
+                ::placeholder {
+                  font-size: 12px;
+                  font-style: italic;
+                }
+              `}
+            >
+              {TRANSFER_METHODS.map((method) => (
+                <option
+                  key={method?.value}
+                  value={method?.value}
+                  disabled={method?.value !== "bankTransfer"}
+                  css={css`
+                    text-align: center;
+                  `}
+                >
+                  {method.label}
+                </option>
+              ))}
+            </select>
+            {errors?.transferMethod && (
+              <Box color="red" fontSize={10}>
+                {errors?.transferMethod?.message}
+              </Box>
+            )}
           </Box>
+          <Box
+            className="transfer-details-container"
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Box color="grey" fontWeight="bold">
+              Transfer Details
+            </Box>
+            <Box color="grey" fontStyle="italic" fontSize={13}>
+              WannaBet Pte Ltd
+            </Box>
+            <Box color="grey" fontStyle="italic" fontSize={13}>
+              Account Number 006-9987-321
+            </Box>
+          </Box>
+          <Box
+            className="top-up-input-container"
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            justifyContent="center"
+            gap={1}
+          >
+            <label
+              htmlFor="top-up"
+              css={css`
+                font-size: 14px;
+              `}
+            >
+              3. Top Up Amount {`(S$)`}
+            </label>
+            <input
+              type="text"
+              autoComplete="off"
+              id="top-up"
+              placeholder="888"
+              {...register("topUpAmount", {
+                required: "Field is required!",
+                pattern: {
+                  value: /^[0-9]+$/,
+                  message: "Please only enter numbers!",
+                },
+                validate: (value) =>
+                  Number(value) > 0 || "Amount must be greater than 0!",
+              })}
+              css={css`
+                background-color: #313131;
+                padding: 3px;
+                outline: none;
+                text-align: center;
+                ::placeholder {
+                  font-size: 12px;
+                  font-style: italic;
+                }
+              `}
+            />
+            {errors?.topUpAmount && (
+              <Box color="red" fontSize={10}>
+                {errors?.topUpAmount?.message}
+              </Box>
+            )}
+          </Box>
+          <Button
+            variant="contained"
+            type="submit"
+            disabled={!isValid}
+            onClick={() => setBackDropOpen(true)}
+          >
+            Top UP
+          </Button>
         </Box>
-        <Box>
-          4. How much
-          <TextField
-            {...register("amount")}
-            required
-            label="Amount"
-            variant="outlined"
-            margin="normal"
-            fullWidth
-            color="warning"
-            type="number"
-            // sx={{ color: "white" }}
-          />
-        </Box>
-
-        <Box>5. Photo of receipt</Box>
-        <Button variant="contained" type="submit" disabled={!isValid}>
-          Submit
-        </Button>
       </form>
     </Box>
   );
