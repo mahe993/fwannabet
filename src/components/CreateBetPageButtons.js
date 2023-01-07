@@ -1,5 +1,6 @@
 import { Button } from "@mui/material";
 import React, { useEffect, useState } from "react";
+import { useWalletContext } from "../contexts/WalletContext";
 
 const CreateBetPageButtons = (props) => {
   const [disable, setDisable] = useState(false);
@@ -8,9 +9,33 @@ const CreateBetPageButtons = (props) => {
     setPage,
     createBet,
     isValid,
-    formValues: { closingTime, verificationTime },
+    formValues: { closingTime, verificationTime, betOdds, maxBet },
     setBackDropOpen,
+    setOpenConfirmationDialog,
+    setConfirmationDialogContent,
+    setDialogButtonAction,
   } = props;
+
+  const { wallet } = useWalletContext();
+
+  // handle create button
+  const handleCreate = () => {
+    setConfirmationDialogContent(
+      `Creating this bet will move $${
+        betOdds * maxBet
+      } from your wallet balance to on hold.\n\nYour remaining balance will be $${
+        wallet.balance - betOdds * maxBet
+      }.\n\nThis move is irreversible, click confirm to create!`
+    );
+    setDialogButtonAction({
+      confirm: () => {
+        setBackDropOpen(true);
+        createBet();
+        setOpenConfirmationDialog(false);
+      },
+    });
+    setOpenConfirmationDialog(true);
+  };
 
   // extra check to make sure closingTime and verificationTime fields are not ""
   useEffect(() => {
@@ -44,12 +69,9 @@ const CreateBetPageButtons = (props) => {
         <Button
           variant="contained"
           disabled={!isValid || disable}
-          onClick={() => {
-            setBackDropOpen(true);
-            createBet();
-          }}
+          onClick={handleCreate}
         >
-          Submit
+          Create
         </Button>
       )}
     </>
