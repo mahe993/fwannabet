@@ -5,6 +5,8 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
 
 const ConfirmationDialog = (props) => {
   const {
@@ -29,7 +31,12 @@ const ConfirmationDialog = (props) => {
       >
         <DialogTitle id="error-dialog-title"></DialogTitle>
         <DialogContent>
-          <DialogContentText id="error-dialog-description">
+          <DialogContentText
+            id="error-dialog-description"
+            css={css`
+              white-space: pre-wrap;
+            `}
+          >
             {confirmationDialogContent}
           </DialogContentText>
         </DialogContent>

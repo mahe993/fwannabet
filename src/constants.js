@@ -4,8 +4,6 @@ import MenuPopover from "./components/MenuPopover";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import PeopleIcon from "@mui/icons-material/People";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
-import PropTypes from "prop-types";
-import { Box } from "@mui/system";
 
 /* eslint-disable default-case */
 const backendURL = (devEnv) => {

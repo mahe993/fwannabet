@@ -15,6 +15,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import CustomSnackBar from "../components/CustomSnackBar";
 import BackdropLoading from "../components/BackdropLoading";
+import { useWalletContext } from "../contexts/WalletContext";
+import ConfirmationDialog from "../components/ConfirmationDialog";
 
 const CreateBetPage = () => {
   const [clock, setClock] = useState(new Date());
@@ -22,6 +24,10 @@ const CreateBetPage = () => {
   const [backDropOpen, setBackDropOpen] = useState(false);
   const [snackBarOpen, setSnackBarOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
+  const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
+  const [confirmationDialogContent, setConfirmationDialogContent] =
+    useState("");
+  const [dialogButtonAction, setDialogButtonAction] = useState("");
 
   const [formValues, setFormValues] = useState({
     betType: "",
@@ -33,6 +39,7 @@ const CreateBetPage = () => {
     verificationTime: "",
   });
 
+  const { wallet, setWallet } = useWalletContext();
   const { user, getAccessTokenSilently } = useAuth0();
 
   // react hook form
@@ -59,7 +66,7 @@ const CreateBetPage = () => {
   const createBet = async () => {
     try {
       const accessToken = await getAccessTokenSilently();
-      await axios({
+      const betline = await axios({
         method: "POST",
         url: `${BACKEND_URL}/betlines/${user.sub}`,
         data: formValues,
@@ -67,7 +74,8 @@ const CreateBetPage = () => {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      // on success refresh findall betlines data
+      // set wallet
+      setWallet(betline.data);
       // reset page to 0
       setPage(0);
       // reset form
@@ -78,6 +86,7 @@ const CreateBetPage = () => {
       setAlertMessage("Betline created!");
       setSnackBarOpen(true);
     } catch (err) {
+      setBackDropOpen(false);
       throw new Error(err);
     }
   };
@@ -122,13 +131,13 @@ const CreateBetPage = () => {
       val = getValues("maxBet").slice(0, val.indexOf("."));
     }
     const max = Number(val);
-    if (max > 0) {
-      setFormValues((prev) => {
-        return { ...prev, maxBet: max };
-      });
-    } else {
+    if (max > Math.floor(wallet?.balance / formValues?.betOdds) || max <= 0) {
       setFormValues((prev) => {
         return { ...prev, maxBet: "" };
+      });
+    } else if (max > 0) {
+      setFormValues((prev) => {
+        return { ...prev, maxBet: max };
       });
     }
   }, [watch("maxBet")]);
@@ -279,9 +288,19 @@ const CreateBetPage = () => {
             isValid={isValid}
             formValues={formValues}
             setBackDropOpen={setBackDropOpen}
+            setOpenConfirmationDialog={setOpenConfirmationDialog}
+            setConfirmationDialogContent={setConfirmationDialogContent}
+            setDialogButtonAction={setDialogButtonAction}
           />
         </Box>
       </Box>
+      <ConfirmationDialog
+        openConfirmationDialog={openConfirmationDialog}
+        setOpenConfirmationDialog={setOpenConfirmationDialog}
+        confirmationDialogContent={confirmationDialogContent}
+        dialogButtonAction={dialogButtonAction}
+        setDialogButtonAction={setDialogButtonAction}
+      />
       <CustomSnackBar
         snackBarOpen={snackBarOpen}
         setSnackBarOpen={setSnackBarOpen}

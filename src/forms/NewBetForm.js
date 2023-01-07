@@ -4,6 +4,7 @@ import React from "react";
 import { css } from "@emotion/react";
 import { BET_TYPES } from "../constants";
 import { differenceInHours, differenceInMinutes } from "date-fns";
+import { useWalletContext } from "../contexts/WalletContext";
 
 const NewBetForm = (props) => {
   const {
@@ -13,6 +14,8 @@ const NewBetForm = (props) => {
     clock,
     errors,
   } = props;
+
+  const { wallet } = useWalletContext();
 
   return (
     <>
@@ -106,15 +109,40 @@ const NewBetForm = (props) => {
           gap={2}
         >
           <Box
-            className="wallet-balance-display-container"
             display="flex"
-            flexDirection="column"
             alignItems="center"
             justifyContent="center"
-            fontSize={12}
+            gap={1}
           >
-            <Box color="lightgrey">Wallet Balance</Box>
-            <Box color="lightgrey">${`balanceAmt`}</Box>
+            <Box
+              className="wallet-balance-display-container"
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              justifyContent="center"
+              fontSize={12}
+              width="151px"
+            >
+              <Box color="lightgrey">Wallet Balance</Box>
+              <Box color="lightgrey">${wallet?.balance}</Box>
+            </Box>
+            <Box
+              className="maximum-max-bet-display-container"
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              justifyContent="center"
+              fontSize={12}
+              width="151px"
+            >
+              <Box color="lightgrey">MAX(Max Bet)</Box>
+              <Box color="lightgrey" fontStyle="italic" whiteSpace="nowrap">
+                (wallet balance) / (bet odds)
+              </Box>
+              <Box color="lightgrey">
+                ${Math.floor(wallet?.balance / betOdds)}
+              </Box>
+            </Box>
           </Box>
           <Box
             display="flex"
@@ -136,8 +164,9 @@ const NewBetForm = (props) => {
                   message: "Please only enter whole numbers above 0!",
                 },
                 validate: (value) =>
-                  Number(value) > 0 ||
-                  "Max Bet must be lower than (walletBalance/betOdds)!", // validate number greater than 0 and lower than walletBalance/betOdds
+                  (Number(value) > 0) &
+                    (Number(value) <= Math.floor(wallet.balance / betOdds)) ||
+                  "Max Bet must be lower or equal to (walletBalance/betOdds)!",
               })}
               css={css`
                 background-color: #313131;
