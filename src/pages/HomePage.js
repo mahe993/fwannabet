@@ -1,6 +1,4 @@
 import { Box } from "@mui/material";
-/** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
 import React, { useState } from "react";
 import PageHeader from "../components/PageHeader";
 import Tabs from "@mui/material/Tabs";
@@ -10,7 +8,7 @@ import BetlinesTab from "../tabs/BetlinesTab";
 import DateAndTime from "../components/DateAndTime";
 
 const HomePage = () => {
-  const [clock, setClock] = useState(new Date().toString());
+  const [clock, setClock] = useState(new Date());
   const [pageValue, setPageValue] = useState(0);
 
   return (

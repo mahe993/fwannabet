@@ -11,15 +11,13 @@ const TransactionsPage = () => {
 
   const { user, getAccessTokenSilently } = useAuth0();
 
-  // fetching all the transactions 
+  // fetching all the transactions
   const fetchTransactions = async (data) => {
     try {
       const accessToken = await getAccessTokenSilently();
       const res = await axios({
         method: "GET",
-        // url: `${BACKEND_URL}/transactions/${user.sub}`,
-        url: `${BACKEND_URL}/transactions/auth0|63b1977b057a048253326ae8`,
-
+        url: `${BACKEND_URL}/transactions/${user.sub}`,
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -27,15 +25,14 @@ const TransactionsPage = () => {
       });
 
       setTransactionsHistory(res.data);
-
     } catch (err) {
       throw new Error(err);
     }
   };
 
-  useEffect (() => {
+  useEffect(() => {
     fetchTransactions();
-  }, [])
+  }, []);
 
   const testTransactions = [
     { date: "01/01/2022", type: "Deposit", amount: "$100" },

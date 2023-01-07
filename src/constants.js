@@ -41,6 +41,7 @@ export const NAV_ITEMS = [
 
 // for menu popover
 export const POPOVER_ITEMS = [
+  { name: "My Betlines", path: "/user/betlines" },
   { name: "Account", path: "/account" },
   { name: "Transactions", path: "/transactions" },
   { name: "Logout", path: "" },
@@ -63,6 +64,39 @@ export const PAGE_STEPS = [
   "Expiry",
 ];
 
+// for image clipping
+// export const createClippedImage = (numberOfImages, imgSource) => {
+//   const images = [];
+//   const totalImages = Math.ceil(numberOfImages);
+//   let clipping = "0%";
+//   for (let i = 0; i < totalImages; i++) {
+//     if (i === totalImages - 1) {
+//       clipping = `${(totalImages - numberOfImages) * 100}%`;
+//     }
+//     images.push(
+//       <Box
+//         height={25}
+//         width={25}
+//         display="flex"
+//         key={i}
+//         css={css`
+//           clip-path: inset(0% ${clipping} 0% 0%);
+//         `}
+//       >
+//         <img
+//           src={imgSource}
+//           alt="clipped"
+//           css={css`
+//             width: 100%;
+//             height: 100%;
+//           `}
+//         />
+//       </Box>
+//     );
+//   }
+//   return images;
+// };
+
 // for create bet page instructions
 export const PAGE_INSTRUCTIONS = [
   "Select the type of bet you want to create",
@@ -70,7 +104,7 @@ export const PAGE_INSTRUCTIONS = [
   "Set the payout odds for this bet line\nOdds can only be to 1 decimal point, minimum 1.1",
   "Set the TOTAL bet amount you are willing to take\nMax Bet cannot exceed your (wallet balance) / (bet odds)\n e.g. wallet balance = $100, bet odds = 3.0, max bet = $33",
   "Set the minimum bet amount each player can play\nMin Bet must be at least $1 and cannot exceed Max bet\n e.g. Max Bet = $100, Min Bet = $1 - $100 inclusive ",
-  "Set when this betline will close and\nwhen the results will be verified",
+  "Set cut off time for this betline and\nwhen the results will be verified",
 ];
 
 // for create bet type options
@@ -80,4 +114,11 @@ export const BET_TYPES = [
   "Basketball (feature coming soon)",
   "Soccer (feature coming soon)",
   "Tennis (feature coming soon)",
+];
+
+// for wallet transfer method type options
+export const TRANSFER_METHODS = [
+  { value: "bankTransfer", label: "Bank Transfer" },
+  { value: "qRCode", label: "PayNow/PayLah" },
+  { value: "swiftCode", label: "Telegraphic Transfer" },
 ];
