@@ -13,6 +13,7 @@ const BetlinesTab = () => {
   const [loadingData, setLoadingData] = useState(true);
 
   const { user, getAccessTokenSilently } = useAuth0();
+
   const getFriendsBetlines = async (signal) => {
     try {
       const accessToken = await getAccessTokenSilently();
@@ -27,7 +28,11 @@ const BetlinesTab = () => {
       setBetlines(lines.data);
       setLoadingData(false);
     } catch (err) {
-      throw new Error(err);
+      if (err.name !== "AbortError") {
+        console.log("betlines data fetch aborted");
+      } else {
+        throw new Error(err);
+      }
     }
   };
 
