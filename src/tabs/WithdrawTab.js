@@ -81,7 +81,7 @@ const WithdrawTab = (props) => {
                 font-size: 14px;
               `}
             >
-              1. Withdraw to
+              1. Withdraw to account
             </label>
             <input
               type="text"
