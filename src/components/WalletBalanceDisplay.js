@@ -19,7 +19,7 @@ const WalletBalanceDisplay = () => {
           Balance:
         </Box>
         <Box width="50%" textAlign="start" color="lightgrey">
-          S$ {wallet?.balance}
+          S$ {wallet?.balance.toFixed(2)}
         </Box>
       </Box>
       <Box display="flex" width="100%" justifyContent="center" gap={1}>
@@ -27,7 +27,7 @@ const WalletBalanceDisplay = () => {
           On Hold:
         </Box>
         <Box width="50%" textAlign="start" color="lightgrey">
-          S$ {wallet?.onHold}
+          S$ {wallet?.onHold.toFixed(2)}
         </Box>
       </Box>
     </Box>

@@ -12,7 +12,10 @@ const NewsTab = () => {
     >
       <Box
         textAlign="center"
-        color="red" // red to indicate to develop when there is time. remove when start developing.
+        color="red"
+        fontSize={14}
+        fontStyle="italic"
+        p={2}
       >
         We are actively working to bring you the main sports news of the day!
         <br />

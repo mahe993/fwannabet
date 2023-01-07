@@ -6,10 +6,13 @@ import Tab from "@mui/material/Tab";
 import WithdrawTab from "../tabs/WithdrawTab";
 import TopUpTab from "../tabs/TopUpTab";
 import BackdropLoading from "../components/BackdropLoading";
+import CustomSnackBar from "../components/CustomSnackBar";
 
 const WalletPage = () => {
   const [backDropOpen, setBackDropOpen] = useState(false);
   const [tabValue, setTabValue] = useState(0);
+  const [snackBarOpen, setSnackBarOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
 
   return (
     <Box display="flex" flexDirection="column" alignItems="center" gap={2}>
@@ -29,12 +32,24 @@ const WalletPage = () => {
         </Tabs>
         <Box>
           {tabValue === 0 ? (
-            <TopUpTab setBackDropOpen={setBackDropOpen} />
+            <TopUpTab
+              setBackDropOpen={setBackDropOpen}
+              setSnackBarOpen={setSnackBarOpen}
+              setAlertMessage={setAlertMessage}
+            />
           ) : (
-            <WithdrawTab setBackDropOpen={setBackDropOpen} />
+            <WithdrawTab
+              setBackDropOpen={setBackDropOpen}
+              setSnackBarOpen={setSnackBarOpen}
+              setAlertMessage={setAlertMessage}
+            />
           )}
         </Box>
-
+        <CustomSnackBar
+          snackBarOpen={snackBarOpen}
+          setSnackBarOpen={setSnackBarOpen}
+          alertMessage={alertMessage}
+        />
         <BackdropLoading backDropOpen={backDropOpen} />
       </Box>
     </Box>

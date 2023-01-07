@@ -21,11 +21,12 @@ const CreateBetPageButtons = (props) => {
   // handle create button
   const handleCreate = () => {
     setConfirmationDialogContent(
-      `Creating this bet will move $${
+      `Creating this bet will move $${(betOdds * maxBet).toFixed(
+        2
+      )} from your wallet balance to on hold.\n\nYour remaining balance will be $${(
+        wallet.balance -
         betOdds * maxBet
-      } from your wallet balance to on hold.\n\nYour remaining balance will be $${
-        wallet.balance - betOdds * maxBet
-      }.\n\nThis move is irreversible, click confirm to create!`
+      ).toFixed(2)}.\n\nThis move is irreversible, click confirm to create!`
     );
     setDialogButtonAction({
       confirm: () => {
