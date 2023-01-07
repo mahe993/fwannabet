@@ -33,7 +33,6 @@ const FriendsList = (props) => {
             display="flex"
             flexDirection="column"
             alignItems="center"
-            gap={1}
           >
             {friends?.pending?.requestee?.map((connection) => (
               <FriendCard
@@ -80,7 +79,6 @@ const FriendsList = (props) => {
             display="flex"
             flexDirection="column"
             alignItems="center"
-            gap={1}
           >
             {friends?.accepted?.map((connection) => (
               <FriendCard

@@ -43,7 +43,7 @@ const BetlineCard = (props) => {
           ? "lightgreen"
           : betStatus === "closed"
           ? "orange"
-          : "darkgrey"
+          : "gray"
       }
       width="100%"
       display="flex"
@@ -71,7 +71,7 @@ const BetlineCard = (props) => {
             ? "lightgreen"
             : betStatus === "closed"
             ? "orange"
-            : "grey"
+            : "gray"
         }
         textAlign="center"
         fontSize={12}
@@ -92,7 +92,7 @@ const BetlineCard = (props) => {
       >
         <Box
           width="65px"
-          color={betStatus !== "open" ? "grey" : "lightgrey"}
+          color={betStatus !== "open" ? "gray" : "lightgrey"}
           ml={1}
           display="flex"
           flexDirection="column"
@@ -115,7 +115,7 @@ const BetlineCard = (props) => {
           >
             <ArrowCircleDownIcon
               css={css`
-                color: ${betAmount === minBet ? "grey" : "red"};
+                color: ${betAmount === minBet ? "gray" : "red"};
               `}
             />
           </Button>
@@ -144,7 +144,7 @@ const BetlineCard = (props) => {
             <ArrowCircleUpIcon
               css={css`
                 color: ${betStatus !== "open" || betAmount === maxBet
-                  ? "grey"
+                  ? "gray"
                   : "lightgreen"};
               `}
             />
@@ -211,7 +211,7 @@ const BetlineCard = (props) => {
           width="100%"
           textAlign="center"
           pb={0.5}
-          color="grey"
+          color="gray"
         >
           Bet Verified!
         </Box>
