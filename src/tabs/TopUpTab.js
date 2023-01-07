@@ -16,7 +16,7 @@ const TopUpTab = (props) => {
   const { user, getAccessTokenSilently } = useAuth0();
   const { setWallet } = useWalletContext();
 
-  const { setBackDropOpen } = props;
+  const { setBackDropOpen, setAlertMessage, setSnackBarOpen } = props;
 
   const {
     register,
@@ -41,6 +41,9 @@ const TopUpTab = (props) => {
       setBackDropOpen(false);
       // reset form
       reset();
+      // open snackbar
+      setAlertMessage("Balance Top-up successful");
+      setSnackBarOpen(true);
     } catch (e) {
       throw new Error(e);
     }
