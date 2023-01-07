@@ -38,6 +38,13 @@ const BetlineCard = (props) => {
   return (
     <Box
       border={1}
+      borderColor={
+        betStatus === "open"
+          ? "lightgreen"
+          : betStatus === "closed"
+          ? "orange"
+          : "darkgrey"
+      }
       width="100%"
       display="flex"
       flexDirection="column"
