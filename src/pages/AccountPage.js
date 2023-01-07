@@ -64,8 +64,8 @@ const AccountPage = () => {
                 css={css`
                   display: none;
                 `}
-                onChange={() => {
-                  handleProfilePic();
+                onChange={(e) => {
+                  handleProfilePic(e);
                 }}
               />
               <EditIcon fontSize="large" />
