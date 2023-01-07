@@ -4,6 +4,8 @@ import MenuPopover from "./components/MenuPopover";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import PeopleIcon from "@mui/icons-material/People";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
+import PropTypes from "prop-types";
+import { Box } from "@mui/system";
 
 /* eslint-disable default-case */
 const backendURL = (devEnv) => {
@@ -63,6 +65,67 @@ export const PAGE_STEPS = [
   "Expiry",
 ];
 
+// for image clipping
+// export const createClippedImage = (numberOfImages, imgSource) => {
+//   const images = [];
+//   const totalImages = Math.ceil(numberOfImages);
+//   let clipping = "0%";
+//   for (let i = 0; i < totalImages; i++) {
+//     if (i === totalImages - 1) {
+//       clipping = `${(totalImages - numberOfImages) * 100}%`;
+//     }
+//     images.push(
+//       <Box
+//         height={25}
+//         width={25}
+//         display="flex"
+//         key={i}
+//         css={css`
+//           clip-path: inset(0% ${clipping} 0% 0%);
+//         `}
+//       >
+//         <img
+//           src={imgSource}
+//           alt="clipped"
+//           css={css`
+//             width: 100%;
+//             height: 100%;
+//           `}
+//         />
+//       </Box>
+//     );
+//   }
+//   return images;
+// };
+
+export const TabPanel = (props) => {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <Box
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && <Box sx={{ p: 0 }}>{children}</Box>}
+    </Box>
+  );
+};
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+};
+
+export const a11yProps = (index) => {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
+  };
+};
 // for create bet page instructions
 export const PAGE_INSTRUCTIONS = [
   "Select the type of bet you want to create",
