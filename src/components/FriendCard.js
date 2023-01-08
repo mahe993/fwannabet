@@ -17,7 +17,6 @@ const FriendCard = (props) => {
 
   const { user } = useAuth0();
 
-  
   return (
     <Box
       className="friend-card-container"
