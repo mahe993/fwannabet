@@ -135,7 +135,7 @@ const BetlineCard = (props) => {
       // close loading animation
       setBackDropOpen(false);
       // navigate to bet details
-      console.log("success now navigate");
+      navigate(`/bet/details/${id}`);
     } catch (err) {
       throw new Error(err);
     }
@@ -158,7 +158,7 @@ const BetlineCard = (props) => {
       // close loading animation
       setBackDropOpen(false);
       // navigate to bet details
-      console.log("success now navigate");
+      navigate(`/bet/details/${id}`);
     } catch (err) {
       throw new Error(err);
     }
@@ -307,7 +307,7 @@ const BetlineCard = (props) => {
               Potential Winnings:
             </Box>
             <Box width="41%" pb={0.5} color="lightgrey">
-              ${(betAmount * betOdds).toFixed(2)}
+              ${(betAmount * betOdds - betAmount).toFixed(2)}
             </Box>
           </Box>
         )}
@@ -368,15 +368,15 @@ const BetlineCard = (props) => {
                     ? `Congrats! You won a total of $${winLoss.toFixed(2)}`
                     : `You lost a total of $${winLoss.toFixed(2)}`}
                 </Box>
-                {/* <Box mb={0.5}>
+                <Box mb={0.5}>
                   <Button
                     variant="contained"
                     size="small"
-                    onClick={() => console.log("go to bet details page")}
+                    onClick={() => navigate(`/bet/details/${id}`)}
                   >
                     Details
                   </Button>
-                </Box> */}
+                </Box>
               </>
             )}
           </>

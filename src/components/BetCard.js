@@ -89,7 +89,7 @@ const BetCard = (props) => {
             Potential Winnings
           </Box>
           <Box color="lightgrey" whiteSpace="nowrap">
-            ${(betAmount * betOdds).toFixed(2)}
+            ${(betAmount * betOdds - betAmount).toFixed(2)}
           </Box>
         </Box>
       </Box>
@@ -111,7 +111,7 @@ const BetCard = (props) => {
         {betStatus === "closed" && "Bet is closed! Awaiting verifiation..."}
         {betStatus === "house" && `You lost $${betAmount.toFixed(2)}`}
         {betStatus === "player" &&
-          `You won $${(betAmount * betOdds).toFixed(2)}`}
+          `You won $${(betAmount * betOdds - betAmount).toFixed(2)}`}
       </Box>
     </Box>
   );

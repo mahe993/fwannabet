@@ -37,6 +37,7 @@ const FriendBetlinesPage = () => {
       if (err.name !== "AbortError") {
         console.log("friend betlines data fetch aborted");
       } else {
+        setLoadingData(false);
         throw new Error(err);
       }
     }
@@ -50,6 +51,7 @@ const FriendBetlinesPage = () => {
     getBetlines(signal);
     return () => {
       controller.abort();
+      setLoadingData(false);
     };
   }, []);
 
