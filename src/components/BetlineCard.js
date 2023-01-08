@@ -124,24 +124,18 @@ const BetlineCard = (props) => {
       const accessToken = await getAccessTokenSilently();
       await axios({
         method: "PUT",
-        url: `${BACKEND_URL}/betlines/house`,
+        url: `${BACKEND_URL}/betlines/verification/house`,
         data: { betlineId: id },
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      // search all bets that has this betline id
-      // for each bet, reduce bet's userId's wallet onHold by betAmount
-      // add to a constant (0 or +ve)
-      // get owner of betline id
-      // reduce owner wallet onHold by holdingAmount
-      // increase owner wallet balance by holdingAmount + constant
-      // update betline winLoss by constant
-      // update betline status
-      // update
+      // close dialog
+      setOpenVerificationDialog(false);
       // close loading animation
       setBackDropOpen(false);
       // navigate to bet details
+      console.log("success now navigate");
     } catch (err) {
       throw new Error(err);
     }
@@ -150,17 +144,21 @@ const BetlineCard = (props) => {
   // handle player winner
   const playerWinner = async () => {
     try {
-      // search all bets that has this betline id
-      // for each bet, reduce bet's userId's wallet onHold by betAmount
-      // increase bet's userId's wallet balance by betAmount*betOdds
-      // add to a constant (0 or -ve)
-      // get owner of betline id
-      // reduce owner wallet onHold by holdingAmount
-      // increase owner wallet balance by holdingAmount + constant
-      // update betline winLoss by constant
+      const accessToken = await getAccessTokenSilently();
+      await axios({
+        method: "PUT",
+        url: `${BACKEND_URL}/betlines/verification/player`,
+        data: { betlineId: id },
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      // close dialog
+      setOpenVerificationDialog(false);
       // close loading animation
       setBackDropOpen(false);
       // navigate to bet details
+      console.log("success now navigate");
     } catch (err) {
       throw new Error(err);
     }
