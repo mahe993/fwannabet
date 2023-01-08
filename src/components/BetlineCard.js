@@ -11,6 +11,7 @@ import { useWalletContext } from "../contexts/WalletContext";
 import ConfirmationDialog from "./ConfirmationDialog";
 import { useNavigate } from "react-router-dom";
 import BackdropLoading from "../components/BackdropLoading";
+import { BACKEND_URL } from "../constants";
 
 const BetlineCard = (props) => {
   const [betAmount, setBetAmount] = useState(0);
@@ -86,7 +87,7 @@ const BetlineCard = (props) => {
         confirm: () => {
           setOpenConfirmationDialog(false);
           setBackDropOpen(true);
-          console.log("welldone");
+          betAction();
         },
       });
     }
@@ -97,12 +98,20 @@ const BetlineCard = (props) => {
     try {
       const accessToken = await getAccessTokenSilently();
       // create new bet
-      // new bet should update specific betline's maxbet to remove by betamount
-      // move bettor's wallet balance to onhold by betAmount
+      const action = await axios({
+        method: "POST",
+        url: `${BACKEND_URL}/bets/${authUser.sub}`,
+        data: { betlineId: id, betAmount: betAmount },
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
       // setWallet details
-
+      setWallet(action.data);
       // stop backdrop loading animation
+      setBackDropOpen(false);
       // navigate to My Bets page
+      navigate("/user/bets");
     } catch (err) {
       throw new Error(err);
     }
