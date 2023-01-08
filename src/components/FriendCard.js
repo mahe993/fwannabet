@@ -1,10 +1,11 @@
-import { Box } from "@mui/material";
+import { Avatar, Box } from "@mui/material";
 import React from "react";
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import noPFP from "../assets/images/noPFP.jpg";
 import { useAuth0 } from "@auth0/auth0-react";
 import FriendCardButtons from "./FriendCardButtons";
+import { useNavigate } from "react-router-dom";
 
 const FriendCard = (props) => {
   const {
@@ -16,6 +17,18 @@ const FriendCard = (props) => {
   } = props;
 
   const { user } = useAuth0();
+  const navigate = useNavigate();
+
+  const enterFriendBetlinesPage = () => {
+    if (connection?.status !== "accepted") return;
+    navigate(`/friend/betlines/${connection?.email}`, {
+      state: {
+        id: connection?.id,
+        username: connection?.username,
+        profilePicture: connection?.profilePicture?.downloadUrl,
+      },
+    });
+  };
 
   return (
     <Box
@@ -39,24 +52,19 @@ const FriendCard = (props) => {
     >
       <Box
         className="profile-pic-container"
-        borderRadius="50px"
+        borderRadius="50%"
         height="100px"
         width="100px"
-        overflow="hidden"
+        onClick={enterFriendBetlinesPage}
       >
-        <img
+        <Avatar
           src={
             connection?.profilePicture
               ? connection?.profilePicture?.downloadUrl
               : noPFP
           }
           alt="profile-pic"
-          width="100%"
-          height="100%"
-          css={css`
-            border-radius: 50px;
-            object-fit: fill;
-          `}
+          sx={{ width: "100px", height: "100px" }}
         />
       </Box>
       <Box
