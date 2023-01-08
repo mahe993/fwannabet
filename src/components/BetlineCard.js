@@ -5,9 +5,12 @@ import { css } from "@emotion/react";
 import { useForm } from "react-hook-form";
 import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
 import ArrowCircleDownIcon from "@mui/icons-material/ArrowCircleDown";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const BetlineCard = (props) => {
   const [betAmount, setBetAmount] = useState(0);
+
+  const { user: authUser } = useAuth0();
 
   const {
     details: {
@@ -19,6 +22,7 @@ const BetlineCard = (props) => {
       verificationTime, // use this to notify user to verify bets on mount
       betStatus,
       user,
+      userId,
     },
   } = props;
 
@@ -197,6 +201,7 @@ const BetlineCard = (props) => {
               variant="contained"
               color="warning"
               size="small"
+              disabled={userId !== authUser.sub}
               onClick={() => console.log("open dialog asking who won")}
             >
               Verify
