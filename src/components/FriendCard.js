@@ -19,6 +19,7 @@ const FriendCard = (props) => {
   const { user } = useAuth0();
   const navigate = useNavigate();
 
+  // navigate action upon click on accepted friend's profile pic
   const enterFriendBetlinesPage = () => {
     if (connection?.status !== "accepted") return;
     navigate(`/friend/betlines/${connection?.email}`, {
