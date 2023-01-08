@@ -70,7 +70,7 @@ const CreateBetPage = () => {
         method: "POST",
         url: `${BACKEND_URL}/betlines/${user.sub}`,
         data: formValues,
-        header: {
+        headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
@@ -254,7 +254,7 @@ const CreateBetPage = () => {
             fontSize={12}
             fontStyle="italic"
           >
-            You do not have enough money to create a betline
+            You do not have enough money to create a betline!
           </Box>
           <Box
             p={1}

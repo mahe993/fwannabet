@@ -20,8 +20,8 @@ const DateAndTime = (props) => {
       width="inherit"
       fontSize={12}
     >
-      <Box color="lightgrey">{clock.toString().slice(0, 16)}</Box>
-      <Box color="lightgrey">{clock.toString().slice(16, 24)}</Box>
+      <Box color="gray">{clock.toString().slice(0, 16)}</Box>
+      <Box color="gray">{clock.toString().slice(16, 24)}</Box>
     </Box>
   );
 };

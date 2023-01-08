@@ -175,6 +175,11 @@ const NewBetForm = (props) => {
                 text-align: center;
               `}
             />
+            {!!maxBet && (
+              <Box color="lightgrey" fontSize={12}>
+                max loss: ${maxBet * betOdds}
+              </Box>
+            )}
             {errors?.maxBet && (
               <Box color="red" fontSize={10}>
                 {errors?.maxBet?.message}
