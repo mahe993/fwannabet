@@ -42,6 +42,7 @@ export const NAV_ITEMS = [
 // for menu popover
 export const POPOVER_ITEMS = [
   { name: "My Betlines", path: "/user/betlines" },
+  { name: "My Bets", path: "/user/bets" },
   { name: "Account", path: "/account" },
   { name: "Logout", path: "" },
 ];
