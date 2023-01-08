@@ -21,7 +21,7 @@ const Router = () => {
         path="/account"
         element=<ProtectedRoute component={AccountPage} />
       />
-      <Route path="/transactions" element=<ProtectedRoute component={TransactionsPage} />
+      <Route path="/transactions" element=<ProtectedRoute component={TransactionsPage} /> />
       <Route path="/wallet" element=<ProtectedRoute component={WalletPage} /> />
       <Route
         path="/friends"
