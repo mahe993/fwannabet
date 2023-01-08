@@ -76,6 +76,7 @@ const MyBetsPage = () => {
           alignItems="center"
           gap={2}
           width="95vw"
+          mb={2}
         >
           {bets.length > 0 &&
             bets.map((bet) => (

@@ -12,6 +12,7 @@ import ConfirmationDialog from "./ConfirmationDialog";
 import { useNavigate } from "react-router-dom";
 import BackdropLoading from "../components/BackdropLoading";
 import { BACKEND_URL } from "../constants";
+import VerificationDialog from "./VerificationDialog";
 
 const BetlineCard = (props) => {
   const [betAmount, setBetAmount] = useState(0);
@@ -19,6 +20,7 @@ const BetlineCard = (props) => {
   const [confirmationDialogContent, setConfirmationDialogContent] =
     useState("");
   const [dialogButtonAction, setDialogButtonAction] = useState("");
+  const [openVerificationDialog, setOpenVerificationDialog] = useState(false);
   const [backDropOpen, setBackDropOpen] = useState(false);
 
   const { wallet, setWallet } = useWalletContext();
@@ -32,18 +34,17 @@ const BetlineCard = (props) => {
       minBet,
       maxBet,
       closingTime, // use this to automatically close open bets on mount
-      verificationTime, // use this to notify user to verify bets on mount
       betStatus,
       user, // contains username and email
       userId, // betline owner
       id, // betline id
+      winLoss,
     },
   } = props;
 
   // react-hook-form
   const {
     register,
-    handleSubmit,
     formState: { errors, isValid, touchedFields },
   } = useForm({
     mode: "onChange",
@@ -112,6 +113,54 @@ const BetlineCard = (props) => {
       setBackDropOpen(false);
       // navigate to My Bets page
       navigate("/user/bets");
+    } catch (err) {
+      throw new Error(err);
+    }
+  };
+
+  // handle house winner
+  const houseWinner = async () => {
+    try {
+      const accessToken = await getAccessTokenSilently();
+      await axios({
+        method: "PUT",
+        url: `${BACKEND_URL}/betlines/house`,
+        data: { betlineId: id },
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      // search all bets that has this betline id
+      // for each bet, reduce bet's userId's wallet onHold by betAmount
+      // add to a constant (0 or +ve)
+      // get owner of betline id
+      // reduce owner wallet onHold by holdingAmount
+      // increase owner wallet balance by holdingAmount + constant
+      // update betline winLoss by constant
+      // update betline status
+      // update
+      // close loading animation
+      setBackDropOpen(false);
+      // navigate to bet details
+    } catch (err) {
+      throw new Error(err);
+    }
+  };
+
+  // handle player winner
+  const playerWinner = async () => {
+    try {
+      // search all bets that has this betline id
+      // for each bet, reduce bet's userId's wallet onHold by betAmount
+      // increase bet's userId's wallet balance by betAmount*betOdds
+      // add to a constant (0 or -ve)
+      // get owner of betline id
+      // reduce owner wallet onHold by holdingAmount
+      // increase owner wallet balance by holdingAmount + constant
+      // update betline winLoss by constant
+      // close loading animation
+      setBackDropOpen(false);
+      // navigate to bet details
     } catch (err) {
       throw new Error(err);
     }
@@ -276,30 +325,63 @@ const BetlineCard = (props) => {
             >
               Bet closed. Awaiting verification!
             </Box>
-            <Box mb={0.5}>
-              <Button
-                variant="contained"
-                color="warning"
-                size="small"
-                disabled={userId !== authUser.sub}
-                onClick={() => console.log("open dialog asking who won")}
-              >
-                Verify
-              </Button>
-            </Box>
+            {userId === authUser.sub && (
+              <Box mb={0.5}>
+                <Button
+                  variant="contained"
+                  color="warning"
+                  size="small"
+                  onClick={() => setOpenVerificationDialog(true)}
+                >
+                  Verify
+                </Button>
+              </Box>
+            )}
           </>
         )}
-        {betStatus === "verified" && (
-          <Box
-            fontSize={12}
-            gap={0.5}
-            width="100%"
-            textAlign="center"
-            pb={0.5}
-            color="gray"
-          >
-            Bet Verified!
-          </Box>
+        {(betStatus === "house" || betStatus === "player") && (
+          <>
+            <Box
+              fontSize={12}
+              gap={0.5}
+              width="100%"
+              textAlign="center"
+              pb={0.5}
+              color="gray"
+            >
+              {betStatus === "house" ? "WON" : "LOST"}
+            </Box>
+            {userId === authUser.sub && (
+              <>
+                <Box
+                  fontSize={12}
+                  gap={0.5}
+                  width="100%"
+                  textAlign="center"
+                  pb={0.5}
+                  color="gray"
+                  fontStyle="italic"
+                >
+                  {winLoss === 0
+                    ? betStatus === "house"
+                      ? "Unfortunately there were no takers, you won nothing :'("
+                      : "BUT!! There were no takers! Lucky! :)"
+                    : betStatus === "house"
+                    ? `Congrats! You won a total of $${winLoss.toFixed(2)}`
+                    : `You lost a total of $${winLoss.toFixed(2)}`}
+                </Box>
+                {/* <Box mb={0.5}>
+                  <Button
+                    variant="contained"
+                    size="small"
+                    onClick={() => console.log("go to bet details page")}
+                  >
+                    Details
+                  </Button>
+                </Box> */}
+              </>
+            )}
+          </>
         )}
       </Box>
       <ConfirmationDialog
@@ -308,6 +390,13 @@ const BetlineCard = (props) => {
         confirmationDialogContent={confirmationDialogContent}
         dialogButtonAction={dialogButtonAction}
         setDialogButtonAction={setDialogButtonAction}
+      />
+      <VerificationDialog
+        openVerificationDialog={openVerificationDialog}
+        setOpenVerificationDialog={setOpenVerificationDialog}
+        setBackDropOpen={setBackDropOpen}
+        houseWinner={houseWinner}
+        playerWinner={playerWinner}
       />
       <BackdropLoading backDropOpen={backDropOpen} />
     </>

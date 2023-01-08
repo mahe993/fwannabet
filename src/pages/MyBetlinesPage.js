@@ -76,6 +76,7 @@ const MyBetlinesPage = () => {
           alignItems="center"
           gap={2}
           width="95vw"
+          mb={2}
         >
           {betlines.length > 0 &&
             betlines.map((betline) => (

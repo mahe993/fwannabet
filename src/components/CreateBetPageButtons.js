@@ -9,7 +9,7 @@ const CreateBetPageButtons = (props) => {
     setPage,
     createBet,
     isValid,
-    formValues: { closingTime, verificationTime, betOdds, maxBet },
+    formValues: { closingTime, betOdds, maxBet },
     setBackDropOpen,
     setOpenConfirmationDialog,
     setConfirmationDialogContent,
@@ -37,15 +37,6 @@ const CreateBetPageButtons = (props) => {
     });
     setOpenConfirmationDialog(true);
   };
-
-  // extra check to make sure closingTime and verificationTime fields are not ""
-  useEffect(() => {
-    if (!closingTime || !verificationTime) {
-      setDisable(true);
-    } else if (!!closingTime && !!verificationTime) {
-      setDisable(false);
-    }
-  }, [closingTime, verificationTime]);
 
   return (
     <>

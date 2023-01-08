@@ -105,7 +105,9 @@ const BetCard = (props) => {
       >
         {betStatus === "open" && "This bet is still open! All the best!"}
         {betStatus === "closed" && "Bet is closed! Awaiting verifiation..."}
-        {betStatus === "verified" && "Lose/Win"}
+        {betStatus === "house" && `You lost $${betAmount.toFixed(2)}`}
+        {betStatus === "player" &&
+          `You won $${(betAmount * betOdds).toFixed(2)}`}
       </Box>
     </Box>
   );
