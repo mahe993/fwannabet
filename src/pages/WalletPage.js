@@ -27,7 +27,7 @@ const WalletPage = () => {
       const accessToken = await getAccessTokenSilently();
       const walletDetails = await axios({
         method: "GET",
-        url: `${BACKEND_URL}/wallets/${user.sub}`,
+        url: `${BACKEND_URL}/wallets/getwallet/${user.sub}/${user.email}`,
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

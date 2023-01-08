@@ -58,6 +58,16 @@ const MyBetlinesPage = () => {
             justify-self: center;
           `}
         />
+      ) : betlines.length === 0 ? (
+        <Box
+          textAlign="center"
+          color="red"
+          fontSize={14}
+          fontStyle="italic"
+          p={2}
+        >
+          You have no betlines yet!
+        </Box>
       ) : (
         <Box
           className="betlines-card-container"
