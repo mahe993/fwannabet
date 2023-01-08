@@ -15,7 +15,7 @@ const WithdrawTab = (props) => {
   const { user, getAccessTokenSilently } = useAuth0();
   const { setWallet } = useWalletContext();
 
-  const { setBackDropOpen } = props;
+  const { setBackDropOpen, setAlertMessage, setSnackBarOpen } = props;
 
   const {
     register,
@@ -40,6 +40,9 @@ const WithdrawTab = (props) => {
       setBackDropOpen(false);
       // reset form
       reset();
+      // open snackbar
+      setAlertMessage("Balance withdrawal successful");
+      setSnackBarOpen(true);
     } catch (e) {
       throw new Error(e);
     }
@@ -78,7 +81,7 @@ const WithdrawTab = (props) => {
                 font-size: 14px;
               `}
             >
-              1. Withdraw to
+              1. Withdraw to account
             </label>
             <input
               type="text"

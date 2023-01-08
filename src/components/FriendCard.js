@@ -23,11 +23,20 @@ const FriendCard = (props) => {
       className="friend-card-container"
       display="flex"
       borderRadius="50px"
-      border={1}
+      border={2}
+      borderColor={
+        !connection?.status
+          ? "gray"
+          : connection?.status === "accepted"
+          ? "green"
+          : "orange"
+      }
       alignItems="center"
       width="95%"
       gap={1}
       fontSize={14}
+      mb={1}
+      mt={1}
     >
       <Box
         className="profile-pic-container"

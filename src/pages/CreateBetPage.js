@@ -245,55 +245,78 @@ const CreateBetPage = () => {
           ))}
         </Stepper>
       </Box>
-      <Box
-        className="bet-page-container"
-        width="100%"
-        height="65vh"
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        justifyContent="space-between"
-      >
-        <Box className="bet-instructions" mt={2}>
-          {PAGE_INSTRUCTIONS.map((instruction, idx) => (
-            <Box
-              key={instruction}
-              display={page !== idx ? "none" : "flex"}
-              textAlign="center"
-              color="lightgrey"
-              fontStyle="italic"
-              fontSize={12}
-              whiteSpace="pre-wrap"
-            >
-              {instruction}
-            </Box>
-          ))}
+      {wallet?.balance < 10 ? (
+        <Box>
+          <Box
+            p={1}
+            textAlign="center"
+            color="red"
+            fontSize={12}
+            fontStyle="italic"
+          >
+            You do not have enough money to create a betline
+          </Box>
+          <Box
+            p={1}
+            textAlign="center"
+            color="red"
+            fontSize={12}
+            fontStyle="italic"
+          >
+            Top up wallet balance to at least $10!
+          </Box>
         </Box>
-        <Box className="bet-form">
-          <NewBetForm
-            page={page}
-            setPage={setPage}
-            register={register}
-            formValues={formValues}
-            clock={clock}
-            errors={errors}
-            isValid={isValid}
-          />
+      ) : (
+        <Box
+          className="bet-page-container"
+          width="100%"
+          height="65vh"
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          justifyContent="space-between"
+        >
+          <Box className="bet-instructions" mt={2}>
+            {PAGE_INSTRUCTIONS.map((instruction, idx) => (
+              <Box
+                key={instruction}
+                display={page !== idx ? "none" : "flex"}
+                textAlign="center"
+                color="lightgrey"
+                fontStyle="italic"
+                fontSize={12}
+                whiteSpace="pre-wrap"
+              >
+                {instruction}
+              </Box>
+            ))}
+          </Box>
+          <Box className="bet-form">
+            <NewBetForm
+              page={page}
+              setPage={setPage}
+              register={register}
+              formValues={formValues}
+              clock={clock}
+              errors={errors}
+              isValid={isValid}
+            />
+          </Box>
+          <Box className="bet-buttons" display="flex" gap={1}>
+            <CreateBetPageButtons
+              page={page}
+              setPage={setPage}
+              createBet={createBet}
+              isValid={isValid}
+              formValues={formValues}
+              setBackDropOpen={setBackDropOpen}
+              setOpenConfirmationDialog={setOpenConfirmationDialog}
+              setConfirmationDialogContent={setConfirmationDialogContent}
+              setDialogButtonAction={setDialogButtonAction}
+            />
+          </Box>
         </Box>
-        <Box className="bet-buttons" display="flex" gap={1}>
-          <CreateBetPageButtons
-            page={page}
-            setPage={setPage}
-            createBet={createBet}
-            isValid={isValid}
-            formValues={formValues}
-            setBackDropOpen={setBackDropOpen}
-            setOpenConfirmationDialog={setOpenConfirmationDialog}
-            setConfirmationDialogContent={setConfirmationDialogContent}
-            setDialogButtonAction={setDialogButtonAction}
-          />
-        </Box>
-      </Box>
+      )}
       <ConfirmationDialog
         openConfirmationDialog={openConfirmationDialog}
         setOpenConfirmationDialog={setOpenConfirmationDialog}
