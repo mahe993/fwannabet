@@ -63,39 +63,6 @@ export const PAGE_STEPS = [
   "Expiry",
 ];
 
-// for image clipping
-// export const createClippedImage = (numberOfImages, imgSource) => {
-//   const images = [];
-//   const totalImages = Math.ceil(numberOfImages);
-//   let clipping = "0%";
-//   for (let i = 0; i < totalImages; i++) {
-//     if (i === totalImages - 1) {
-//       clipping = `${(totalImages - numberOfImages) * 100}%`;
-//     }
-//     images.push(
-//       <Box
-//         height={25}
-//         width={25}
-//         display="flex"
-//         key={i}
-//         css={css`
-//           clip-path: inset(0% ${clipping} 0% 0%);
-//         `}
-//       >
-//         <img
-//           src={imgSource}
-//           alt="clipped"
-//           css={css`
-//             width: 100%;
-//             height: 100%;
-//           `}
-//         />
-//       </Box>
-//     );
-//   }
-//   return images;
-// };
-
 // for create bet page instructions
 export const PAGE_INSTRUCTIONS = [
   "Select the type of bet you want to create",
