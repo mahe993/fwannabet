@@ -1,5 +1,5 @@
 import { Button } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useWalletContext } from "../contexts/WalletContext";
 
 const CreateBetPageButtons = (props) => {
@@ -9,7 +9,7 @@ const CreateBetPageButtons = (props) => {
     setPage,
     createBet,
     isValid,
-    formValues: { closingTime, betOdds, maxBet },
+    formValues: { betOdds, maxBet },
     setBackDropOpen,
     setOpenConfirmationDialog,
     setConfirmationDialogContent,

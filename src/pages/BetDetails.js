@@ -15,7 +15,7 @@ const BetDetails = () => {
 
   const { betlineId } = useParams();
   const { getAccessTokenSilently } = useAuth0();
-  console.log(details);
+
   const getBetDetails = async (signal) => {
     try {
       const accessToken = await getAccessTokenSilently();
