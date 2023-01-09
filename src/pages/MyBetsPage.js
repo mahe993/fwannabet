@@ -58,6 +58,16 @@ const MyBetsPage = () => {
             justify-self: center;
           `}
         />
+      ) : bets.length === 0 ? (
+        <Box
+          textAlign="center"
+          color="red"
+          fontSize={14}
+          fontStyle="italic"
+          p={2}
+        >
+          You have no bets yet!
+        </Box>
       ) : (
         <Box
           className="bets-card-container"
@@ -66,6 +76,7 @@ const MyBetsPage = () => {
           alignItems="center"
           gap={2}
           width="95vw"
+          mb={2}
         >
           {bets.length > 0 &&
             bets.map((bet) => (

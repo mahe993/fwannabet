@@ -11,6 +11,7 @@ import WalletPage from "../pages/WalletPage";
 import MyBetlinesPage from "../pages/MyBetlinesPage";
 import FriendBetlinesPage from "../pages/FriendBetlinesPage";
 import MyBetsPage from "../pages/MyBetsPage";
+import BetDetails from "../pages/BetDetails";
 
 const Router = () => {
   // All routes to be siblings. No child routes unless neccessary to prevent unneccessary use of <Outlet />
@@ -42,6 +43,10 @@ const Router = () => {
       <Route
         path="/user/bets/"
         element=<ProtectedRoute component={MyBetsPage} />
+      />
+      <Route
+        path="/bet/details/:betlineId"
+        element=<ProtectedRoute component={BetDetails} />
       />
       <Route
         path="*"

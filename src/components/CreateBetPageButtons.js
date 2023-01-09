@@ -9,7 +9,7 @@ const CreateBetPageButtons = (props) => {
     setPage,
     createBet,
     isValid,
-    formValues: { closingTime, verificationTime, betOdds, maxBet },
+    formValues: { closingTime, betOdds, maxBet },
     setBackDropOpen,
     setOpenConfirmationDialog,
     setConfirmationDialogContent,
@@ -21,11 +21,11 @@ const CreateBetPageButtons = (props) => {
   // handle create button
   const handleCreate = () => {
     setConfirmationDialogContent(
-      `Creating this bet will move $${(betOdds * maxBet).toFixed(
+      `Creating this bet will move $${(betOdds * maxBet - maxBet).toFixed(
         2
       )} from your wallet balance to on hold.\n\nYour remaining balance will be $${(
         wallet.balance -
-        betOdds * maxBet
+        (betOdds * maxBet - maxBet)
       ).toFixed(2)}.\n\nThis move is irreversible, click confirm to create!`
     );
     setDialogButtonAction({
@@ -37,15 +37,6 @@ const CreateBetPageButtons = (props) => {
     });
     setOpenConfirmationDialog(true);
   };
-
-  // extra check to make sure closingTime and verificationTime fields are not ""
-  useEffect(() => {
-    if (!closingTime || !verificationTime) {
-      setDisable(true);
-    } else if (!!closingTime && !!verificationTime) {
-      setDisable(false);
-    }
-  }, [closingTime, verificationTime]);
 
   return (
     <>

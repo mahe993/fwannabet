@@ -177,7 +177,7 @@ const NewBetForm = (props) => {
             />
             {!!maxBet && (
               <Box color="lightgrey" fontSize={12}>
-                max loss: ${maxBet * betOdds}
+                max loss: ${maxBet * betOdds - maxBet}
               </Box>
             )}
             {errors?.maxBet && (
@@ -303,43 +303,6 @@ const NewBetForm = (props) => {
                 {errors?.closingTime?.message}
               </Box>
             )}
-          </Box>
-          <Box
-            className="bet-verification-time-input-container"
-            display="flex"
-            flexDirection="column"
-            alignItems="center"
-            justifyContent="center"
-          >
-            <label htmlFor="bet-closing-time">Verification Time</label>
-            <input
-              autoComplete="off"
-              id="bet-closing-time"
-              type="datetime-local"
-              min={closingTime}
-              disabled={!closingTime || !!errors?.closingTime}
-              {...register("verificationTime", {
-                required: "Field is required",
-                validate: (value) => {
-                  const diffInMins = differenceInMinutes(
-                    new Date(value),
-                    clock
-                  );
-                  if (diffInMins < 0) {
-                    return "Date/Time must be after closing time";
-                  }
-                  return null;
-                },
-              })}
-              css={css`
-                background-color: #313131;
-                outline: none;
-                text-align: center;
-              `}
-            />
-            <Box color="red" fontSize={10}>
-              {errors?.verificationTime?.message}
-            </Box>
           </Box>
         </Box>
       )}

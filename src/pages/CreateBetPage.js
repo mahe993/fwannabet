@@ -36,7 +36,6 @@ const CreateBetPage = () => {
     minBet: "",
     maxBet: "",
     closingTime: "",
-    verificationTime: "",
   });
 
   const { wallet, setWallet } = useWalletContext();
@@ -58,7 +57,6 @@ const CreateBetPage = () => {
       minBet: "",
       maxBet: "",
       closingTime: "",
-      verificationTime: "",
     },
   });
 
@@ -166,7 +164,7 @@ const CreateBetPage = () => {
     }
   }, [watch("minBet")]);
 
-  // when bet closing time changes, update overall form and reset verification time
+  // when bet closing time changes, update overall form
   useEffect(() => {
     const diffInHours = differenceInHours(
       new Date(getValues("closingTime")),
@@ -177,7 +175,6 @@ const CreateBetPage = () => {
         return {
           ...prev,
           closingTime: "",
-          verificationTime: "",
         };
       });
     } else {
@@ -185,19 +182,10 @@ const CreateBetPage = () => {
         return {
           ...prev,
           closingTime: getValues("closingTime"),
-          verificationTime: "",
         };
       });
     }
   }, [watch("closingTime")]);
-
-  // when bet verification time changes, update overall form
-  useEffect(() => {
-    // find a way to validate verificationTime >= closingTime
-    setFormValues((prev) => {
-      return { ...prev, verificationTime: getValues("verificationTime") };
-    });
-  }, [watch("verificationTime")]);
 
   return (
     <Box display="flex" flexDirection="column" alignItems="center" gap={2}>

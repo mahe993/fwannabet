@@ -3,7 +3,6 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
@@ -27,12 +26,11 @@ const ConfirmationDialog = (props) => {
       <Dialog
         open={openConfirmationDialog}
         onClose={handleClose}
-        id="error-dialog"
+        id="confirmation-dialog"
       >
-        <DialogTitle id="error-dialog-title"></DialogTitle>
         <DialogContent>
           <DialogContentText
-            id="error-dialog-description"
+            id="confirmation-dialog-description"
             css={css`
               white-space: pre-wrap;
             `}

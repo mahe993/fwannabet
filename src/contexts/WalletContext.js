@@ -20,7 +20,7 @@ export const WalletContextProvider = ({ children }) => {
     try {
       const accessToken = await getAccessTokenSilently();
       const getWallet = await axios({
-        url: `${BACKEND_URL}/wallets/${user.sub}`,
+        url: `${BACKEND_URL}/wallets/getwallet/${user.sub}/${user.email}`,
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

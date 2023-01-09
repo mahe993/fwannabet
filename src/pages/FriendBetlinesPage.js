@@ -37,6 +37,7 @@ const FriendBetlinesPage = () => {
       if (err.name !== "AbortError") {
         console.log("friend betlines data fetch aborted");
       } else {
+        setLoadingData(false);
         throw new Error(err);
       }
     }
@@ -50,6 +51,7 @@ const FriendBetlinesPage = () => {
     getBetlines(signal);
     return () => {
       controller.abort();
+      setLoadingData(false);
     };
   }, []);
 
@@ -85,6 +87,7 @@ const FriendBetlinesPage = () => {
             alignItems="center"
             gap={2}
             width="95vw"
+            mb={2}
           >
             {betlines.length > 0 &&
               betlines.map((betline) => (
