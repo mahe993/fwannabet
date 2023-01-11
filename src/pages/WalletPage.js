@@ -11,6 +11,7 @@ import TopUpTab from "../tabs/TopUpTab";
 import BackdropLoading from "../components/BackdropLoading";
 import CustomSnackBar from "../components/CustomSnackBar";
 import { useWalletContext } from "../contexts/WalletContext";
+import TransactionsTab from "../tabs/TransactionsTab";
 
 const WalletPage = () => {
   const [backDropOpen, setBackDropOpen] = useState(false);
@@ -69,21 +70,24 @@ const WalletPage = () => {
         >
           <Tab label="Top Up" />
           <Tab label="Withdrawal" />
+          <Tab label="Transactions" />
         </Tabs>
         <Box>
-          {tabValue === 0 ? (
+          {tabValue === 0 && (
             <TopUpTab
               setBackDropOpen={setBackDropOpen}
               setSnackBarOpen={setSnackBarOpen}
               setAlertMessage={setAlertMessage}
             />
-          ) : (
+          )}
+          {tabValue === 1 && (
             <WithdrawTab
               setBackDropOpen={setBackDropOpen}
               setSnackBarOpen={setSnackBarOpen}
               setAlertMessage={setAlertMessage}
             />
           )}
+          {tabValue === 2 && <TransactionsTab />}
         </Box>
         <CustomSnackBar
           snackBarOpen={snackBarOpen}

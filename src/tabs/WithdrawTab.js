@@ -1,7 +1,6 @@
 import React from "react";
 import { Box } from "@mui/system";
 import { useForm } from "react-hook-form";
-import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useWalletContext } from "../contexts/WalletContext";
