@@ -95,9 +95,15 @@ const BetDetails = () => {
               display="flex"
               justifyContent="space-between"
               alignItems="center"
+              fontSize={14}
             >
               <Box color="gray">NAME</Box>
-              <Box color="gray">AMOUNT</Box>
+              <Box display="flex" gap={2}>
+                <Box color="gray">BET</Box>
+                <Box color="gray" minWidth="65.5px">
+                  WIN/LOSS
+                </Box>
+              </Box>
             </Box>
             {details?.bets?.length === 0 ? (
               <Box
@@ -117,23 +123,28 @@ const BetDetails = () => {
                   display="flex"
                   justifyContent="space-between"
                   alignItems="center"
+                  fontSize={14}
                 >
-                  <Box
-                    fontSize={14}
-                    color={details?.winLoss < 0 ? "lightgreen" : "red"}
-                  >
+                  <Box color={details?.winLoss < 0 ? "lightgreen" : "red"}>
                     {bet?.user?.username
                       ? bet?.user?.username
                       : bet?.user?.email}
                   </Box>
-                  <Box color={details?.winLoss < 0 ? "lightgreen" : "red"}>
-                    {details?.winLoss < 0 ? "+ " : "- "}$
-                    {details?.winLoss < 0
-                      ? (
-                          bet?.betAmount * details?.betOdds -
-                          bet?.betAmount
-                        ).toFixed(2)
-                      : bet?.betAmount.toFixed(2)}
+                  <Box display="flex" gap={2}>
+                    <Box color="gray">${bet?.betAmount.toFixed(2)}</Box>
+                    <Box
+                      color={details?.winLoss < 0 ? "lightgreen" : "red"}
+                      minWidth="65.5px"
+                      textAlign="center"
+                    >
+                      {details?.winLoss < 0 ? "+" : "-"}$
+                      {details?.winLoss < 0
+                        ? (
+                            bet?.betAmount * details?.betOdds -
+                            bet?.betAmount
+                          ).toFixed(2)
+                        : bet?.betAmount.toFixed(2)}
+                    </Box>
                   </Box>
                 </Box>
               ))
