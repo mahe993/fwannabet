@@ -56,6 +56,7 @@ const BetlinesTab = () => {
       alignItems="center"
       width="95vw"
       gap={2}
+      mb={2}
     >
       {loadingData ? (
         <CircularProgress
@@ -64,7 +65,15 @@ const BetlinesTab = () => {
           `}
         />
       ) : betlines.length === 0 ? (
-        <Box>No Betlines available. Create one yourself!</Box>
+        <Box
+          textAlign="center"
+          color="red"
+          fontSize={14}
+          fontStyle="italic"
+          p={2}
+        >
+          No Betlines available. Create one yourself!
+        </Box>
       ) : (
         betlines.map((betline) => (
           <Box key={betline.id} width="100%">

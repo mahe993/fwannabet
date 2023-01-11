@@ -67,7 +67,7 @@ const AccountForm = (props) => {
   return (
     <form onSubmit={handleSubmit(formSubmit, formError)}>
       <Box display="flex" flexDirection="column" alignItems="center" gap={2}>
-        <Box className="registered-email" p={1} color="lightgrey">
+        <Box className="registered-email" p={1} color="gray">
           {user?.email}
         </Box>
         <Box

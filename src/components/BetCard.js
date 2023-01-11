@@ -60,13 +60,13 @@ const BetCard = (props) => {
             1 : {betOdds}
           </Box>
         </Box>
-        <Box
-          fontSize={12}
-          display="flex"
-          flexDirection="column"
-          alignItems="center"
-        >
-          <Box color="lightgrey" whiteSpace="nowrap">
+        <Box display="flex" flexDirection="column" alignItems="center">
+          <Box
+            color="lightgrey"
+            fontSize={10}
+            fontStyle="italic"
+            whiteSpace="nowrap"
+          >
             Bet Amount
           </Box>
           <Box color="lightgrey" whiteSpace="nowrap">
@@ -74,18 +74,22 @@ const BetCard = (props) => {
           </Box>
         </Box>
         <Box
-          fontSize={12}
           display="flex"
           flexDirection="column"
           gap={0.5}
           alignItems="center"
           mr={1}
         >
-          <Box color="lightgrey" whiteSpace="nowrap">
+          <Box
+            color="lightgrey"
+            fontSize={10}
+            fontStyle="italic"
+            whiteSpace="nowrap"
+          >
             Potential Winnings
           </Box>
           <Box color="lightgrey" whiteSpace="nowrap">
-            ${(betAmount * betOdds).toFixed(2)}
+            ${(betAmount * betOdds - betAmount).toFixed(2)}
           </Box>
         </Box>
       </Box>
@@ -105,7 +109,9 @@ const BetCard = (props) => {
       >
         {betStatus === "open" && "This bet is still open! All the best!"}
         {betStatus === "closed" && "Bet is closed! Awaiting verifiation..."}
-        {betStatus === "verified" && "Lose/Win"}
+        {betStatus === "house" && `You lost $${betAmount.toFixed(2)}`}
+        {betStatus === "player" &&
+          `You won $${(betAmount * betOdds - betAmount).toFixed(2)}`}
       </Box>
     </Box>
   );

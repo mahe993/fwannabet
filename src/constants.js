@@ -70,9 +70,9 @@ export const PAGE_INSTRUCTIONS = [
   "Select the type of bet you want to create",
   "Enter a description that you and your friends understand\nIt should describe the scenario your friends want to see happen\ni.e. If the scenario happens, your friends win",
   "Set the payout odds for this bet line\nOdds can only be to 1 decimal point, minimum 1.1",
-  "Max Bet cannot exceed your (wallet balance) / (bet odds)\n e.g. wallet balance = $100, bet odds = 3.0, max bet = $33\nthe max amount you will potentially lose is (max bet) * (bet odds)",
+  "To ensure credit worthines, our rules are\nMax Bet cannot exceed your (wallet balance) / (bet odds)\n e.g. wallet balance = $100, bet odds = 3.0, max bet = $33\nthe max amount you will potentially lose is\n(max bet) * (bet odds) - (max bet)",
   "Set the minimum bet amount each player can play\nMin Bet must be at least $1 and cannot exceed Max bet\n e.g. Max Bet = $100, Min Bet = $1 - $100 inclusive ",
-  "Set cut off time for this betline and\nwhen the results will be verified",
+  "Set cut off time for this betline",
 ];
 
 // for create bet type options
