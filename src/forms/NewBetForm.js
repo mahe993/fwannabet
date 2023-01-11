@@ -135,12 +135,12 @@ const NewBetForm = (props) => {
               fontSize={12}
               width="151px"
             >
-              <Box color="lightgrey">MAX(Max Bet)</Box>
+              <Box color="lightgrey">Max loss</Box>
               <Box color="lightgrey" fontStyle="italic" whiteSpace="nowrap">
-                (wallet balance) / (bet odds)
+                (bet odds * max bet) - (max bet)
               </Box>
               <Box color="lightgrey">
-                ${Math.floor(wallet?.balance / betOdds)}
+                $${!!maxBet && maxBet * betOdds - maxBet}
               </Box>
             </Box>
           </Box>

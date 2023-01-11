@@ -43,10 +43,7 @@ const BetlineCard = (props) => {
   } = props;
 
   // react-hook-form
-  const {
-    register,
-    formState: { errors, isValid, touchedFields },
-  } = useForm({
+  const { register } = useForm({
     mode: "onChange",
   });
 
@@ -307,7 +304,7 @@ const BetlineCard = (props) => {
               Potential Winnings:
             </Box>
             <Box width="41%" pb={0.5} color="lightgrey">
-              ${(betAmount * betOdds - betAmount).toFixed(2)}
+              ${(betAmount * betOdds).toFixed(2)}
             </Box>
           </Box>
         )}
