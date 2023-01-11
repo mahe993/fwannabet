@@ -53,7 +53,7 @@ const BetDetails = () => {
 
   return (
     <Box display="flex" flexDirection="column" alignItems="center" gap={2}>
-      <PageHeader header={"Betlines"} />
+      <PageHeader header={"Betline Details"} />
       {loadingData ? (
         <CircularProgress
           css={css`
@@ -81,7 +81,7 @@ const BetDetails = () => {
             `}
           >
             {details?.winLoss === 0 ? "" : details?.winLoss < 0 ? "- " : "+ "}$
-            {Math.abs(details?.winLoss.toFixed(2))}
+            {Math.abs(details?.winLoss).toFixed(2)}
           </Box>
           <Box
             display="flex"
