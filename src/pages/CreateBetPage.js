@@ -129,7 +129,7 @@ const CreateBetPage = () => {
       val = getValues("maxBet").slice(0, val.indexOf("."));
     }
     const max = Number(val);
-    if (max > Math.floor(wallet?.balance / formValues?.betOdds) || max <= 0) {
+    if (formValues?.betOdds * max - max > wallet?.balance || max <= 0) {
       setFormValues((prev) => {
         return { ...prev, maxBet: "" };
       });

@@ -124,7 +124,7 @@ const NewBetForm = (props) => {
               width="151px"
             >
               <Box color="lightgrey">Wallet Balance</Box>
-              <Box color="lightgrey">${wallet?.balance}</Box>
+              <Box color="lightgrey">${wallet?.balance.toFixed(2)}</Box>
             </Box>
             <Box
               className="maximum-max-bet-display-container"
@@ -136,11 +136,11 @@ const NewBetForm = (props) => {
               width="151px"
             >
               <Box color="lightgrey">Max loss</Box>
+              <Box color="lightgrey">
+                ${!!maxBet && (maxBet * betOdds - maxBet).toFixed(2)}
+              </Box>
               <Box color="lightgrey" fontStyle="italic" whiteSpace="nowrap">
                 (bet odds * max bet) - (max bet)
-              </Box>
-              <Box color="lightgrey">
-                $${!!maxBet && maxBet * betOdds - maxBet}
               </Box>
             </Box>
           </Box>
@@ -164,9 +164,10 @@ const NewBetForm = (props) => {
                   message: "Please only enter whole numbers above 0!",
                 },
                 validate: (value) =>
-                  (Number(value) > 0) &
-                    (Number(value) <= Math.floor(wallet.balance / betOdds)) ||
-                  "Max Bet must be lower or equal to (walletBalance/betOdds)!",
+                  (Number(value) > 0 &&
+                    betOdds * Number(value) - Number(value) <=
+                      wallet?.balance) ||
+                  "Maximum loss cannot exceed wallet balance!",
               })}
               css={css`
                 background-color: #313131;
@@ -175,11 +176,6 @@ const NewBetForm = (props) => {
                 text-align: center;
               `}
             />
-            {!!maxBet && (
-              <Box color="lightgrey" fontSize={12}>
-                max loss: ${maxBet * betOdds - maxBet}
-              </Box>
-            )}
             {errors?.maxBet && (
               <Box color="red" fontSize={10}>
                 {errors?.maxBet?.message}
