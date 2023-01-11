@@ -60,7 +60,7 @@ const BetCard = (props) => {
             1 : {betOdds}
           </Box>
         </Box>
-        <Box display="flex" flexDirection="column" alignItems="center">
+        <Box display="flex" flexDirection="column" alignItems="center" ml={2}>
           <Box
             color="lightgrey"
             fontSize={10}
@@ -89,7 +89,7 @@ const BetCard = (props) => {
             Potential Winnings
           </Box>
           <Box color="lightgrey" whiteSpace="nowrap">
-            ${(betAmount * betOdds - betAmount).toFixed(2)}
+            ${(betAmount * betOdds).toFixed(2)}
           </Box>
         </Box>
       </Box>
