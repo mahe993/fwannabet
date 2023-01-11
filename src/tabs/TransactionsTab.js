@@ -114,7 +114,7 @@ const TransactionsTab = () => {
                       ? "lightgreen"
                       : transaction?.amount === 0
                       ? "grey"
-                      : "red"
+                      : "tomato"
                   }
                 >
                   {transaction?.amount > 0 && "+"}

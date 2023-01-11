@@ -74,7 +74,7 @@ const BetDetails = () => {
           </Box>
           <Box
             className="bet-win-loss-amount"
-            color={details?.winLoss < 0 ? "red" : "lightgreen"}
+            color={details?.winLoss < 0 ? "tomato" : "lightgreen"}
             fontSize={20}
             css={css`
               text-shadow: -5px 5px 10px black;
@@ -125,7 +125,7 @@ const BetDetails = () => {
                   alignItems="center"
                   fontSize={14}
                 >
-                  <Box color={details?.winLoss < 0 ? "lightgreen" : "red"}>
+                  <Box color={details?.winLoss < 0 ? "lightgreen" : "tomato"}>
                     {bet?.user?.username
                       ? bet?.user?.username
                       : bet?.user?.email}
@@ -133,7 +133,7 @@ const BetDetails = () => {
                   <Box display="flex" gap={2}>
                     <Box color="gray">${bet?.betAmount.toFixed(2)}</Box>
                     <Box
-                      color={details?.winLoss < 0 ? "lightgreen" : "red"}
+                      color={details?.winLoss < 0 ? "lightgreen" : "tomato"}
                       minWidth="65.5px"
                       textAlign="center"
                     >
