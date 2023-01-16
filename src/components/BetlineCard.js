@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import BackdropLoading from "../components/BackdropLoading";
 import { BACKEND_URL } from "../constants";
 import VerificationDialog from "./VerificationDialog";
+import huat from "../assets/audios/huat.mp3";
 
 const BetlineCard = (props) => {
   const [betAmount, setBetAmount] = useState(0);
@@ -86,6 +87,8 @@ const BetlineCard = (props) => {
           setOpenConfirmationDialog(false);
           setBackDropOpen(true);
           betAction();
+          const audio = new Audio(huat);
+          audio.play();
         },
       });
     }
