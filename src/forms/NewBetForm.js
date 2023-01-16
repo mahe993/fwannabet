@@ -3,14 +3,14 @@ import React from "react";
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { BET_TYPES } from "../constants";
-import { differenceInHours, differenceInMinutes } from "date-fns";
+import { differenceInHours } from "date-fns";
 import { useWalletContext } from "../contexts/WalletContext";
 
 const NewBetForm = (props) => {
   const {
     page,
     register,
-    formValues: { betOdds, maxBet, minBet, closingTime },
+    formValues: { betOdds, maxBet, minBet },
     clock,
     errors,
   } = props;
