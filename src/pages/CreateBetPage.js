@@ -17,7 +17,6 @@ import CustomSnackBar from "../components/CustomSnackBar";
 import BackdropLoading from "../components/BackdropLoading";
 import { useWalletContext } from "../contexts/WalletContext";
 import ConfirmationDialog from "../components/ConfirmationDialog";
-import huat from "../assets/audios/huat.mp3";
 
 const CreateBetPage = () => {
   const [clock, setClock] = useState(new Date());
@@ -84,9 +83,6 @@ const CreateBetPage = () => {
       // set snackbar message and open snackbar
       setAlertMessage("Betline created!");
       setSnackBarOpen(true);
-      // play huat audio
-      const audio = new Audio(huat);
-      audio.play();
     } catch (err) {
       setBackDropOpen(false);
       throw new Error(err);

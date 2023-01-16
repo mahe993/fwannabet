@@ -1,6 +1,7 @@
 import { Button } from "@mui/material";
 import React, { useState } from "react";
 import { useWalletContext } from "../contexts/WalletContext";
+import huat from "../assets/audios/huat.mp3";
 
 const CreateBetPageButtons = (props) => {
   const [disable, setDisable] = useState(false);
@@ -32,6 +33,8 @@ const CreateBetPageButtons = (props) => {
       confirm: () => {
         setBackDropOpen(true);
         createBet();
+        const audio = new Audio(huat);
+        audio.play();
         setOpenConfirmationDialog(false);
       },
     });
