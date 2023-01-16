@@ -9,7 +9,7 @@ import AccountForm from "../forms/AccountForm";
 import { useAuth0 } from "@auth0/auth0-react";
 import { BACKEND_URL, validateFileType } from "../constants.js";
 import { useUserContext } from "../contexts/UserContext";
-
+import huat from "../assets/audios/huat.mp3";
 import CustomSnackBar from "../components/CustomSnackBar";
 import BackdropLoading from "../components/BackdropLoading";
 
@@ -41,6 +41,11 @@ const AccountPage = () => {
     } catch (err) {
       throw new Error(err);
     }
+  };
+
+  const handleClick = () => {
+    const audio = new Audio(huat);
+    audio.play();
   };
 
   return (
@@ -92,6 +97,7 @@ const AccountPage = () => {
         alertMessage={alertMessage}
       />
       <BackdropLoading backDropOpen={backDropOpen} />
+      <button onClick={handleClick}>Click me</button>
     </>
   );
 };
