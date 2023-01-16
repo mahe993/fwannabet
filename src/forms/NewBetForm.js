@@ -55,7 +55,6 @@ const NewBetForm = (props) => {
             })}
             cols={40}
             rows={5}
-            autoFocus
             css={css`
               background-color: #313131;
               outline: none;
@@ -75,7 +74,6 @@ const NewBetForm = (props) => {
             autoComplete="off"
             id="bet-odds"
             type="text"
-            autoFocus
             {...register("betOdds", {
               required: "Field is required",
               pattern: {
@@ -156,7 +154,6 @@ const NewBetForm = (props) => {
               autoComplete="off"
               id="bet-max"
               type="text"
-              autoFocus
               {...register("maxBet", {
                 required: "Field is required",
                 pattern: {
@@ -227,7 +224,6 @@ const NewBetForm = (props) => {
                 autoComplete="off"
                 id="bet-min"
                 type="text"
-                autoFocus
                 {...register("minBet", {
                   required: "Field is required",
                   pattern: {
