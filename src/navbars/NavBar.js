@@ -20,8 +20,8 @@ const NavBar = () => {
         display="flex"
         alignItems="center"
         justifyContent="space-between"
-        pl={1}
-        pr={1}
+        pl={2}
+        pr={2}
       >
         {NAV_ITEMS.map((item) => {
           return (
