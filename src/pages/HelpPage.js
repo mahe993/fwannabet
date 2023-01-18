@@ -13,21 +13,21 @@ const HelpPage = () => {
           alignItems="center"
           ml={2}
           mr={2}
-          gap={1}
+          gap={1.5}
         >
           <Box fontSize={18}>Welcome to WannaBet™</Box>
           <Box textAlign="justify" fontSize={15}>
             This app is created to serve as a platform for you and your friends
             to record friendly bets amongst yourselves!
           </Box>
-          <Box textAlign="justify" fontSize={15} display="flex" gap={1} mt={1}>
+          <Box textAlign="justify" fontSize={15} display="flex" gap={1}>
             <Box alignSelf="center">1.</Box>
             <Box>
               Start by adding friends! go to the friends page and search for
               your friends by entering their username/email (case sensitive)
             </Box>
           </Box>
-          <Box textAlign="justify" fontSize={15} display="flex" gap={1} mt={1}>
+          <Box textAlign="justify" fontSize={15} display="flex" gap={1}>
             <Box alignSelf="center">2.</Box>
             <Box>
               You can look at all the betlines created by your accepted friends
@@ -36,14 +36,14 @@ const HelpPage = () => {
               betlines tab!
             </Box>
           </Box>
-          <Box textAlign="justify" fontSize={15} display="flex" gap={1} mt={1}>
+          <Box textAlign="justify" fontSize={15} display="flex" gap={1}>
             <Box alignSelf="center">3.</Box>
             <Box>
               Before you start betting or creating a betline, ensure you have
               some money available in your wallet balance!
             </Box>
           </Box>
-          <Box textAlign="justify" fontSize={15} display="flex" gap={1} mt={1}>
+          <Box textAlign="justify" fontSize={15} display="flex" gap={1}>
             <Box alignSelf="center">4.</Box>
             <Box>
               You can verify your own betline once the betline is closed. A
@@ -51,7 +51,7 @@ const HelpPage = () => {
               the closing time of the betline.
             </Box>
           </Box>
-          <Box textAlign="justify" fontSize={15} display="flex" gap={1} mt={1}>
+          <Box textAlign="justify" fontSize={15} display="flex" gap={1}>
             <Box alignSelf="center">5.</Box>
             <Box>
               Green betlines denotes an open betline, orange denotes a closed
@@ -60,19 +60,28 @@ const HelpPage = () => {
               details of a verified betline.
             </Box>
           </Box>
-          <Box textAlign="justify" fontSize={15} display="flex" gap={1} mt={1}>
+          <Box textAlign="justify" fontSize={15} display="flex" gap={1}>
             <Box alignSelf="center">6.</Box>
             <Box>
               Make sure your monies are accurate! The transactions tab in wallet
               page should help!
             </Box>
           </Box>
-          <Box textAlign="justify" fontSize={15} display="flex" gap={1} mt={1}>
+          <Box textAlign="justify" fontSize={15} display="flex" gap={1}>
             <Box alignSelf="center">7.</Box>
             <Box>
               If you have any other questions or you encounter any issues, feel
-              free to contact us at <em>qmahe@live.com</em>!
+              free to contact us!
             </Box>
+          </Box>
+          <Box
+            textAlign="center"
+            fontSize={15}
+            color="gray"
+            fontStyle="italic"
+            mt={1}
+          >
+            qmahe@live.com
           </Box>
         </Box>
       </Box>
