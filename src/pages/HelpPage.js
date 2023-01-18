@@ -30,9 +30,9 @@ const HelpPage = () => {
           <Box textAlign="justify" fontSize={15} display="flex" gap={1} mt={1}>
             <Box alignSelf="center">2.</Box>
             <Box>
-              You can look at all the betlines created by your friends by
-              clicking on their profile picture! Alternatively you can check out
-              all open betlines from your friends at the home page under the
+              You can look at all the betlines created by your accepted friends
+              by clicking on their profile picture! Alternatively you can check
+              out all open betlines from your friends at the home page under the
               betlines tab!
             </Box>
           </Box>
@@ -62,6 +62,13 @@ const HelpPage = () => {
           </Box>
           <Box textAlign="justify" fontSize={15} display="flex" gap={1} mt={1}>
             <Box alignSelf="center">6.</Box>
+            <Box>
+              Make sure your monies are accurate! The transactions tab in wallet
+              page should help!
+            </Box>
+          </Box>
+          <Box textAlign="justify" fontSize={15} display="flex" gap={1} mt={1}>
+            <Box alignSelf="center">7.</Box>
             <Box>
               If you have any other questions or you encounter any issues, feel
               free to contact us at <em>qmahe@live.com</em>!
