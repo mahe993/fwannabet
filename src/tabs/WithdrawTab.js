@@ -66,7 +66,7 @@ const WithdrawTab = (props) => {
           justifyContent="center"
           gap={2}
         >
-          <Box
+          {/* <Box
             className="withdrawal-account-number-input-container"
             display="flex"
             flexDirection="column"
@@ -110,7 +110,7 @@ const WithdrawTab = (props) => {
                 {errors?.withdrawalAccountNumber?.message}
               </Box>
             )}
-          </Box>
+          </Box> */}
           <Box
             className="withdrawal-amount-input-container"
             display="flex"
@@ -125,7 +125,7 @@ const WithdrawTab = (props) => {
                 font-size: 14px;
               `}
             >
-              2. Withdrawal Amount
+              1. Withdrawal Amount
             </label>
             <input
               type="text"

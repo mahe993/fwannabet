@@ -66,7 +66,7 @@ const TopUpTab = (props) => {
           justifyContent="center"
           gap={2}
         >
-          <Box
+          {/* <Box
             className="account-number-input-container"
             display="flex"
             flexDirection="column"
@@ -110,7 +110,7 @@ const TopUpTab = (props) => {
                 {errors?.accountNumber?.message}
               </Box>
             )}
-          </Box>
+          </Box> */}
           <Box
             className="transfer-method-input-container"
             display="flex"
@@ -125,7 +125,7 @@ const TopUpTab = (props) => {
                 font-size: 14px;
               `}
             >
-              2. Select a transfer method
+              1. Select a transfer method
             </label>
             <select
               id="transfer-method"
@@ -177,7 +177,7 @@ const TopUpTab = (props) => {
               WannaBet Pte Ltd
             </Box>
             <Box color="grey" fontStyle="italic" fontSize={13}>
-              Account Number 006-9987-321
+              Account Number 006-7891-234
             </Box>
           </Box>
           <Box
@@ -194,7 +194,7 @@ const TopUpTab = (props) => {
                 font-size: 14px;
               `}
             >
-              3. Top Up Amount {`(S$)`}
+              2. Top Up Amount {`(S$)`}
             </label>
             <input
               type="text"
