@@ -12,12 +12,14 @@ import MyBetlinesPage from "../pages/MyBetlinesPage";
 import FriendBetlinesPage from "../pages/FriendBetlinesPage";
 import MyBetsPage from "../pages/MyBetsPage";
 import BetDetails from "../pages/BetDetails";
+import HelpPage from "../pages/HelpPage";
 
 const Router = () => {
   // All routes to be siblings. No child routes unless neccessary to prevent unneccessary use of <Outlet />
   return (
     <Routes>
       <Route path="/" element=<LandingPage /> />
+      <Route path="/help" element=<HelpPage /> />
       <Route path="/home" element=<ProtectedRoute component={HomePage} /> />
       <Route
         path="/account"
