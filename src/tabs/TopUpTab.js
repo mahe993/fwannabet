@@ -138,10 +138,6 @@ const TopUpTab = (props) => {
                 padding: 3px;
                 outline: none;
                 text-align: center;
-                ::placeholder {
-                  font-size: 12px;
-                  font-style: italic;
-                }
               `}
             >
               {TRANSFER_METHODS.map((method) => (

@@ -82,7 +82,6 @@ const AccountForm = (props) => {
             autoComplete="off"
             id="input-username"
             type="text"
-            placeholder="mahemahemahe"
             {...register("username", {
               maxLength: {
                 value: 15,
@@ -97,10 +96,6 @@ const AccountForm = (props) => {
               background-color: #313131;
               padding: 3px;
               outline-style: none;
-              ::placeholder {
-                font-size: 12px;
-                font-style: italic;
-              }
               :focus {
                 outline-color: lightgrey;
               }
@@ -122,7 +117,6 @@ const AccountForm = (props) => {
             autoComplete="off"
             id="input-contact"
             type="text"
-            placeholder="91234567"
             {...register("contactNumber", {
               pattern: {
                 value: /^[0-9]+$/,
@@ -141,10 +135,6 @@ const AccountForm = (props) => {
               background-color: #313131;
               padding: 3px;
               outline-style: none;
-              ::placeholder {
-                font-size: 12px;
-                font-style: italic;
-              }
               :focus {
                 outline-color: lightgrey;
               }
