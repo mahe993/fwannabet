@@ -72,7 +72,7 @@ const FriendsPage = () => {
       </Box>
       <Box
         className="friends-page-content"
-        width="95vw"
+        width="95%"
         border={1}
         minHeight="70vh"
         p={1}

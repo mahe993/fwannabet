@@ -14,7 +14,7 @@ const HomePage = () => {
   return (
     <Box display="flex" flexDirection="column" alignItems="center" gap={2}>
       <PageHeader header="WannaBet™" />
-      <Box className="date-time-row" width="95vw" mb={-2}>
+      <Box className="date-time-row" width="95%" mb={-2}>
         <DateAndTime clock={clock} setClock={setClock} />
       </Box>
       <Box width="100%" bgcolor="transparent">

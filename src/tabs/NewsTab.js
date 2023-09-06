@@ -7,7 +7,7 @@ const NewsTab = () => {
       display="flex"
       flexDirection="column"
       alignItems="center"
-      width="95vw"
+      width="95%"
       gap={1}
     >
       <Box

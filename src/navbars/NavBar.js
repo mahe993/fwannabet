@@ -15,8 +15,6 @@ const NavBar = () => {
         bgcolor="#222222"
         width="100%"
         height="8vh"
-        position="fixed"
-        bottom={0}
         display="flex"
         alignItems="center"
         justifyContent="space-between"

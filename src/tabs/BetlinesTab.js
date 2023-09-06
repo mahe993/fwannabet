@@ -54,7 +54,7 @@ const BetlinesTab = () => {
       display="flex"
       flexDirection="column"
       alignItems="center"
-      width="95vw"
+      width="95%"
       gap={2}
       mb={2}
     >

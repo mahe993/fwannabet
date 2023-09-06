@@ -75,7 +75,7 @@ const MyBetsPage = () => {
           flexDirection="column"
           alignItems="center"
           gap={2}
-          width="95vw"
+          width="95%"
           mb={2}
         >
           {bets.length > 0 &&

@@ -55,7 +55,7 @@ const TopUpTab = (props) => {
       flexDirection="column"
       alignItems="center"
       gap={2}
-      width="90vw"
+      width="90%"
     >
       <WalletBalanceDisplay />
       <form onSubmit={handleSubmit(onSubmit)}>

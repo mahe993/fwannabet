@@ -190,10 +190,10 @@ const CreateBetPage = () => {
   return (
     <Box display="flex" flexDirection="column" alignItems="center" gap={2}>
       <PageHeader header="Create" />
-      <Box className="date-time-row" width="95vw">
+      <Box className="date-time-row" width="95%">
         <DateAndTime clock={clock} setClock={setClock} />
       </Box>
-      <Box className="bet-page-stepper-container" width="95vw">
+      <Box className="bet-page-stepper-container" width="95%">
         <Stepper activeStep={page} alternativeLabel>
           {PAGE_STEPS.map((label, idx) => (
             <Step key={label}>
