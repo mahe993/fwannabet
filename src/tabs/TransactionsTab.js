@@ -53,7 +53,7 @@ const TransactionsTab = () => {
       display="flex"
       flexDirection="column"
       alignItems="center"
-      width="95%"
+      width="100%"
       gap={2}
       mb={2}
     >
@@ -77,11 +77,11 @@ const TransactionsTab = () => {
         transactions.map((transaction) => (
           <Box
             key={transaction.id}
-            width="100%"
             border={1}
             display="flex"
             flexDirection="column"
             alignItems="center"
+            width="100%"
           >
             <Box width="100%" fontSize={13} color="lightgrey" p={1}>
               {transaction?.description}

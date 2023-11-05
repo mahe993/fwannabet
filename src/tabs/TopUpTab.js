@@ -1,8 +1,6 @@
 import { Box } from "@mui/system";
 import React from "react";
 import { useForm } from "react-hook-form";
-import TextField from "@mui/material/TextField";
-import MenuItem from "@mui/material/MenuItem";
 import { Button } from "@mui/material";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useWalletContext } from "../contexts/WalletContext";
@@ -55,7 +53,7 @@ const TopUpTab = (props) => {
       flexDirection="column"
       alignItems="center"
       gap={2}
-      width="90%"
+      width="100%"
     >
       <WalletBalanceDisplay />
       <form onSubmit={handleSubmit(onSubmit)}>

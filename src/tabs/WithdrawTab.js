@@ -52,7 +52,7 @@ const WithdrawTab = (props) => {
       flexDirection="column"
       alignItems="center"
       gap={2}
-      width="90%"
+      width="100%"
     >
       <WalletBalanceDisplay />
       <Box textAlign="center" fontSize={14} color="grey" fontStyle="italic">

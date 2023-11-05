@@ -72,7 +72,7 @@ const WalletPage = () => {
           <Tab label="Withdrawal" />
           <Tab label="Transactions" />
         </Tabs>
-        <Box>
+        <Box width="100%">
           {tabValue === 0 && (
             <TopUpTab
               setBackDropOpen={setBackDropOpen}
